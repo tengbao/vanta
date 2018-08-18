@@ -1,0 +1,30 @@
+{
+  "name": "vanta",
+  "version": "0.3.0",
+  "description": "3D backgrounds for your website",
+  "main": "dist/vanta.js",
+  "scripts": {
+    "build": "node ./webpack.build.js && lessc src/styles.less gallery/styles.css",
+    "watch": "npm run build && chokidar \"src/*.*\" \"webpack.config.js\" -c \"npm run build\""
+  },
+  "keywords": [
+    "animation",
+    "3d",
+    "three",
+    "threejs",
+    "background",
+    "canvas",
+    "javascript",
+    "webgl"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "chokidar": "^2.0.3",
+    "glslify": "^6.1.0",
+    "glslify-loader": "^1.0.2",
+    "less": "^3.0.4",
+    "raw-loader": "^0.5.1",
+    "webpack": "^4.10.2"
+  }
+}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html><head>
+  <title>Vanta.js - 3D & WebGL Background Animations For Your Website</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="3D & WebGL Background Animations For Your Website" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:url"                content="https://www.vantajs.com" />
+  <meta property="og:type"                content="website" />
+  <meta property="og:title"              content="Vanta.js - 3D & WebGL Background Animations For Your Website" />
+  <meta property="og:description"        content="Gallery of customizable plug & play animated backgrounds using three.js" />
+  <meta property="og:image"              content="https://www.vantajs.com/gallery/fb-share-image.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@tengb11">
+  <meta name="twitter:title" content="Vanta.js - 3D & WebGL Background Animations For Your Website">
+  <meta name="twitter:description" content="Gallery of customizable plug & play animated backgrounds using three.js">
+  <meta name="twitter:image" content="https://www.vantajs.com/gallery/fb-share-image.jpg">
+
+  <link rel="stylesheet" href="https://www.tengbao.me/css/reset.css">
+  <link rel="stylesheet" href="https://www.tengbao.me/css/type/circular/stylesheet.css">
+  <link rel="stylesheet" href="https://www.tengbao.me/css/type/entypo.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+  <script src="./vendor/jquery.js"></script>
+  <script src="./vendor/three.r92.min.js"></script>
+  <!-- <script src="./vendor/orbit-controls.js"></script> -->
+  <!-- <script src="./vendor/GlslCanvas.js"></script> -->
+  <!-- <script src="./vendor/ThreeCSG.js"></script> -->
+  <script src="./vendor/dat.gui.min.js"></script>
+  <script src="./vendor/rison.js"></script>
+  <script src="./vendor/p5.min.js"></script>
+
+  <script src="./dist/vanta.fog.min.js"></script>
+  <script src="./dist/vanta.waves.min.js"></script>
+  <script src="./dist/vanta.ripple.min.js"></script>
+  <script src="./dist/vanta.cells.min.js"></script>
+  <script src="./dist/vanta.clouds.min.js"></script>
+  <script src="./dist/vanta.clouds2.min.js"></script>
+  <script src="./dist/vanta.birds.min.js"></script>
+  <script src="./dist/vanta.net.min.js"></script>
+  <script src="./dist/vanta.trunk.min.js"></script>
+  <script src="./dist/vanta.topology.min.js"></script>
+  <script src="./dist/vanta.dots.min.js"></script>
+  <script src="./dist/vanta.rings.min.js"></script>
+  <!--
+  <script src="./dist/vanta.rings.min.js"></script>
+  <script src="./dist/vanta.struct.min.js"></script> -->
+
+  <script src="./gallery/gallery.min.js"></script>
+  <link rel="stylesheet" href="./gallery/styles.css">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-42988408-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-42988408-2');
+  </script>
+
+  <!-- <script src="../js/tween.js"></script> -->
+  <!-- <script src="../three/stats.js"></script> -->
+  <!-- <script src="../three/renderstats.js"></script> -->
+
+</head><body>
+  <!-- <div class="hamburger">
+    <div class="hamburger-lines"></div>
+  </div> -->
+  <!-- <div id='red' style="background: red; width: 20px; height: 20px; position: absolute; z-index: 10000;"></div> -->
+  <section class="wm">
+    <!-- <div class="logo">
+      <img class='logo-light' src="./dist/logo.png">
+      <img class='logo-dark' src="./dist/logo-dark.png">
+    </div> -->
+    <div class="top-left">
+      <a href="https://github.com/tengbao/vanta">
+        <i class="ent-github"> </i>
+        GitHub
+      </a>
+    </div>
+    <div class="top-right">
+      <a href="javascript:void(0)" class='customize'>
+        <i class="ent-cog"> </i>
+        Customize & Get Code
+      </a>
+    </div>
+    <div class="bottom-left">
+      <span id="fps"></span>
+    </div>
+    <div class="container inner">
+      <div class="eight columns">
+        <h1> Vanta.js </h1>
+        <h3> Animated backgrounds in a few lines of code. </h3>
+        <!-- <br> <div class="btn customize">
+          <i class="ent-cog"> </i>
+          Customize & Get Code
+        </div> -->
+        <div class="btn restart"> Randomize! </div>
+      </div>
+    </div>
+
+    <div class="usage-cont" style="display: none">
+      <a class="close-btn" href="javascript: void(0);">
+        <i class="ent-cancel"></i>
+      </a>
+      <h4 class="strong"> 1. Customize </h4>
+      <div class="gui-cont"> </div>
+      <br>
+      <h4 class="strong"> 2. Grab the code </h4>
+      <ul class="features small">
+        <li>
+          Change <strong> #your-element-selector </strong> to your element and download files from <a href="https://github.com/tengbao/vanta/tree/master/dist"> GitHub</a>
+        </li>
+      </ul>
+
+      <div id='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/three.r92.min.js">three.r92.min.js</a>"&gt;&lt;/script&gt;</div>
+      <div id='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
+
+      <div disabled="true" class="usage">{{INCLUDE}}
+&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/dist/vanta.{{EFFECTNAME}}.min.js">vanta.{{EFFECTNAME}}.min.js</a>"&gt;&lt;/script&gt;
+&lt;script&gt;
+{{CODE}}
+&lt;/script&gt;</div>
+    </div>
+    <!-- <div class="arrow">
+      <span class="ent-down-open-big"> </span>
+    </div> -->
+  </section>
+
+  <section class="gallery">
+    <div class="container clearfix">
+      <div class="sixteen columns">
+        <h2> More Effects </h2>
+      </div>
+      <div class="four columns half-fixed item">
+        <div class="label"> Waves </div>
+      </div>
+    </div>
+  </section>
+  <section class="top-follow">
+    <div class="container clearfix">
+      <div class="sixteen columns">
+        <hr>
+      </div>
+      <div class="eight columns">
+        <h2> Why? </h2>
+        <ul class="features">
+          <li> <strong> Can interact with mouse / touch </strong> </li>
+          <li> <strong> Customize colors & style </strong> to match your brand </li>
+          <li> <strong> No pixelation </strong> &ndash; Canvas runs at full resolution</li>
+          <li> <strong> Smaller filesize </strong> than background videos and large background images &ndash; three.js is ~120kb minified and gzipped </li>
+          <li> <strong> Runs fast (60fps) </strong> on most laptops/desktops </li>
+        </ul>
+      </div>
+      <div class="eight columns">
+        <h2> What's the catch? </h2>
+        <ul class="features">
+          <li> Some WebGL effects are slow on older computers. </li>
+          <li> Don't use more than one or two in a single page! </li>
+          <li> Not all effects work on mobile devices. Set a background image or color as a fallback. </li>
+        </ul>
+      </div>
+      <div class="sixteen columns">
+        <hr>
+      </div>
+      <div class="four columns">
+        <a class="strikingly" href="//www.strikingly.com/?ref=vanta">
+          <img src="//www.tengbao.me/images/strikingly-logo-white.svg">
+        </a>
+      </div>
+      <div class="twelve columns">
+        <p>
+          Vanta.js is brought to you by the folks from Strikingly.com.
+        </p><p>
+          Don't have a website yet?
+          <a href="//www.strikingly.com/?ref=vanta">Start with Strikingly!</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="preload-images">
+    <img src="./gallery/noise.png" style="height: 1px; opacity: 0;">
+  </div>
+</body></html>
+
+
