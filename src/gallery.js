@@ -13,7 +13,7 @@ const GALLERY = [
   "clouds2",
   "net",
   "cells",
-  "ripple",
+  // "ripple",
   "trunk",
   "topology",
   "dots",
