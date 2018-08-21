@@ -351,7 +351,7 @@ section {
   color: #2b2928;
 }
 section p {
-  color: #678;
+  color: #568;
 }
 section.top-follow {
   padding-top: 0;
@@ -426,7 +426,7 @@ hr {
   height: 1px;
   margin: 0;
   margin-bottom: 40px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(85, 102, 136, 0.25);
   border: none;
 }
 p {
@@ -447,7 +447,7 @@ ul.features {
   margin-left: 1.75em;
   line-height: 1.4;
   margin-bottom: 40px;
-  color: #678;
+  color: #568;
 }
 ul.features li {
   margin-bottom: 8px;

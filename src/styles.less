@@ -26,7 +26,7 @@ body,html {
   color: #222528 * 2;
 }
 
-@textLight: #678;
+@textLight: #568;
 @textDark: #484442 * 0.6;
 @blue: #10bbdd * 0.85;
 
@@ -79,7 +79,7 @@ h1,h2,h3,h4 {
 }
 hr {
   height: 1px; margin: 0; margin-bottom: 40px;
-  background: @dark; border:none;
+  background: fade(@textLight, 25%); border:none;
 }
 p {
   margin-bottom: 10px;
@@ -315,8 +315,6 @@ canvas {
     font-size: 15px;
   }
 }
-
-@dark: rgba(0,0,0,0.25);
 
 /*.hamburger {
   position: fixed; z-index: 101;
