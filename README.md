@@ -16,6 +16,8 @@
 </script>
 ```
 
+[View fiddle &rarr;](https://jsfiddle.net/xb74q5h1/)
+
 ## More options:
 
 ```js
@@ -28,6 +30,8 @@ VANTA.WAVES({
   zoom: 0.75
 })
 ```
+
+Each effect has different parameters. Explore them all!
 
 ## Cleanup:
 
