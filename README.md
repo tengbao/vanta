@@ -1,5 +1,7 @@
 # Vanta JS
 
+## [View gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
+
 ![alt text](https://www.vantajs.com/gallery/fb-share-image.jpg "Vanta JS")
 
 3D animated backgrounds for your website. Select & customize an effect, and add it to your site with a few lines of code. Powered by [three.js](https://github.com/mrdoob/three.js/) or [p5.js](https://github.com/processing/p5.js).
