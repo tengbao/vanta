@@ -106,7 +106,7 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.add(options, 'waveSpeed', 0, 2).step(0.05)
     gui.add(options, 'zoom', 0.65, 1.75)
   } else if (effectName === "RINGS") {
-    gui.addColor(options, 'color')
+    gui.addColor(options, 'color').onFinishChange(effect.restart)
     gui.addColor(options, 'backgroundColor')
     gui.add(options, 'backgroundAlpha', 0, 1)
     inner.find('.restart').show()
@@ -179,6 +179,7 @@ var loadEffect = function(_effectName, loadOptions) {
   } else if (effectName === "DOTS") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.restart)
     gui.addColor(options, 'color').onFinishChange(effect.restart)
+    gui.addColor(options, 'color2').onFinishChange(effect.restart)
     gui.add(options, 'size', 0.5, 10).step(0.1).onFinishChange(effect.restart)
     gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
   }

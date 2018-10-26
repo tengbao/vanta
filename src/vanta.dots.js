@@ -5,6 +5,7 @@ class Effect extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {
       color: 0xff8820,
+      color2: 0xff8820,
       backgroundColor: 0x222222,
       size: 3,
       spacing: 35,
@@ -41,6 +42,23 @@ class Effect extends VantaBase {
     starField = this.starField = new THREE.Points(starsGeometry, starsMaterial)
     this.scene.add(starField)
 
+    var material = new THREE.LineBasicMaterial( { color: this.options.color2 } );
+    var linesGeo = new THREE.Geometry()
+    for (i = 0; i < 200; i ++) {
+      var f1 = rn(40,60)
+      var f2 = f1 + rn(12,20)
+      // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
+      var z = rn(-1,1)
+      var r = Math.sqrt(1 - z*z)
+      var theta = rn(0, Math.PI * 2)
+      var y = Math.sin(theta) * r
+      var x = Math.cos(theta) * r
+      linesGeo.vertices.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
+      linesGeo.vertices.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
+    }
+    this.linesMesh = new THREE.LineSegments( linesGeo, material )
+    this.scene.add(this.linesMesh)
+
     // this.geometry = new THREE.BoxGeometry( 10, 10, 10 );
     // this.material = new THREE.MeshLambertMaterial({
     //   color: this.options.color,
@@ -72,6 +90,10 @@ class Effect extends VantaBase {
     c.position.y += (c.ty - c.position.y) * rate
     c.position.z += (c.tz - c.position.z) * rate
     c.lookAt(0,0,0)
+
+    this.linesMesh.rotation.z += 0.002
+    this.linesMesh.rotation.x += 0.0008
+    this.linesMesh.rotation.y += 0.0005
     // starField.rotation.y += (this.mouseX * 0.1 - starField.rotation.y) * 0.01
   }
 

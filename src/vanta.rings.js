@@ -5,7 +5,7 @@ class Rings extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {
       backgroundColor: 0x202428,
-      color: 0x000000
+      color: 0x88ff00
     };
 
     this.prototype.colors = [
