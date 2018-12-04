@@ -122,6 +122,9 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.add(options, 'backgroundAlpha', 0, 1)
     gui.addColor(options, 'color1').onFinishChange(effect.restart)
     gui.addColor(options, 'color2').onFinishChange(effect.restart)
+
+    gui.add(options, 'colorMode', [ 'lerp', 'mix', ] ).onFinishChange(effect.restart)
+    gui.add(options, 'quantity', 1, 5).step(1).onFinishChange(effect.restart)
     gui.add(options, 'wingSpan', 10, 40).step(1).onFinishChange(effect.restart)
     gui.add(options, 'speedLimit', 1, 10).step(1).onFinishChange(effect.valuesChanger)
     gui.add(options, 'separation', 1, 100).step(1).onFinishChange(effect.valuesChanger)

@@ -1,11 +1,11 @@
 // Adapted from https://threejs.org/examples/canvas_geometry_birds.html
 
 import VantaBase, { VANTA } from './_base.js';
-import {rn, ri, sample, mobilecheck} from './helpers.js'
+// import {rn, ri, sample, mobilecheck} from './helpers.js'
 import GPUComputationRenderer from '../vendor/GPUComputationRenderer.js'
 
-const WIDTH = 32
-const BIRDS = WIDTH * WIDTH
+let WIDTH = 32
+let BIRDS = WIDTH * WIDTH
 const BOUNDS = 800
 const BOUNDS_HALF = BOUNDS / 2
 
@@ -289,7 +289,10 @@ const fillVelocityTexture = function(texture) {
 }
 
 THREE.BirdGeometry = function(options) {
-  let asc1, end1, j
+  if (options.quantity) {
+    WIDTH = Math.pow(2, options.quantity)
+    BIRDS = WIDTH * WIDTH
+  }
   const triangles = BIRDS * 3
   const points = triangles * 3
 
@@ -323,21 +326,18 @@ THREE.BirdGeometry = function(options) {
     const i = ~~(v / 3)
     const x = (i % WIDTH) / WIDTH
     const y = ~~(i / WIDTH) / WIDTH
+
     const color1 = options.color1 != null ? options.color1 : 0x440000
     const color2 = options.color2 != null ? options.color2 : 0x660000
-    // RANDOM MIX
-    // c = new THREE.Color(color1 + ~~(v / 9) / BIRDS * color2)
+    let c
 
-    // UNIFORM MIX
-    const c1 = new THREE.Color(color1)
-    const c2 = new THREE.Color(color2)
-    // dist = ~~(v / 9) / BIRDS
-    const c = c1.lerp(c2, ~~(v / 9) / BIRDS) // Linear interpolation
-    // c = new THREE.Color(
-    //   c1.r + dist * (c2.r - c1.r),
-    //   c1.g + dist * (c2.g - c1.g),
-    //   c1.b + dist * (c2.b - c1.b)
-    // )
+    if (options.colorMode == 'mix') {
+      c = new THREE.Color(color1 + ~~(v / 9) / BIRDS * color2)
+    } else {
+      const c1 = new THREE.Color(color1)
+      const c2 = new THREE.Color(color2)
+      c = c1.lerp(c2, ~~(v / 9) / BIRDS) // Linear interpolation
+    }
 
     birdColors.array[(v * 3) + 0] = c.r
     birdColors.array[(v * 3) + 1] = c.g
@@ -359,11 +359,13 @@ class Birds extends VantaBase {
       backgroundColor: 0x07192F, // 0x202428
       color1: 0xf0164c, // 0xf50000 # 0xfa9898
       color2: 0xc3cf25, // 0xcfcf1d # 0x8c4646
+      colorMode: 'lerp',
       wingSpan: 30,
       speedLimit: 5,
       separation: 20,
       alignment: 20,
-      cohesion: 20
+      cohesion: 20,
+      quantity: 5, // range from 2 to 5
     }
   }
 
@@ -408,7 +410,7 @@ class Birds extends VantaBase {
   }
 
   initBirds() {
-    const geometry = new THREE.BirdGeometry(this.options);
+    const geometry = new THREE.BirdGeometry(this.options)
     // For Vertex and Fragment
     this.birdUniforms = {
       color: { value: new THREE.Color(0xff2200) },
@@ -424,11 +426,11 @@ class Birds extends VantaBase {
       fragmentShader: birdFS,
       side: THREE.DoubleSide
     });
-    const birdMesh = new THREE.Mesh(geometry, material);
-    birdMesh.rotation.y = Math.PI / 2;
-    birdMesh.matrixAutoUpdate = false;
-    birdMesh.updateMatrix();
-    return this.scene.add(birdMesh);
+    const birdMesh = new THREE.Mesh(geometry, material)
+    birdMesh.rotation.y = Math.PI / 2
+    birdMesh.matrixAutoUpdate = false
+    birdMesh.updateMatrix()
+    return this.scene.add(birdMesh)
   }
 
   onInit() {
