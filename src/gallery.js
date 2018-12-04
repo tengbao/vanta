@@ -123,9 +123,9 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.addColor(options, 'color1').onFinishChange(effect.restart)
     gui.addColor(options, 'color2').onFinishChange(effect.restart)
 
-    gui.add(options, 'colorMode', [ 
-      'lerp', 'mix', 'variance',
-      'lerpGradient', 'mixGradient', 'varianceGradient',
+    gui.add(options, 'colorMode', [
+      'lerp', 'variance',
+      'lerpGradient', 'varianceGradient',
     ] ).onFinishChange(effect.restart)
     gui.add(options, 'quantity', 1, 5).step(1).onFinishChange(effect.restart)
     gui.add(options, 'wingSpan', 10, 40).step(1).onFinishChange(effect.restart)
