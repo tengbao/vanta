@@ -1,6 +1,6 @@
 // Adapted from https://threejs.org/examples/canvas_geometry_birds.html
 
-import VantaBase, { VANTA } from './_base.js';
+import VantaBase, { VANTA } from './_base.js'
 // import {rn, ri, sample, mobilecheck} from './helpers.js'
 import GPUComputationRenderer from '../vendor/GPUComputationRenderer.js'
 
@@ -322,6 +322,8 @@ THREE.BirdGeometry = function(options) {
     verts_push(0, 0, 15, wingSpan, 0, 0, 0, 0, -15) // Right Wing
   }
 
+  const colorCache = {}
+
   for (v=0; v<triangles*3; v++) {
     const i = ~~(v / 3)
     const x = (i % WIDTH) / WIDTH
@@ -329,14 +331,39 @@ THREE.BirdGeometry = function(options) {
 
     const color1 = options.color1 != null ? options.color1 : 0x440000
     const color2 = options.color2 != null ? options.color2 : 0x660000
-    let c
+    const c1 = new THREE.Color(color1)
+    const c2 = new THREE.Color(color2)
 
-    if (options.colorMode == 'mix') {
-      c = new THREE.Color(color1 + ~~(v / 9) / BIRDS * color2)
+    const order = ~~(v / 9) / BIRDS
+    const key = order.toString()
+    const gradient = options.colorMode.indexOf('Gradient') != -1
+
+    let c, dist
+    if (gradient) {
+      // each vertex has a different color
+      dist = Math.random()
     } else {
-      const c1 = new THREE.Color(color1)
-      const c2 = new THREE.Color(color2)
-      c = c1.lerp(c2, ~~(v / 9) / BIRDS) // Linear interpolation
+      // each vertex has the same color
+      dist = order
+    }
+
+    if (!gradient && colorCache[key]) {
+      c = colorCache[key]
+    } else if (options.colorMode.indexOf('variance') == 0) {
+      const r2 = (c1.r + Math.random() * c2.r).clamp(0,1)
+      const g2 = (c1.g + Math.random() * c2.g).clamp(0,1)
+      const b2 = (c1.b + Math.random() * c2.b).clamp(0,1)
+      c = new THREE.Color(r2, g2, b2)
+    } else if (options.colorMode.indexOf('mix') == 0) {
+      // Naive color arithmetic
+      c = new THREE.Color(color1 + dist * color2)
+    } else {
+      // Linear interpolation
+      c = c1.lerp(c2, dist)
+    }
+
+    if (!gradient && !colorCache[key]) {
+      colorCache[key] = c
     }
 
     birdColors.array[(v * 3) + 0] = c.r
@@ -357,9 +384,9 @@ class Birds extends VantaBase {
     this.prototype.defaultOptions = {
       // Beige: 0xf8e8d0, 0xf50000, 0xcfcf1d
       backgroundColor: 0x07192F, // 0x202428
-      color1: 0xf0164c, // 0xf50000 # 0xfa9898
-      color2: 0xc3cf25, // 0xcfcf1d # 0x8c4646
-      colorMode: 'lerp',
+      color1: 0xff0000, // 0xf50000 # 0xfa9898
+      color2: 0x00d1ff, // 0xcfcf1d # 0x8c4646
+      colorMode: 'varianceGradient',
       wingSpan: 30,
       speedLimit: 5,
       separation: 20,
