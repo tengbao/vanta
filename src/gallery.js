@@ -223,6 +223,8 @@ var generateCode = function(effect, effectName) {
       continue
     } else if (k === 'texturePath') {
       code += `  texturePath: "<a target='_blank' href='${v}'>${v}</a>",\n`
+    } else if (k.indexOf('colorMode') !== -1) {
+      vString = '"' + v + '"'
     } else if (k.toLowerCase().indexOf('color') !== -1) {
       vString = "0x" + v.toString(16)
     } else if (typeof v === 'number') {
