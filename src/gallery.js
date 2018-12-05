@@ -233,7 +233,11 @@ var generateCode = function(effect, effectName) {
     } else if (typeof v === 'number') {
       vString = v.toFixed(2)
     }
-    if (v !== effect.defaultOptions[k]) {
+
+    // Don't show the property if its value is just the default value
+    var shouldShowProperty = v !== effect.defaultOptions[k]
+    if (k == 'backgroundAlpha' && v == 1) shouldShowProperty = false
+    if (shouldShowProperty) {
       code += "  " + k + ': ' + vString + ',\n'
     }
   }
