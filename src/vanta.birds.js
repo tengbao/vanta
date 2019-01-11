@@ -466,12 +466,14 @@ class Birds extends VantaBase {
     this.fog = new THREE.Fog( 0xffffff, 100, 1000 )
     this.mouseX = (this.mouseY = 0)
 
-    this.initComputeRenderer()
-
-    this.valuesChanger = this.valuesChanger.bind(this)
-    this.valuesChanger()
-
-    return this.initBirds()
+    try {
+      this.initComputeRenderer()
+      this.valuesChanger = this.valuesChanger.bind(this)
+      this.valuesChanger()
+      this.initBirds()
+    } catch (err) {
+      console.error('[vanta.js] birds init error: ', err)
+    }
   }
 
   valuesChanger() {
