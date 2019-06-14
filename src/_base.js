@@ -250,11 +250,7 @@ VANTA.VantaBase = class VantaBase {
       }
       if (this.scene && this.camera) {
         this.renderer.render(this.scene, this.camera)
-        if (this.options.backgroundColor == 'transparent') {
-          this.renderer.setClearColor(this.options.backgroundColor, 0)
-        } else {
-          this.renderer.setClearColor(this.options.backgroundColor, this.options.backgroundAlpha)
-        }
+        this.renderer.setClearColor(this.options.backgroundColor, this.options.backgroundAlpha)
       }
       // @stats?.update()
       // @renderStats?.update(@renderer)
