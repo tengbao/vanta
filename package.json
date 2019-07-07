@@ -1,11 +1,16 @@
 {
   "name": "vanta",
-  "version": "0.3.0",
-  "description": "3D backgrounds for your website",
+  "version": "0.4.0",
+  "description": "3D animated backgrounds for your website",
   "main": "dist/vanta.js",
   "scripts": {
     "build": "node ./webpack.build.js && lessc src/styles.less gallery/styles.css",
-    "watch": "npm run build && chokidar \"src/*.*\" \"webpack.config.js\" -c \"npm run build\""
+    "watch": "npm run build && chokidar \"src/*.*\" \"webpack.config.js\" -c \"npm run build\"",
+    "dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tengbao/vanta"
   },
   "keywords": [
     "animation",
@@ -17,14 +22,15 @@
     "javascript",
     "webgl"
   ],
-  "author": "",
+  "author": "Teng Bao",
   "license": "MIT",
   "devDependencies": {
-    "chokidar": "^2.0.3",
     "glslify": "^6.1.0",
     "glslify-loader": "^2.0.0",
     "less": "^3.9.0",
     "raw-loader": "^0.5.1",
-    "webpack": "^4.10.2"
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   }
 }

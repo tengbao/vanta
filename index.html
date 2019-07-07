@@ -17,9 +17,9 @@
   <meta name="twitter:description" content="Gallery of customizable plug & play animated backgrounds using three.js">
   <meta name="twitter:image" content="https://www.vantajs.com/gallery/fb-share-image.jpg">
 
-  <link rel="stylesheet" href="https://www.tengbao.me/css/reset.css">
-  <link rel="stylesheet" href="https://www.tengbao.me/css/type/circular/stylesheet.css">
-  <link rel="stylesheet" href="https://www.tengbao.me/css/type/entypo.css">
+  <link rel="stylesheet" href="./vendor/reset.css">
+  <link rel="stylesheet" href="./vendor/circular/stylesheet.css">
+  <link rel="stylesheet" href="./vendor/entypo/entypo.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -91,7 +91,7 @@
     <div class="container inner">
       <div class="eight columns">
         <h1> Vanta.js </h1>
-        <h3> Plug & play animated backgrounds in a few lines of code. </h3>
+        <h3> Animated website backgrounds in a few lines of code. </h3>
         <!-- <br> <div class="btn customize">
           <i class="ent-cog"> </i>
           Customize & Get Code
@@ -117,10 +117,10 @@
       <div id='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/three.r92.min.js">three.r92.min.js</a>"&gt;&lt;/script&gt;</div>
       <div id='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
 
-      <div disabled="true" class="usage">{{INCLUDE}}
-&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/dist/vanta.{{EFFECTNAME}}.min.js">vanta.{{EFFECTNAME}}.min.js</a>"&gt;&lt;/script&gt;
+      <div disabled="true" class="usage">[[INCLUDE]]
+&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/dist/vanta.[[EFFECTNAME]].min.js">vanta.[[EFFECTNAME]].min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
-{{CODE}}
+[[CODE]]
 &lt;/script&gt;</div>
     </div>
     <!-- <div class="arrow">

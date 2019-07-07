@@ -62,6 +62,10 @@ Make sure you've included the right files in the page. Once `vanta.xxxxx.min.js`
   }
 ```
 
+## Local Dev:
+
+Clone the repo, run `npm run dev`, and go to localhost:8080.
+
 ## Credits
 
 - Birds effect from https://threejs.org/examples/?q=birds#webgl_gpgpu_birds by @zz85

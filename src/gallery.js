@@ -246,11 +246,11 @@ var generateCode = function(effect, effectName) {
   $('.usage.applied').remove()
   original = $('.usage-cont .usage').first().hide()
   clone = original.clone().addClass('applied').insertAfter(original)
-  clone.html(clone.html().replace('{{CODE}}', code))
+  clone.html(clone.html().replace('[[CODE]]', code))
   let includeCode = document.getElementById('include-three').innerHTML
   if (effect.mode == 'p5') includeCode = document.getElementById('include-p5').innerHTML
-  clone.html(clone.html().replace('{{INCLUDE}}', includeCode))
-  clone.html(clone.html().replace(/{{EFFECTNAME}}/g, effectName.toLowerCase()))
+  clone.html(clone.html().replace('[[INCLUDE]]', includeCode))
+  clone.html(clone.html().replace(/\[\[EFFECTNAME\]\]/g, effectName.toLowerCase()))
   return clone.show()
 }
 
