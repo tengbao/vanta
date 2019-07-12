@@ -128,6 +128,7 @@ var loadEffect = function(_effectName, loadOptions) {
       'lerpGradient', 'varianceGradient',
     ] ).onFinishChange(effect.restart)
     gui.add(options, 'quantity', 1, 5).step(1).onFinishChange(effect.restart)
+    gui.add(options, 'birdSize', 0.5, 3).step(0.1).onFinishChange(effect.restart)
     gui.add(options, 'wingSpan', 10, 40).step(1).onFinishChange(effect.restart)
     gui.add(options, 'speedLimit', 1, 10).step(1).onFinishChange(effect.valuesChanger)
     gui.add(options, 'separation', 1, 100).step(1).onFinishChange(effect.valuesChanger)

@@ -20,6 +20,7 @@ for (let i = 0; i < srcFiles.length; i++) {
 
 module.exports = {
   entry: entries,
+  // watch: true,
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '.')

@@ -117,7 +117,7 @@ VANTA.VantaBase = class VantaBase {
       this.el.removeChild(this.renderer.domElement)
       if (this.options.backgroundColor) {
         console.log('[VANTA] Falling back to backgroundColor')
-        this.el.style.background = this.color2Hex(this.options.backgroundColor)
+        this.el.style.background = color2Hex(this.options.backgroundColor)
       }
       return
     }
