@@ -5,8 +5,7 @@ import VantaBase, { VANTA } from './_base.js'
 import {mobileCheck} from './helpers.js'
 import GPUComputationRenderer from '../vendor/GPUComputationRenderer.js'
 
-// const GPGPU = !mobileCheck()
-const GPGPU = true
+const GPGPU = !mobileCheck()
 
 let WIDTH = 32
 let BIRDS = WIDTH * WIDTH
@@ -14,7 +13,7 @@ const BOUNDS = 800
 const BOUNDS_HALF = BOUNDS / 2
 
 // Non-GPGPU geometry
-var Bird = function () {
+var Bird = function (options={}) {
 	var scope = this
 	THREE.Geometry.call( this )
 	v(   5,   0,   0 )
@@ -33,7 +32,8 @@ var Bird = function () {
 	// this.computeCentroids()
 	this.computeFaceNormals()
 	function v( x, y, z ) {
-		scope.vertices.push( new THREE.Vector3( x, y, z ) )
+    const s = 1.5 * (options.birdSize || 1)
+		scope.vertices.push( new THREE.Vector3( x*s, y*s, z*s ) )
 	}
 	function f3( a, b, c ) {
 		scope.faces.push( new THREE.Face3( a, b, c ) )
@@ -545,40 +545,15 @@ THREE.BirdGeometry = function(options) {
     const i = ~~(v / 3)
     const x = (i % WIDTH) / WIDTH
     const y = ~~(i / WIDTH) / WIDTH
-
-    const color1 = options.color1 != null ? options.color1 : 0x440000
-    const color2 = options.color2 != null ? options.color2 : 0x660000
-    const c1 = new THREE.Color(color1)
-    const c2 = new THREE.Color(color2)
-
     const order = ~~(v / 9) / BIRDS
     const key = order.toString()
     const gradient = options.colorMode.indexOf('Gradient') != -1
-
-    let c, dist
-    if (gradient) {
-      // each vertex has a different color
-      dist = Math.random()
-    } else {
-      // each vertex has the same color
-      dist = order
-    }
-
+    let c
     if (!gradient && colorCache[key]) {
       c = colorCache[key]
-    } else if (options.colorMode.indexOf('variance') == 0) {
-      const r2 = (c1.r + Math.random() * c2.r).clamp(0,1)
-      const g2 = (c1.g + Math.random() * c2.g).clamp(0,1)
-      const b2 = (c1.b + Math.random() * c2.b).clamp(0,1)
-      c = new THREE.Color(r2, g2, b2)
-    } else if (options.colorMode.indexOf('mix') == 0) {
-      // Naive color arithmetic
-      c = new THREE.Color(color1 + dist * color2)
     } else {
-      // Linear interpolation
-      c = c1.lerp(c2, dist)
+      c = options.effect.getNewCol(order)
     }
-
     if (!gradient && !colorCache[key]) {
       colorCache[key] = c
     }
@@ -654,8 +629,9 @@ class Birds extends VantaBase {
     }
   }
 
-  initBirds() {
-    const geometry = new THREE.BirdGeometry(this.options)
+  initGpgpuBirds() {
+    const optionsWithEffect = Object.assign({}, this.options, {effect:this})
+    const geometry = new THREE.BirdGeometry(optionsWithEffect)
     // For Vertex and Fragment
     this.birdUniforms = {
       color: { value: new THREE.Color(0xff2200) },
@@ -679,6 +655,37 @@ class Birds extends VantaBase {
     return this.scene.add(birdMesh)
   }
 
+  getNewCol(order) {
+    const options = this.options
+    const color1 = options.color1 != null ? options.color1 : 0x440000
+    const color2 = options.color2 != null ? options.color2 : 0x660000
+    const c1 = new THREE.Color(color1)
+    const c2 = new THREE.Color(color2)
+    const gradient = options.colorMode.indexOf('Gradient') != -1
+    let c, dist
+    if (gradient) {
+      // each vertex has a different color
+      dist = Math.random()
+    } else {
+      // each vertex has the same color
+      dist = order
+    }
+
+    if (options.colorMode.indexOf('variance') == 0) {
+      const r2 = (c1.r + Math.random() * c2.r).clamp(0,1)
+      const g2 = (c1.g + Math.random() * c2.g).clamp(0,1)
+      const b2 = (c1.b + Math.random() * c2.b).clamp(0,1)
+      c = new THREE.Color(r2, g2, b2)
+    } else if (options.colorMode.indexOf('mix') == 0) {
+      // Naive color arithmetic
+      c = new THREE.Color(color1 + dist * color2)
+    } else {
+      // Linear interpolation
+      c = c1.lerp(c2, dist)
+    }
+    return c
+  }
+
   onInit() {
     this.camera = new THREE.PerspectiveCamera( 75, this.width / this.height, 1, 3000 )
     this.camera.position.z = 350
@@ -687,6 +694,7 @@ class Birds extends VantaBase {
 
     const birds = this.birds = []
 		const boids = this.boids = []
+    const options = this.options
     let boid, bird
 
     if (GPGPU) {
@@ -694,12 +702,13 @@ class Birds extends VantaBase {
         this.initComputeRenderer()
         this.valuesChanger = this.valuesChanger.bind(this)
         this.valuesChanger()
-        this.initBirds()
+        this.initGpgpuBirds()
       } catch (err) {
         console.error('[vanta.js] birds init error: ', err)
       }
     } else {
-      for (var i = 0; i < 200; i++) {
+      const numBirds = 6 * Math.pow(2, options.quantity)
+      for (var i = 0; i < numBirds; i++) {
         boid = boids[i] = new Boid()
         boid.position.x = Math.random() * 400 - 200
         boid.position.y = Math.random() * 400 - 200
@@ -710,17 +719,27 @@ class Birds extends VantaBase {
         boid.setAvoidWalls( true )
         boid.setWorldSize( 500, 500, 400 )
 
-        var newBirdGeo = new Bird()
+        const gradient = options.colorMode.indexOf('Gradient') != -1
+
+        const newBirdGeo = new Bird(options)
         for (var j=0; j < newBirdGeo.faces.length; j++) {
-          for (var k=0; k < 3; k++) {
-            newBirdGeo.faces[j].vertexColors[k] = new THREE.Color(0xff0000)
+          if (gradient) {
+            for (var k=0; k<3; k++) {
+              const newColor = this.getNewCol()
+              newBirdGeo.faces[j].vertexColors[k] = newColor
+            }
+          } else {
+            const newColor = this.getNewCol(i/numBirds)
+            newBirdGeo.faces[j].vertexColors[0] = newColor
+            newBirdGeo.faces[j].vertexColors[1] = newColor
+            newBirdGeo.faces[j].vertexColors[2] = newColor
           }
         }
 
         bird = birds[i] = new THREE.Mesh(
           newBirdGeo,
           new THREE.MeshBasicMaterial( {
-            color: Math.random() * 0xffffff,
+            color: 0xffffff,
             side: THREE.DoubleSide,
             // colors: THREE.VertexColors,
 					  vertexColors: THREE.VertexColors,
@@ -730,9 +749,9 @@ class Birds extends VantaBase {
         bird.position.y = boids[i].position.y
         bird.position.z = boids[i].position.z
         this.scene.add( bird )
-        if (i == 0) {
-          window.bird = bird; window.boid = boid;
-        }
+        // if (i == 0) {
+        //   window.bird = bird; window.boid = boid;
+        // }
       }
     }
   }
@@ -770,24 +789,26 @@ class Birds extends VantaBase {
       this.birdUniforms.texturePosition.value = this.gpuCompute.getCurrentRenderTarget( this.positionVariable ).texture
       this.birdUniforms.textureVelocity.value = this.gpuCompute.getCurrentRenderTarget( this.velocityVariable ).texture
     } else {
-        const birds = this.birds
-        const boids = this.boids
-        let boid, bird, color
-				for ( var i = 0, il = birds.length; i < il; i++ ) {
-					boid = boids[ i ]
-					boid.run( boids )
-					bird = birds[ i ]
-					// color = bird.material.color
-					// color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000
-					bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x )
-					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() )
-					bird.phase = (bird.phase + (Math.max( 0, bird.rotation.z ) + 0.1 )) % 62.83
-					bird.geometry.vertices[5].y = bird.geometry.vertices[4].y = Math.sin( bird.phase ) * 5
-          bird.geometry.verticesNeedUpdate = true
-          bird.position.x = boids[i].position.x
-          bird.position.y = boids[i].position.y
-          bird.position.z = boids[i].position.z
-				}
+      const birds = this.birds
+      const boids = this.boids
+      let boid, bird, color
+      for ( var i = 0, il = birds.length; i < il; i++ ) {
+        boid = boids[ i ]
+        boid.run( boids )
+        bird = birds[ i ]
+        // color = bird.material.color
+        // color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000
+        bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x )
+        bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() )
+        // Flapping
+        bird.phase = (bird.phase + (Math.max(0, bird.rotation.z)+0.1)) % 62.83
+        bird.geometry.vertices[5].y = bird.geometry.vertices[4].y =
+          Math.sin( bird.phase ) * 5 * this.options.birdSize
+        bird.geometry.verticesNeedUpdate = true
+        bird.position.x = boids[i].position.x
+        bird.position.y = boids[i].position.y
+        bird.position.z = boids[i].position.z
+      }
     }
   }
   onMouseMove(x,y) {
