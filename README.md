@@ -64,7 +64,7 @@ Make sure you've included the right files in the page. Once `vanta.xxxxx.min.js`
 
 ## Local Dev:
 
-Clone the repo, run `npm run dev`, and go to localhost:8080.
+Clone the repo, run `npm install` and `npm run dev`, and go to localhost:8080.
 
 ## Credits
 
