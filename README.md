@@ -24,7 +24,7 @@
 
 ```js
 VANTA.WAVES({
-  el: '#my-background',
+  el: '#my-background', // element id or DOM object reference
   color: 0x000000,
   waveHeight: 20,
   shininess: 50,
