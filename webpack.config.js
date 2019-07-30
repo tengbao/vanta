@@ -24,7 +24,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '.'),
-    library: 'VANTA',
+    library: '_vantaEffect',
     libraryTarget: 'umd',
     globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
