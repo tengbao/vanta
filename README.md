@@ -44,12 +44,15 @@ effect.destroy() // e.g. call this in React's componentWillUnmount
 
 ## Usage In React:
 
-Make sure you've included the right files in the page. Once `vanta.xxxxx.min.js` is included, you can call `window.VANTA.XXXXX(...)`.
+You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js` is also included.)
 
 ```js
+  import * as THREE from './three.min.js'
+  import BIRDS from './vanta.birds.min.js'
+
   class MyComponent extends React.Component {
     componentDidMount() {
-      this.effect = window.VANTA.BIRDS({
+      this.effect = BIRDS({
         el: "#my-element"
       })
     }
