@@ -268,4 +268,4 @@ class Rings extends VantaBase {
   }
 }
 Rings.initClass()
-VANTA.register('RINGS', Rings)
+export default VANTA.register('RINGS', Rings)

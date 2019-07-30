@@ -1,15 +1,17 @@
 import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
-if (window && !window.VANTA) {
+const win = typeof window == 'object'
+if (win && !window.VANTA) {
   window.VANTA = {
     version: '0.3.1',
   }
 }
-const VANTA = window.VANTA || {}
+const VANTA = (win && window.VANTA) || {}
 if (!VANTA.register) {
   VANTA.register = (name, Effect) => {
     VANTA[name] = (opts) => new Effect(opts)
+    return VANTA[name]
   }
 }
 
@@ -44,6 +46,7 @@ var error = function() {
 
 VANTA.VantaBase = class VantaBase {
   constructor(userOptions = {}) {
+    if (!win) return false
     VANTA.current = this
     var child, e, i, len, ref, selector
     // setTimeout @setupResize, 100

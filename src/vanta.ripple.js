@@ -1,7 +1,7 @@
 import ShaderBase, {VANTA} from './_shaderBase.js'
 
 class Effect extends ShaderBase {}
-VANTA.register('RIPPLE', Effect)
+export default VANTA.register('RIPPLE', Effect)
 
 Effect.prototype.defaultOptions = {
   color1: 0x60b25,

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-const util = require('util')
+// const util = require('util')
 
 const srcFiles = fs.readdirSync('./src')
 
@@ -23,7 +23,10 @@ module.exports = {
   // watch: true,
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, '.')
+    path: path.resolve(__dirname, '.'),
+    library: 'VANTA',
+    libraryTarget: 'umd',
+    globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
   module: {
     rules: [

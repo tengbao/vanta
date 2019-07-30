@@ -182,4 +182,4 @@ class Effect extends P5Base {
   }
 }
 Effect.initClass()
-VANTA.register('TOPOLOGY', Effect)
+export default VANTA.register('TOPOLOGY', Effect)
