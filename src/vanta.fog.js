@@ -4,7 +4,7 @@
 import ShaderBase, {VANTA} from './_shaderBase.js'
 
 class Fog extends ShaderBase {}
-VANTA.register('FOG', Fog)
+export default VANTA.register('FOG', Fog)
 
 Fog.prototype.defaultOptions = {
   highlightColor: 0xffc300, // 0xaaffff

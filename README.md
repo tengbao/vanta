@@ -24,7 +24,7 @@
 
 ```js
 VANTA.WAVES({
-  el: '#my-background',
+  el: '#my-background', // element id or DOM object reference
   color: 0x000000,
   waveHeight: 20,
   shininess: 50,
@@ -44,12 +44,15 @@ effect.destroy() // e.g. call this in React's componentWillUnmount
 
 ## Usage In React:
 
-Make sure you've included the right files in the page. Once `vanta.xxxxx.min.js` is included, you can call `window.VANTA.XXXXX(...)`.
+You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js` is also included.)
 
 ```js
+  import * as THREE from './three.min.js'
+  import BIRDS from './vanta.birds.min.js'
+
   class MyComponent extends React.Component {
     componentDidMount() {
-      this.effect = window.VANTA.BIRDS({
+      this.effect = BIRDS({
         el: "#my-element"
       })
     }
@@ -64,7 +67,7 @@ Make sure you've included the right files in the page. Once `vanta.xxxxx.min.js`
 
 ## Local Dev:
 
-Clone the repo, run `npm run dev`, and go to localhost:8080.
+Clone the repo, run `npm install` and `npm run dev`, and go to localhost:8080.
 
 ## Credits
 

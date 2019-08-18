@@ -1,6 +1,5 @@
 import VantaBase from './_base.js';
 import {rn,ri,sample} from './helpers.js';
-window.VANTA.WAVES = options => new Waves(options)
 
 const defaultOptions = {
   color: 0x005588,
@@ -184,5 +183,6 @@ class Waves extends VantaBase {
   }
 }
 
-Waves.prototype.defaultOptions = defaultOptions;
-Waves.initClass();
+Waves.prototype.defaultOptions = defaultOptions
+Waves.initClass()
+export default VANTA.register('WAVES', Waves)
