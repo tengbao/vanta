@@ -274,7 +274,7 @@ var openCloseUsage = function() {
 var loadEffectFromUrl = function() {
   var _effectName, e, loadOptions, u
   u = new URLSearchParams(document.location.search)
-  _effectName = u.get('effect') || (mobileCheck() ? 'waves' : 'birds')
+  _effectName = u.get('effect') || 'birds'
   loadOptions = null
   if (window.location.hash.length) {
     try {
