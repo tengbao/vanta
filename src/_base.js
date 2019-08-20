@@ -1,6 +1,7 @@
 import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
+const THREE = window.THREE || {}
 const win = typeof window == 'object'
 if (win && !window.VANTA) {
   window.VANTA = {
@@ -16,7 +17,6 @@ if (!VANTA.register) {
 }
 
 export {VANTA}
-
 
 // const ORBITCONTROLS = {
 //   enableZoom: false,
@@ -91,7 +91,7 @@ VANTA.VantaBase = class VantaBase {
       this.el.style.position = 'relative'
     }
 
-    if (typeof THREE == 'object') this.initThree()
+    this.initThree()
     this.setSize() // Init needs size
 
     // TODO: move this to ShaderBase
@@ -147,6 +147,10 @@ VANTA.VantaBase = class VantaBase {
   }
 
   initThree() {
+    if (!THREE.WebGLRenderer) {
+      console.warn("[VANTA] No THREE defined on window")
+      return
+    }
     // Set renderer
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -220,18 +224,20 @@ VANTA.VantaBase = class VantaBase {
   }
 
   animationLoop() {
-    var elHeight, elRect, maxScrollTop, minScrollTop, offsetTop, ref, ref1, ref2, scrollTop
+    var elHeight, elRect, maxScrollTop, minScrollTop, offsetTop, scrollTop
     // Step time
     this.t || (this.t = 0)
     this.t += 1
     // Uniform time
     this.t2 || (this.t2 = 0)
-    this.t2 += (ref = this.options.speed) != null ? ref : 1
+    this.t2 += (this.options.speed || 1)
     if (this.uniforms) this.uniforms.u_time.value = this.t2 * 0.016667 // u_time is in seconds
 
     elHeight = this.el.offsetHeight
     elRect = this.el.getBoundingClientRect()
-    scrollTop = (ref1 = window.pageYOffset) != null ? ref1 : (document.documentElement || document.body.parentNode || document.body).scrollTop
+    scrollTop = (window.pageYOffset ||
+      (document.documentElement || document.body.parentNode || document.body).scrollTop
+    )
     offsetTop = elRect.top + scrollTop
     minScrollTop = offsetTop - window.innerHeight
     maxScrollTop = offsetTop + elHeight

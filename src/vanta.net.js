@@ -1,6 +1,7 @@
 import VantaBase, {VANTA} from './_base.js'
 import {rn, ri, mobileCheck} from './helpers.js'
 
+const THREE = window.THREE || {}
 THREE.Color.prototype.getBrightness = function() {
   // https://www.w3.org/TR/AERT#color-contrast
   return (0.299 * this.r) + (0.587 * this.g) + (0.114 * this.b);

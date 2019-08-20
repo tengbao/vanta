@@ -1,6 +1,7 @@
 import VantaBase, {VANTA} from './_base.js'
 import {rn, ri, sample, mobileCheck} from './helpers.js'
 
+const THREE = window.THREE || {}
 class Rings extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {

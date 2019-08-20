@@ -51,16 +51,20 @@ You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js`
   import BIRDS from './vanta.birds.min.js'
 
   class MyComponent extends React.Component {
+    constructor() {
+      super()
+      this.myRef = React.createRef()
+    }
     componentDidMount() {
       this.effect = BIRDS({
-        el: "#my-element"
+        el: this.myRef.current
       })
     }
     componentWillUnmount() {
       if (this.effect) this.effect.destroy()
     }
     render() {
-      return <div id="my-element"></div>
+      return <div ref={this.myRef}></div>
     }
   }
 ```

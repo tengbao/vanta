@@ -1,6 +1,7 @@
 import VantaBase from './_base.js';
 import {rn,ri,sample} from './helpers.js';
 
+const THREE = window.THREE || {}
 const defaultOptions = {
   color: 0x005588,
   shininess: 30,
