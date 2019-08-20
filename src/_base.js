@@ -5,7 +5,7 @@ const THREE = window.THREE || {}
 const win = typeof window == 'object'
 if (win && !window.VANTA) {
   window.VANTA = {
-    version: '0.3.1',
+    version: '0.5.0',
   }
 }
 const VANTA = (win && window.VANTA) || {}
