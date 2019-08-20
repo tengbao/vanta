@@ -265,9 +265,6 @@ class Effect extends VantaBase {
 
     return this.t * 0.001
   }
-    // @cont.rotation.x += Math.sin(t) * 0.0001
-    // @cont.rotation.z += Math.cos(t) * 0.00007
-
 
   onMouseMove(x,y) {
     const c = this.camera
@@ -281,13 +278,13 @@ class Effect extends VantaBase {
     const tAng = ang + ((x-0.5) * 2 * (this.options.mouseCoeffX || 1))
     c.tz = dist * Math.sin(tAng)
     c.tx = dist * Math.cos(tAng)
-    c.ty = c.oy + ((y-0.5) * 10 * (this.options.mouseCoeffY || 1))
+    c.ty = c.oy + ((y-0.5) * 50 * (this.options.mouseCoeffY || 1))
 
     if (!this.rayCaster) {
       // this.rayCaster = new THREE.Raycaster()
     }
     this.rcMouseX = (x * 2) - 1
-    return this.rcMouseY = (- x * 2) + 1
+    this.rcMouseY = (- x * 2) + 1
   }
 
   onRestart() {

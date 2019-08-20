@@ -1,8 +1,8 @@
 # Vanta JS
 
-## [View gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
+## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
-![alt text](https://www.vantajs.com/gallery/fb-share-image.jpg "Vanta JS")
+[![alt text](https://www.vantajs.com/gallery/fb-share-image.jpg "Vanta JS")](https://www.vantajs.com)
 
 Add 3D animated digital art to any webpage with just a few lines of code.
 
@@ -15,7 +15,7 @@ Add 3D animated digital art to any webpage with just a few lines of code.
 - Total additional filesize is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
 - Vanta includes many pre-defined effects to try out. *More effects will be added soon!*
 
-## [View gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
+## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
 ## Basic usage:
 
