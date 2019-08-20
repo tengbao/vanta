@@ -4,14 +4,23 @@
 
 ![alt text](https://www.vantajs.com/gallery/fb-share-image.jpg "Vanta JS")
 
-3D animated backgrounds for your website. Select & customize an effect, and add it to your site with a few lines of code. Powered by [three.js](https://github.com/mrdoob/three.js/) or [p5.js](https://github.com/processing/p5.js).
+Add 3D animated digital art to any webpage with just a few lines of code.
+
+## What is Vanta? / FAQs
+
+- Think of it as wrapper around a digital artwork that allows it to be inserted into an HTML element as a background.
+- Effects can interact with mouse/touch inputs.
+- Effect parameters (e.g. color) can be easily modified to match your brand.
+- Effects are powered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
+- Total additional filesize is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
+- Vanta includes many pre-defined effects to try out. *More effects will be added soon!*
 
 ## [View gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
 ## Basic usage:
 
 ```html
-<script src="three.r92.min.js"></script>
+<script src="three.min.js"></script>
 <script src="vanta.waves.min.js"></script>
 <script>
   VANTA.WAVES('#my-background')
@@ -64,7 +73,9 @@ You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js`
       if (this.effect) this.effect.destroy()
     }
     render() {
-      return <div ref={this.myRef}></div>
+      return <div ref={this.myRef}>
+        Foreground content goes here
+      </div>
     }
   }
 ```
@@ -74,6 +85,8 @@ You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js`
 Clone the repo, run `npm install` and `npm run dev`, and go to localhost:8080.
 
 ## Credits
+
+- General inspiration from [shadertoy.com](https://www.shadertoy.com), [#generative](https://www.twitter.com/hashtag/generative), [/r/generative](https://www.reddit.com/r/generative/), [/r/creativecoding](https://www.reddit.com/r/creativecoding/), etc
 
 - Birds effect from https://threejs.org/examples/?q=birds#webgl_gpgpu_birds by @zz85
 - Fog effect from https://thebookofshaders.com/13/ by @patriciogonzalezvivo
