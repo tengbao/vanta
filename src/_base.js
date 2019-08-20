@@ -48,13 +48,11 @@ VANTA.VantaBase = class VantaBase {
   constructor(userOptions = {}) {
     if (!win) return false
     VANTA.current = this
-    var child, e, i, len, ref, selector
-    // setTimeout @setupResize, 100
-    this.onMouseMoveWrapper = this.onMouseMoveWrapper.bind(this)
+    var child, e, i, selector
+    this.windowMouseMoveWrapper = this.windowMouseMoveWrapper.bind(this)
     this.resize = this.resize.bind(this)
     this.animationLoop = this.animationLoop.bind(this)
     this.restart = this.restart.bind(this)
-    // VANTA.list.push(@)
     this.options = extend({}, this.defaultOptions)
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
       extend(this.options, {
@@ -128,10 +126,12 @@ VANTA.VantaBase = class VantaBase {
     window.addEventListener('resize', this.resize)
     this.resize()
     this.animationLoop()
+
+    // Add event listeners on window, because this element may be below other elements, which would block the element's own mousemove event
     // this.el.addEventListener('touchstart', this.onTouchWrapper, false)
     // this.el.addEventListener('touchmove', this.onTouchWrapper, false)
-    this.el.addEventListener('mousemove', this.onMouseMoveWrapper, false)
-    window.addEventListener('scroll', this.onMouseMoveWrapper)
+    window.addEventListener('scroll', this.windowMouseMoveWrapper)
+    window.addEventListener('mousemove', this.windowMouseMoveWrapper)
   }
 
   applyCanvasStyles(canvasEl, opts={}){
@@ -165,12 +165,13 @@ VANTA.VantaBase = class VantaBase {
     this.scene = new THREE.Scene()
   }
 
-  onMouseMoveWrapper(e) {
-    var rect, x, y
-    rect = this.renderer.domElement.getBoundingClientRect()
-    x = this.mouseX = e.clientX - rect.left
-    y = this.mouseY = e.clientY - rect.top
-    if (x>=0 && y>=0 && !this.options.mouseEase) {
+  windowMouseMoveWrapper(e){
+    const rect = this.renderer.domElement.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    if (x>=0 && y>=0 && x<=rect.width && y<=rect.height && !this.options.mouseEase) {
+      this.mouseX = x
+      this.mouseY = y
       this.triggerMouseMove(x, y)
     }
   }
@@ -180,8 +181,8 @@ VANTA.VantaBase = class VantaBase {
       this.uniforms.u_mouse.value.x = x / this.scale // pixel values
       this.uniforms.u_mouse.value.y = y / this.scale // pixel values
     }
-    const xNorm = x / this.width
-    const yNorm = y / this.height
+    const xNorm = x / this.width // 0 to 1
+    const yNorm = y / this.height // 0 to 1
     typeof this.onMouseMove === "function" ? this.onMouseMove(xNorm, yNorm) : void 0
   }
 
@@ -193,6 +194,7 @@ VANTA.VantaBase = class VantaBase {
   //     y = (e.touches[0].clientY-rect.top)/@height
   //     if x && y
   //       @onMouseMove?(x,y) # Normalized to [0,1]
+
   setSize() {
     this.scale || (this.scale = 1)
     if (mobileCheck() && this.options.scaleMobile) {
@@ -300,10 +302,11 @@ VANTA.VantaBase = class VantaBase {
     if (typeof this.onDestroy === "function") {
       this.onDestroy()
     }
+
     // @el.removeEventListener('touchstart', @onTouchWrapper)
     // @el.removeEventListener('touchmove', @onTouchWrapper)
-    this.el.removeEventListener('mousemove', this.onMouseMoveWrapper)
-    window.removeEventListener('scroll', this.onMouseMoveWrapper)
+    window.removeEventListener('scroll', this.windowMouseMoveWrapper)
+    window.removeEventListener('mousemove', this.windowMouseMoveWrapper)
     window.removeEventListener('resize', this.resize)
 
     window.cancelAnimationFrame(this.req)
