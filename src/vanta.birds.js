@@ -18,7 +18,7 @@ var Bird = function (options={}) {
 	var scope = this
 	THREE.Geometry.call( this )
 	v(   5,   0,   0 )
-	v( - 5, - 2,   1 )
+	v( - 5, - 1,   1 )
 	v( - 5,   0,   0 )
 	v( - 5, - 2, - 1 )
 	v(   0,   2, - 6 )
@@ -43,22 +43,30 @@ var Bird = function (options={}) {
 Bird.prototype = Object.create( THREE.Geometry.prototype )
 
 // Based on http://www.openprocessing.org/visuals/?visualID=6910
-var Boid = function() {
+var Boid = function(options) {
   var vector = new THREE.Vector3(),
-  _acceleration, _width = 500, _height = 500, _depth = 200, _goal, _neighborhoodRadius = 100,
-  _maxSpeed = 4, _maxSteerForce = 0.1, _avoidWalls = false;
+  _acceleration,
+  _width = 500,
+  _height = 500,
+  _depth = 200, _goal,
+  _neighborhoodRadius = 100,
+  _maxSpeed = 2.5,
+  _maxSteerForce = 0.1,
+  _avoidWalls = true;
 
-  this.position = new THREE.Vector3();
-  this.velocity = new THREE.Vector3();
-  _acceleration = new THREE.Vector3();
+  var _options = options
+
+  this.position = new THREE.Vector3()
+  this.velocity = new THREE.Vector3()
+  _acceleration = new THREE.Vector3()
 
   this.setGoal = function ( target ) {
     _goal = target;
   }
 
-  this.setAvoidWalls = function ( value ) {
-    _avoidWalls = value;
-  }
+  // this.setAvoidWalls = function ( value ) {
+  //   _avoidWalls = value;
+  // }
 
   this.setWorldSize = function ( width, height, depth ) {
     _width = width;
@@ -162,11 +170,12 @@ var Boid = function() {
 
   this.alignment = function ( boids ) {
     var boid, velSum = new THREE.Vector3(), count = 0, distance
+    const radius = _neighborhoodRadius * _options.alignment/20
     for ( var i = 0, il = boids.length; i < il; i++ ) {
       if ( Math.random() > 0.6 ) continue
       boid = boids[ i ]
       distance = boid.position.distanceTo( this.position )
-      if ( distance > 0 && distance <= _neighborhoodRadius ) {
+      if ( distance > 0 && distance <= radius ) {
         velSum.add( boid.velocity )
         count++
       }
@@ -186,11 +195,14 @@ var Boid = function() {
     posSum = new THREE.Vector3(),
     steer = new THREE.Vector3(),
     count = 0
+    const radius = _neighborhoodRadius * _options.cohesion/20
+
     for ( var i = 0, il = boids.length; i < il; i ++ ) {
       if ( Math.random() > 0.6 ) continue
       boid = boids[ i ]
       distance = boid.position.distanceTo( this.position )
-      if ( distance > 0 && distance <= _neighborhoodRadius ) {
+
+      if ( distance > 0 && distance <= radius ) {
         posSum.add( boid.position )
         count++
       }
@@ -210,11 +222,13 @@ var Boid = function() {
     var boid, distance,
       posSum = new THREE.Vector3(),
       repulse = new THREE.Vector3()
+    const radius = _neighborhoodRadius * _options.separation/20
+
     for ( var i = 0, il = boids.length; i < il; i ++ ) {
       if ( Math.random() > 0.6 ) continue
       boid = boids[ i ]
       distance = boid.position.distanceTo( this.position )
-      if ( distance > 0 && distance <= _neighborhoodRadius ) {
+      if ( distance > 0 && distance <= radius ) {
         repulse.subVectors( this.position, boid.position )
         repulse.normalize()
         repulse.divideScalar( distance )
@@ -710,15 +724,14 @@ class Birds extends VantaBase {
     } else {
       const numBirds = 6 * Math.pow(2, options.quantity)
       for (var i = 0; i < numBirds; i++) {
-        boid = boids[i] = new Boid()
+        boid = boids[i] = new Boid(options)
         boid.position.x = Math.random() * 400 - 200
         boid.position.y = Math.random() * 400 - 200
         boid.position.z = Math.random() * 400 - 200
         boid.velocity.x = Math.random() * 2 - 1
         boid.velocity.y = Math.random() * 2 - 1
         boid.velocity.z = Math.random() * 2 - 1
-        boid.setAvoidWalls( true )
-        boid.setWorldSize( 500, 500, 400 )
+        boid.setWorldSize( 500, 500, 300 )
 
         const gradient = options.colorMode.indexOf('Gradient') != -1
 
@@ -758,10 +771,12 @@ class Birds extends VantaBase {
   }
 
   valuesChanger() {
-    this.velocityUniforms.separationDistance.value = this.options.separation
-    this.velocityUniforms.alignmentDistance.value = this.options.alignment
-    this.velocityUniforms.speedLimit.value = this.options.speedLimit
-    return this.velocityUniforms.cohesionDistance.value = this.options.cohesion
+    if (this.velocityUniforms) {
+      this.velocityUniforms.separationDistance.value = this.options.separation
+      this.velocityUniforms.alignmentDistance.value = this.options.alignment
+      this.velocityUniforms.speedLimit.value = this.options.speedLimit
+      this.velocityUniforms.cohesionDistance.value = this.options.cohesion
+    }
   }
 
   onUpdate() {
