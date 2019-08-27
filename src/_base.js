@@ -3,18 +3,12 @@ import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 
 const win = typeof window == 'object'
 const THREE = (win && window.THREE) || {}
-if (win && !window.VANTA) {
-  window.VANTA = {
-    version: '0.5.0',
-  }
-}
+if (win && !window.VANTA) window.VANTA = {}
 const VANTA = (win && window.VANTA) || {}
-if (!VANTA.register) {
-  VANTA.register = (name, Effect) => {
-    VANTA[name] = (opts) => new Effect(opts)
-    return VANTA[name]
-  }
+VANTA.register = (name, Effect) => {
+  return VANTA[name] = (opts) => new Effect(opts)
 }
+VANTA.version = '0.5.1'
 
 export {VANTA}
 

@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.1
+
+* Fixed an issue where Gatsby build fails due to `window` undefined
+
 ## 0.5.0
 
 * Updated module code to allow static import
