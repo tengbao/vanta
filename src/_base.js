@@ -1,7 +1,7 @@
 import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
-const THREE = window.THREE || {}
+const THREE = (typeof window == 'object' && window.THREE) || {}
 const win = typeof window == 'object'
 if (win && !window.VANTA) {
   window.VANTA = {

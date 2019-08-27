@@ -5,7 +5,7 @@ import VantaBase, { VANTA } from './_base.js'
 import {mobileCheck} from './helpers.js'
 import GPUComputationRenderer from '../vendor/GPUComputationRenderer.js'
 
-const THREE = window.THREE || {}
+const THREE = (typeof window == 'object' && window.THREE) || {}
 const GPGPU = !mobileCheck()
 
 let WIDTH = 32
