@@ -2,6 +2,7 @@
 
 ## 0.5.1
 
+* Allow touchscreen controls for effects
 * Fixed an issue where Gatsby build fails due to `window` undefined
 
 ## 0.5.0
