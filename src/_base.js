@@ -1,8 +1,8 @@
 import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
-const THREE = (typeof window == 'object' && window.THREE) || {}
 const win = typeof window == 'object'
+const THREE = (win && window.THREE) || {}
 if (win && !window.VANTA) {
   window.VANTA = {
     version: '0.5.0',
