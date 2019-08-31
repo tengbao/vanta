@@ -2,7 +2,7 @@
 
 ## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
-[![alt text](https://www.vantajs.com/gallery/fb-share-image.jpg "Vanta JS")](https://www.vantajs.com)
+[![alt text](https://www.vantajs.com/gallery/vanta-preview.gif "Vanta JS")](https://www.vantajs.com)
 
 Add 3D animated digital art to any webpage with just a few lines of code.
 
