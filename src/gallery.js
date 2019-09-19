@@ -11,6 +11,7 @@ const GALLERY = [
   "waves",
   "clouds",
   "clouds2",
+  "globe",
   "net",
   "cells",
   // "ripple",
@@ -189,6 +190,12 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.addColor(options, 'color2').onFinishChange(effect.restart)
     gui.add(options, 'size', 0.5, 10).step(0.1).onFinishChange(effect.restart)
     gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
+  } else if (effectName === "GLOBE") {
+    gui.addColor(options, 'backgroundColor').onFinishChange(effect.restart)
+    gui.addColor(options, 'color').onFinishChange(effect.restart)
+    gui.addColor(options, 'color2').onFinishChange(effect.restart)
+    gui.add(options, 'size', 0.5, 2).step(0.1).onFinishChange(effect.restart)
+    // gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
   }
   // Regenerate code!
   gui.__controllers.forEach(c=>{
