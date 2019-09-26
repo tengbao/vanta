@@ -52,9 +52,9 @@ var effect = VANTA.WAVES('#my-background')
 effect.destroy() // e.g. call this in React's componentWillUnmount
 ```
 
-## Usage with React Hooks: 
+## Usage with React Hooks (requires React 16.8): 
 
-You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js` is also included.)
+Import `vanta.xxxxx.min.js` as follows. Make sure `three.js` or `p5.js` is also included.
 
 ```js
 import React, { useState, useEffect, useRef } from 'react'
@@ -108,7 +108,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-## Local Dev:
+## Local dev:
 
 Clone the repo, run `npm install` and `npm run dev`, and go to localhost:8080.
 
