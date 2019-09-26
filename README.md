@@ -4,10 +4,11 @@
 
 [![alt text](https://www.vantajs.com/gallery/vanta-preview.gif "Vanta JS")](https://www.vantajs.com)
 
-Add 3D animated digital art to any webpage with just a few lines of code.
+
 
 ## What is Vanta? / FAQs
 
+- **Add 3D animated digital art to any webpage with just a few lines of code.**
 - Think of it as wrapper around a digital artwork that allows it to be inserted into an HTML element as a background.
 - Effects can interact with mouse/touch inputs.
 - Effect parameters (e.g. color) can be easily modified to match your brand.
