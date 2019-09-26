@@ -52,33 +52,60 @@ var effect = VANTA.WAVES('#my-background')
 effect.destroy() // e.g. call this in React's componentWillUnmount
 ```
 
-## Usage In React:
+## Usage with React Hooks: 
 
 You can import `vanta.xxxxx.min.js` as follows. (Make sure `three.js` or `p5.js` is also included.)
 
 ```js
-  import * as THREE from './three.min.js'
-  import BIRDS from './vanta.birds.min.js'
+import React, { useState, useEffect, useRef } from 'react'
+import * as THREE from './three.min.js'
+import BIRDS from './vanta.birds.min.js'
 
-  class MyComponent extends React.Component {
-    constructor() {
-      super()
-      this.myRef = React.createRef()
+const MyComponent = (props) => {
+  const [vantaEffect, setVantaEffect] = useState(0)
+  const myRef = useRef(null)
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(BIRDS({
+        el: myRef.current
+      }))
     }
-    componentDidMount() {
-      this.effect = BIRDS({
-        el: this.myRef.current
-      })
+    return () => { 
+      if (vantaEffect) vantaEffect.destroy()
     }
-    componentWillUnmount() {
-      if (this.effect) this.effect.destroy()
-    }
-    render() {
-      return <div ref={this.myRef}>
-        Foreground content goes here
-      </div>
-    }
+  }, [vantaEffect])
+  return <div ref={myRef}>
+    Foreground content goes here
+  </div>
+}
+```
+
+## Usage with React Classes:
+
+```js
+import React from 'react'
+import * as THREE from './three.min.js'
+import BIRDS from './vanta.birds.min.js'
+
+class MyComponent extends React.Component {
+  constructor() {
+    super()
+    this.myRef = React.createRef()
   }
+  componentDidMount() {
+    this.effect = BIRDS({
+      el: this.myRef.current
+    })
+  }
+  componentWillUnmount() {
+    if (this.effect) this.effect.destroy()
+  }
+  render() {
+    return <div ref={this.myRef}>
+      Foreground content goes here
+    </div>
+  }
+}
 ```
 
 ## Local Dev:
