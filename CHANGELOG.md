@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.2
+
+* Added `forceAnimate` option
+* Added `globe` effect
+
 ## 0.5.1
 
 * Allow touchscreen controls for effects

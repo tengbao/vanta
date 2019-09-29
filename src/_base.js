@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.1'
+VANTA.version = '0.5.2'
 
 export {VANTA}
 
@@ -222,8 +222,19 @@ VANTA.VantaBase = class VantaBase {
     typeof this.onResize === "function" ? this.onResize() : void 0
   }
 
+  isOnscreen() {
+    const elHeight = this.el.offsetHeight
+    const elRect = this.el.getBoundingClientRect()
+    const scrollTop = (window.pageYOffset ||
+      (document.documentElement || document.body.parentNode || document.body).scrollTop
+    )
+    const offsetTop = elRect.top + scrollTop
+    const minScrollTop = offsetTop - window.innerHeight
+    const maxScrollTop = offsetTop + elHeight
+    return minScrollTop <= scrollTop && scrollTop <= maxScrollTop
+  }
+
   animationLoop() {
-    var elHeight, elRect, maxScrollTop, minScrollTop, offsetTop, scrollTop
     // Step time
     this.t || (this.t = 0)
     this.t += 1
@@ -231,15 +242,6 @@ VANTA.VantaBase = class VantaBase {
     this.t2 || (this.t2 = 0)
     this.t2 += (this.options.speed || 1)
     if (this.uniforms) this.uniforms.u_time.value = this.t2 * 0.016667 // u_time is in seconds
-
-    elHeight = this.el.offsetHeight
-    elRect = this.el.getBoundingClientRect()
-    scrollTop = (window.pageYOffset ||
-      (document.documentElement || document.body.parentNode || document.body).scrollTop
-    )
-    offsetTop = elRect.top + scrollTop
-    minScrollTop = offsetTop - window.innerHeight
-    maxScrollTop = offsetTop + elHeight
 
     if (this.options.mouseEase) {
       this.mouseEaseX = this.mouseEaseX || this.mouseX || 0
@@ -252,7 +254,7 @@ VANTA.VantaBase = class VantaBase {
     }
 
     // Only animate if element is within view
-    if ((minScrollTop <= scrollTop && scrollTop <= maxScrollTop)) {
+    if (this.isOnscreen() || this.options.forceAnimate) {
       if (typeof this.onUpdate === "function") {
         this.onUpdate()
       }
