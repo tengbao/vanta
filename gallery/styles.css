@@ -632,7 +632,8 @@ canvas {
 .gallery .item.birds,
 .gallery .item.clouds,
 .gallery .item.ripple,
-.gallery .item.fog {
+.gallery .item.fog,
+.gallery .item.globe {
   color: #2b2928;
   text-shadow: 0 1px 8px rgba(255, 255, 255, 0.3);
 }
