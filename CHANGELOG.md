@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.3
+
+* Fixed `VANTA undefined` error in `waves` effect
+
 ## 0.5.2
 
 * Added `forceAnimate` option

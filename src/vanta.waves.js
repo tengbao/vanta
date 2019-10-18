@@ -1,5 +1,5 @@
-import VantaBase from './_base.js';
-import {rn,ri,sample} from './helpers.js';
+import VantaBase, { VANTA } from './_base.js'
+import {rn,ri,sample} from './helpers.js'
 
 const THREE = (typeof window == 'object' && window.THREE) || {}
 const defaultOptions = {
