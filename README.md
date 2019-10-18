@@ -45,6 +45,20 @@ VANTA.WAVES({
 
 Each effect has different parameters. Explore them all!
 
+## Updating an effect:
+
+```js
+var effect = VANTA.WAVES({
+  el: '#my-background',
+  color: 0x000000
+})
+
+// Later, when you want to update an animation in progress
+effect.update({
+  color: 0xff88cc
+})
+```
+
 ## Cleanup:
 
 ```js
@@ -52,7 +66,7 @@ var effect = VANTA.WAVES('#my-background')
 effect.destroy() // e.g. call this in React's componentWillUnmount
 ```
 
-## Usage with React Hooks (requires React 16.8): 
+## Usage with React Hooks (requires React 16.8):
 
 Import `vanta.xxxxx.min.js` as follows. Make sure `three.js` or `p5.js` is also included.
 
@@ -70,7 +84,7 @@ const MyComponent = (props) => {
         el: myRef.current
       }))
     }
-    return () => { 
+    return () => {
       if (vantaEffect) vantaEffect.destroy()
     }
   }, [vantaEffect])

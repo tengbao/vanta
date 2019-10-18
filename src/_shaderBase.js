@@ -11,39 +11,64 @@ if (typeof THREE == 'object') {
 export default class ShaderBase extends VantaBase {
   constructor(userOptions) {
     super(userOptions)
-    this.mode = 'shader'
     this.updateUniforms = this.updateUniforms.bind(this)
   }
+  init(){
+    this.mode = 'shader'
+    this.uniforms = {
+      u_time: {
+        type: "f",
+        value: 1.0
+      },
+      u_resolution: {
+        type: "v2",
+        value: new THREE.Vector2(1, 1)
+      },
+      u_mouse: {
+        type: "v2",
+        value: new THREE.Vector2(0, 0)
+      }
+    }
+    super.init()
+    if (this.fragmentShader) {
+      this.initBasicShader()
+    }
+  }
+  setOptions(userOptions){
+    super.setOptions(userOptions)
+    this.updateUniforms()
+  }
   initBasicShader(fragmentShader = this.fragmentShader, vertexShader = this.vertexShader) {
-    var material, mesh, texPath
-    vertexShader || (vertexShader = "uniform float u_time;\nuniform vec2 u_resolution;\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}")
+    if (!vertexShader) {
+      vertexShader = "uniform float u_time;\nuniform vec2 u_resolution;\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}"
+    }
     this.updateUniforms()
     if (typeof this.valuesChanger === "function") {
-      this.valuesChanger()
+      this.valuesChanger() // Some effects define this themselves
     }
-    material = new THREE.ShaderMaterial({
+    const material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: vertexShader,
       fragmentShader: fragmentShader
     })
-    if (texPath = this.options.texturePath) {
+    const texPath = this.options.texturePath
+    if (texPath) {
       this.uniforms.u_tex = {
         type: "t",
         value: new THREE.TextureLoader().load(texPath)
       }
     }
-    mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material)
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material)
     this.scene.add(mesh)
     this.camera = new THREE.Camera()
-    return this.camera.position.z = 1
+    this.camera.position.z = 1
   }
 
   updateUniforms() {
-    var k, newUniforms, ref, v
-    newUniforms = {}
-    ref = this.options
-    for (k in ref) {
-      v = ref[k]
+    const newUniforms = {}
+    let k, v
+    for (k in this.options) {
+      v = this.options[k]
       if (k.toLowerCase().indexOf('color') !== -1) {
         newUniforms[k] = {
           type: "v3",
@@ -57,13 +82,6 @@ export default class ShaderBase extends VantaBase {
       }
     }
     return extend(this.uniforms, newUniforms)
-  }
-
-  init(){
-    super.init()
-    if (this.fragmentShader) {
-      this.initBasicShader()
-    }
   }
   resize(){
     super.resize()

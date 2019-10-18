@@ -3,6 +3,7 @@
 ## 0.5.3
 
 * Fixed `VANTA undefined` error in `waves` effect
+* Added `setOptions` method to allow changing options after init
 
 ## 0.5.2
 

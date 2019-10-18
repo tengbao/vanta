@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.2'
+VANTA.version = '0.5.3'
 
 export {VANTA}
 
@@ -33,7 +33,7 @@ export {VANTA}
 // }
 
 // Namespace for errors
-var error = function() {
+const error = function() {
   Array.prototype.unshift.call(arguments, '[VANTA]')
   return console.error.apply(this, arguments)
 }
@@ -42,7 +42,6 @@ VANTA.VantaBase = class VantaBase {
   constructor(userOptions = {}) {
     if (!win) return false
     VANTA.current = this
-    var child, e, i, selector
     this.windowMouseMoveWrapper = this.windowMouseMoveWrapper.bind(this)
     this.windowTouchWrapper = this.windowTouchWrapper.bind(this)
     this.resize = this.resize.bind(this)
@@ -50,18 +49,16 @@ VANTA.VantaBase = class VantaBase {
     this.restart = this.restart.bind(this)
     this.options = extend({}, this.defaultOptions)
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
-      extend(this.options, {
-        el: userOptions
-      })
-    } else {
-      extend(this.options, userOptions)
+      userOptions = {el: userOptions}
     }
+    extend(this.options, userOptions)
+
     // Set element
     this.el = this.options.el
     if (this.el == null) {
       error("Instance needs \"el\" param!")
     } else if (!(this.options.el instanceof HTMLElement)) {
-      selector = this.el
+      const selector = this.el
       this.el = q(selector)
       if (!this.el) {
         error("Cannot find element", selector)
@@ -70,6 +67,7 @@ VANTA.VantaBase = class VantaBase {
     }
 
     // Set foreground elements
+    let i, child
     for (i = 0; i < this.el.children.length; i++) {
       child = this.el.children[i]
       if (getComputedStyle(child).position === 'static') {
@@ -87,29 +85,11 @@ VANTA.VantaBase = class VantaBase {
     this.initThree()
     this.setSize() // Init needs size
 
-    // TODO: move this to ShaderBase
-    this.uniforms = {
-      u_time: {
-        type: "f",
-        value: 1.0
-      },
-      u_resolution: {
-        type: "v2",
-        value: new THREE.Vector2(1, 1)
-      },
-      u_mouse: {
-        type: "v2",
-        value: new THREE.Vector2(0, 0)
-      }
-    }
-
     try {
       this.init()
-    } catch (error1) {
-      e = error1
+    } catch (e) {
       // FALLBACK - just use color
-      error('Init error')
-      error(e)
+      error('Init error', e)
       this.el.removeChild(this.renderer.domElement)
       if (this.options.backgroundColor) {
         console.log('[VANTA] Falling back to backgroundColor')
@@ -127,6 +107,10 @@ VANTA.VantaBase = class VantaBase {
     window.addEventListener('mousemove', this.windowMouseMoveWrapper)
     window.addEventListener('touchstart', this.windowTouchWrapper)
     window.addEventListener('touchmove', this.windowTouchWrapper)
+  }
+
+  setOptions(userOptions={}){
+    extend(this.options, userOptions)
   }
 
   applyCanvasStyles(canvasEl, opts={}){
@@ -205,14 +189,11 @@ VANTA.VantaBase = class VantaBase {
   }
 
   resize() {
-    var ref, ref1
     this.setSize()
-    if ((ref = this.camera) != null) {
-      ref.aspect = this.width / this.height
-    }
-    if ((ref1 = this.camera) != null) {
-      if (typeof ref1.updateProjectionMatrix === "function") {
-        ref1.updateProjectionMatrix()
+    if (this.camera) {
+      this.camera.aspect = this.width / this.height
+      if (typeof this.camera.updateProjectionMatrix === "function") {
+        this.camera.updateProjectionMatrix()
       }
     }
     if (this.renderer) {
@@ -241,7 +222,9 @@ VANTA.VantaBase = class VantaBase {
     // Uniform time
     this.t2 || (this.t2 = 0)
     this.t2 += (this.options.speed || 1)
-    if (this.uniforms) this.uniforms.u_time.value = this.t2 * 0.016667 // u_time is in seconds
+    if (this.uniforms) {
+      this.uniforms.u_time.value = this.t2 * 0.016667 // u_time is in seconds
+    }
 
     if (this.options.mouseEase) {
       this.mouseEaseX = this.mouseEaseX || this.mouseX || 0
