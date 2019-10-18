@@ -55,19 +55,19 @@ class Waves extends VantaBase {
     // c d <-- Looking from the bottom right point
     for (i=1; i<=this.ww; i++){
       for (j=1; j<=this.hh; j++){
-        var face1, face2;
-        const d = this.gg[i][j];
-        const b = this.gg[i][j-1];
-        const c = this.gg[i-1][j];
-        const a = this.gg[i-1][j-1];
+        let face1, face2
+        const d = this.gg[i][j]
+        const b = this.gg[i][j-1]
+        const c = this.gg[i-1][j]
+        const a = this.gg[i-1][j-1]
         if (ri(0,1)) {
-          face1 = new THREE.Face3( a, b, c );
-          face2 = new THREE.Face3( b, c, d );
+          face1 = new THREE.Face3( a, b, c )
+          face2 = new THREE.Face3( b, c, d )
         } else {
-          face1 = new THREE.Face3( a, b, d );
-          face2 = new THREE.Face3( a, c, d );
+          face1 = new THREE.Face3( a, b, d )
+          face2 = new THREE.Face3( a, c, d )
         }
-        geometry.faces.push( face1, face2 );
+        geometry.faces.push( face1, face2 )
       }
     }
 

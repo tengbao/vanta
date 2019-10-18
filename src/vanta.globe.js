@@ -161,14 +161,14 @@ class Effect extends VantaBase {
     const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
     const linesGeo = new THREE.Geometry()
     for (let i = 0; i < 80; i ++) {
-      var f1 = rn(18,24)
-      var f2 = f1 + rn(1,6)
+      const f1 = rn(18,24)
+      const f2 = f1 + rn(1,6)
       // https://math.stackexchange.com/questions/1585975/how-to-generate-random-points-on-a-sphere
-      var z = rn(-1,1)
-      var r = Math.sqrt(1 - z*z)
-      var theta = rn(0, Math.PI * 2)
-      var y = Math.sin(theta) * r
-      var x = Math.cos(theta) * r
+      const z = rn(-1,1)
+      const r = Math.sqrt(1 - z*z)
+      const theta = rn(0, Math.PI * 2)
+      const y = Math.sin(theta) * r
+      const x = Math.cos(theta) * r
       linesGeo.vertices.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
       linesGeo.vertices.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
     }
@@ -277,7 +277,7 @@ class Effect extends VantaBase {
     // @scene.add( line )
 
     for (let i = 0; i < this.points.length; i++) {
-      var dist, distToMouse
+      let dist, distToMouse
       const p = this.points[i]
       // p.position.y += Math.sin(@t * 0.005 - 0.02 * p.ox + 0.015 * p.oz) * 0.02
 
@@ -313,7 +313,7 @@ class Effect extends VantaBase {
         const dz = p.position.z - p2.position.z
         dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
         if (dist < this.options.maxDistance) {
-          var lineColor
+          let lineColor
           let alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2)
           alpha = alpha.clamp(0, 1)
           if (this.blending === 'additive') {

@@ -202,7 +202,7 @@ class Effect extends VantaBase {
     // @scene.add( line )
 
     for (let i = 0; i < this.points.length; i++) {
-      var dist, distToMouse
+      let dist, distToMouse
       const p = this.points[i]
       // p.position.y += Math.sin(@t * 0.005 - 0.02 * p.ox + 0.015 * p.oz) * 0.02
 
@@ -231,7 +231,7 @@ class Effect extends VantaBase {
         const dz = p.position.z - p2.position.z
         dist = Math.sqrt( (dx * dx) + (dy * dy) + (dz * dz) )
         if (dist < this.options.maxDistance) {
-          var lineColor
+          let lineColor
           const alpha = (( 1.0 - (dist / this.options.maxDistance) ) * 2).clamp(0, 1)
           if (this.blending === 'additive') {
             lineColor = new THREE.Color(0x000000).lerp(diffColor, alpha)

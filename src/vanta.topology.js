@@ -57,7 +57,7 @@ class Effect extends P5Base {
       }
 
       function init_particles() {
-        for (var i = 0; i < number_of_particles; i++) {
+        for (let i = 0; i < number_of_particles; i++) {
           let r = p.random(p.width + 2 * offset)
           let q = p.random(p.height + 2 * offset)
           particles.push({
@@ -72,7 +72,7 @@ class Effect extends P5Base {
       }
 
       function update_particles() {
-        for (var i = 0; i < number_of_particles; i++) {
+        for (let i = 0; i < number_of_particles; i++) {
           let prt = particles[i]
           let flow = get_flow(prt.pos.x, prt.pos.y)
 
@@ -110,7 +110,7 @@ class Effect extends P5Base {
         let high_pos = p.createVector(0, 0)
         let low_pos = p.createVector(0, 0)
 
-        for (var i = 0; i < 100; i++) {
+        for (let i = 0; i < 100; i++) {
           let angle = i / 100 * p.TAU
           let pos = p.createVector(x + p.cos(angle) * r, y + p.sin(angle) * r)
           let val = p.noise(pos.x, pos.y)

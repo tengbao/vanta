@@ -118,7 +118,7 @@ class Rings extends VantaBase {
 
     let n = mobileCheck() ? 30 : 60
     for (let i = 0; i < n; i++) {
-      var radius;
+      let radius
       if (ri(0,3)) {
         radius = rn(2,4) + (rn(1,30) * rn(1,2) * rn(1,2) * rn(1,2))
         if (mobileCheck()) radius *= 0.5

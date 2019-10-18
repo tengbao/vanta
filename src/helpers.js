@@ -3,7 +3,7 @@ Number.prototype.clamp = function(min, max) { return Math.min(Math.max(this, min
 // # module.exports = helpers
 
 export function extend(a, b) {
-  for (var key in b){
+  for (let key in b){
     if (b.hasOwnProperty(key)) { a[key] = b[key] }
   }
   return a;
@@ -26,7 +26,7 @@ export function ri(start,end) {
   return Math.floor(start + (Math.random() * ((end - start) + 1)))
 }
 
-export var q = sel => document.querySelector(sel)
+export const q = sel => document.querySelector(sel)
 
 export const color2Hex = (color) => {
   if (typeof color == 'number'){
