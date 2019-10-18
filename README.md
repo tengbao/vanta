@@ -48,7 +48,7 @@ Each effect has different parameters. Explore them all!
 ## Updating an effect:
 
 ```js
-var effect = VANTA.WAVES({
+const effect = VANTA.WAVES({
   el: '#my-background',
   color: 0x000000
 })
@@ -62,7 +62,7 @@ effect.update({
 ## Cleanup:
 
 ```js
-var effect = VANTA.WAVES('#my-background')
+const effect = VANTA.WAVES('#my-background')
 effect.destroy() // e.g. call this in React's componentWillUnmount
 ```
 

@@ -172,6 +172,7 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.addColor(options, 'sunColor').onFinishChange(effect.updateUniforms)
     gui.addColor(options, 'sunGlareColor').onFinishChange(effect.updateUniforms)
     gui.addColor(options, 'sunlightColor').onFinishChange(effect.updateUniforms)
+    gui.add(options, 'speed', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
   } else if (effectName === "CLOUDS2") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.updateUniforms)
     gui.addColor(options, 'skyColor').onFinishChange(effect.updateUniforms)

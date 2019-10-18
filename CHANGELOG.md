@@ -4,6 +4,7 @@
 
 * Fixed `VANTA undefined` error in `waves` effect
 * Added `setOptions` method to allow changing options after init
+* Added `speed` option for `clouds`
 
 ## 0.5.2
 
