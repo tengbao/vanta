@@ -54,7 +54,7 @@ const effect = VANTA.WAVES({
 })
 
 // Later, when you want to update an animation in progress
-effect.update({
+effect.setOptions({
   color: 0xff88cc
 })
 ```
