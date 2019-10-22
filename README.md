@@ -45,7 +45,7 @@ VANTA.WAVES({
 
 Each effect has different parameters. Explore them all!
 
-## Updating an effect:
+## Updating options after init:
 
 ```js
 const effect = VANTA.WAVES({
