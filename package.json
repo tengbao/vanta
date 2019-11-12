@@ -1,6 +1,6 @@
 {
   "name": "vanta",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "3D animated backgrounds for your website",
   "main": "dist/vanta.js",
   "scripts": {
@@ -29,8 +29,8 @@
     "glslify-loader": "^2.0.0",
     "less": "^3.9.0",
     "raw-loader": "^0.5.1",
-    "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.5",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.8.0"
   }
 }

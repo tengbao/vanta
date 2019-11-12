@@ -1,7 +1,8 @@
 import VantaBase, { VANTA } from './_base.js'
 import {rn,ri,sample} from './helpers.js'
 
-const THREE = (typeof window == 'object' && window.THREE) || {}
+let THREE = (typeof window == 'object' && window.THREE)
+
 const defaultOptions = {
   color: 0x005588,
   shininess: 30,
@@ -15,6 +16,10 @@ class Waves extends VantaBase {
     this.prototype.ww = 100;
     this.prototype.hh = 80;
     this.prototype.waveNoise = 4; // Choppiness of water
+  }
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
   }
 
   getMaterial() {

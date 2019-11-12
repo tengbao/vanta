@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.4
+
+* Added ability to use a custom `THREE` build
+* Added example using `create-react-app`
+
 ## 0.5.3
 
 * Fixed `VANTA undefined` error in `waves` effect

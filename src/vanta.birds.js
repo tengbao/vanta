@@ -5,7 +5,8 @@ import VantaBase, { VANTA } from './_base.js'
 import {mobileCheck} from './helpers.js'
 import GPUComputationRenderer from '../vendor/GPUComputationRenderer.js'
 
-const THREE = (typeof window == 'object' && window.THREE) || {}
+const win = typeof window == 'object'
+let THREE = win && window.THREE
 const GPGPU = !mobileCheck()
 
 let WIDTH = 32
@@ -586,7 +587,6 @@ THREE.BirdGeometry = function(options) {
 THREE.BirdGeometry.prototype = Object.create(THREE.BufferGeometry.prototype)
 
 class Birds extends VantaBase {
-
   static initClass() {
     this.prototype.defaultOptions = {
       // Beige: 0xf8e8d0, 0xf50000, 0xcfcf1d
@@ -602,6 +602,11 @@ class Birds extends VantaBase {
       cohesion: 20,
       quantity: 5, // range from 2 to 5
     }
+  }
+
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
   }
 
   initComputeRenderer() {

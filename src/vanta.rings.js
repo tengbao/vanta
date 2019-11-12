@@ -1,7 +1,8 @@
 import VantaBase, {VANTA} from './_base.js'
 import {rn, ri, sample, mobileCheck} from './helpers.js'
 
-const THREE = (typeof window == 'object' && window.THREE) || {}
+let THREE = (typeof window == 'object' && window.THREE)
+
 class Rings extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {
@@ -25,6 +26,11 @@ class Rings extends VantaBase {
       0x53707B // dark slate
     ];
   }
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
+  }
+
   // colors: [
   //   0x3693D6
   //   0x01E7D0

@@ -2,13 +2,13 @@ import {extend,mobileCheck,q,color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
 const win = typeof window == 'object'
-const THREE = (win && window.THREE) || {}
+let THREE = (win && window.THREE) || {}
 if (win && !window.VANTA) window.VANTA = {}
 const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.3'
+VANTA.version = '0.5.4'
 
 export {VANTA}
 
@@ -53,6 +53,10 @@ VANTA.VantaBase = class VantaBase {
     }
     extend(this.options, userOptions)
 
+    if (this.options.THREE) {
+      THREE = this.options.THREE // Optionally use a custom build of three.js
+    }
+
     // Set element
     this.el = this.options.el
     if (this.el == null) {
@@ -90,7 +94,9 @@ VANTA.VantaBase = class VantaBase {
     } catch (e) {
       // FALLBACK - just use color
       error('Init error', e)
-      this.el.removeChild(this.renderer.domElement)
+      if (this.renderer && this.renderer.domElement) {
+        this.el.removeChild(this.renderer.domElement)
+      }
       if (this.options.backgroundColor) {
         console.log('[VANTA] Falling back to backgroundColor')
         this.el.style.background = color2Hex(this.options.backgroundColor)
@@ -293,7 +299,9 @@ VANTA.VantaBase = class VantaBase {
 
     window.cancelAnimationFrame(this.req)
     if (this.renderer) {
-      this.el.removeChild(this.renderer.domElement)
+      if (this.renderer.domElement) {
+        this.el.removeChild(this.renderer.domElement)
+      }
       this.renderer = null
       this.scene = null
     }

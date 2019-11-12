@@ -44,3 +44,7 @@ export const color2Rgb = (color, alpha=1) => {
   } : null
   return 'rgba('+ obj.r +','+ obj.g +','+ obj.b +','+ alpha +')'
 }
+
+export const getBrightness = (threeColor) => {
+  return (0.299 * threeColor.r) + (0.587 * threeColor.g) + (0.114 * threeColor.b);
+}

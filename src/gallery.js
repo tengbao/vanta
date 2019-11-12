@@ -1,4 +1,4 @@
-import {mobileCheck} from './helpers.js'
+import {mobileCheck, getBrightness} from './helpers.js'
 
 var effectName = null
 var effect = null
@@ -53,11 +53,6 @@ jQuery.extend(jQuery.easing, {
     return c / 2 * ((t -= 2) * t * t * t * t + 2) + b
   }
 })
-
-THREE.Color.prototype.getBrightness = function() {
-  // https://www.w3.org/TR/AERT#color-contrast
-  return 0.299 * this.r + 0.587 * this.g + 0.114 * this.b
-}
 
 var loadEffect = function(_effectName, loadOptions) {
   _effectName = _effectName.toUpperCase()
@@ -216,7 +211,7 @@ var loadEffect = function(_effectName, loadOptions) {
 }
 
 var updateBackgroundColor = function(color) {
-  if ((new THREE.Color(color)).getBrightness() > 0.65) {
+  if (getBrightness(new THREE.Color(color)) > 0.65) {
     return $('.wm').addClass('dark-text')
   } else {
     return $('.wm').removeClass('dark-text')

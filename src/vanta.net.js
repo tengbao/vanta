@@ -1,12 +1,8 @@
 import VantaBase, {VANTA} from './_base.js'
-import {rn, ri, mobileCheck} from './helpers.js'
+import {rn, ri, mobileCheck, getBrightness} from './helpers.js'
 
 const win = typeof window == 'object'
-const THREE = (win && window.THREE) || {}
-if (THREE.Color && THREE.Color.prototype) THREE.Color.prototype.getBrightness = function() {
-  // https://www.w3.org/TR/AERT#color-contrast
-  return (0.299 * this.r) + (0.587 * this.g) + (0.114 * this.b);
-}
+let THREE = win && window.THREE
 
 class Effect extends VantaBase {
   static initClass() {
@@ -17,7 +13,12 @@ class Effect extends VantaBase {
       maxDistance: 20,
       spacing: 15,
       showDots: true
-    };
+    }
+  }
+
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
   }
 
   // onInit() {
@@ -81,8 +82,8 @@ class Effect extends VantaBase {
     this.linePositions = new Float32Array( numPoints * numPoints * 3 )
     this.lineColors = new Float32Array( numPoints * numPoints * 3 )
 
-    const colorB = (new THREE.Color(this.options.color)).getBrightness()
-    const bgB = (new THREE.Color(this.options.backgroundColor)).getBrightness()
+    const colorB = getBrightness(new THREE.Color(this.options.color))
+    const bgB = getBrightness(new THREE.Color(this.options.backgroundColor))
     this.blending =  colorB > bgB ? 'additive' : 'subtractive'
 
     const geometry = new THREE.BufferGeometry()
