@@ -104,15 +104,15 @@ import BIRDS from './vanta.birds.min.js'
 class MyComponent extends React.Component {
   constructor() {
     super()
-    this.myRef = React.createRef()
+    this.vantaRef = React.createRef()
   }
   componentDidMount() {
-    this.effect = BIRDS({
-      el: this.myRef.current
+    this.vantaEffect = BIRDS({
+      el: this.vantaRef.current
     })
   }
   componentWillUnmount() {
-    if (this.effect) this.effect.destroy()
+    if (this.vantaEffect) this.vantaEffect.destroy()
   }
   render() {
     return <div ref={this.myRef}>
@@ -120,6 +120,25 @@ class MyComponent extends React.Component {
     </div>
   }
 }
+```
+
+## Using THREE from npm 
+
+You can also import `three` from npm 
+
+```js
+import React from 'react'
+import * as THREE from 'three'
+import BIRDS from './vanta.birds.min.js'
+
+...
+  componentDidMount() {
+    this.vantaEffect = BIRDS({
+      el: this.vantaRef.current,
+      THREE: THREE // use a custom THREE when initializing
+    })
+  }
+  
 ```
 
 ## Local dev:
