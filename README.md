@@ -68,12 +68,12 @@ effect.destroy() // e.g. call this in React's componentWillUnmount
 
 ## Usage with React Hooks (requires React 16.8):
 
-Import `vanta.xxxxx.min.js` as follows. Make sure `three.js` or `p5.js` is also included.
+Import `vanta.xxxxx.min.js` as follows. Make sure `three.js` or `p5.js` has already been included via <script> tag.
 
 ```js
 import React, { useState, useEffect, useRef } from 'react'
-import * as THREE from './three.min.js'
 import BIRDS from './vanta.birds.min.js'
+// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
 const MyComponent = (props) => {
   const [vantaEffect, setVantaEffect] = useState(0)
@@ -98,8 +98,8 @@ const MyComponent = (props) => {
 
 ```js
 import React from 'react'
-import * as THREE from './three.min.js'
 import BIRDS from './vanta.birds.min.js'
+// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
 class MyComponent extends React.Component {
   constructor() {
@@ -124,7 +124,7 @@ class MyComponent extends React.Component {
 
 ## Using THREE from npm 
 
-You can also import `three` from npm 
+You can also import `three` from npm, and pass it into the effect constructor.
 
 ```js
 import React from 'react'
