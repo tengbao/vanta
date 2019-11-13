@@ -1,15 +1,16 @@
 import VantaBase from './_base.js'
 import {extend} from './helpers.js'
-
 export {VANTA} from './_base.js'
 
-if (typeof THREE == 'object') {
-  THREE.Color.prototype.toVector = function(){
-    return new THREE.Vector3(this.r, this.g, this.b)
-  }
-}
+const win = typeof window == 'object'
+let THREE = win && window.THREE
+
 export default class ShaderBase extends VantaBase {
   constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    THREE.Color.prototype.toVector = function(){
+      return new THREE.Vector3(this.r, this.g, this.b)
+    }
     super(userOptions)
     this.updateUniforms = this.updateUniforms.bind(this)
   }
