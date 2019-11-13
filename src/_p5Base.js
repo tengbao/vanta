@@ -1,9 +1,11 @@
 import VantaBase from './_base.js'
 import {color2Hex} from './helpers.js'
 export {VANTA} from './_base.js'
+let p5 = (typeof window == 'object') && window.p5
 
 export default class P5Base extends VantaBase {
   constructor(userOptions) {
+    p5 = userOptions.p5 || p5
     super(userOptions)
     this.mode = 'p5'
   }

@@ -122,7 +122,7 @@ class MyComponent extends React.Component {
 }
 ```
 
-## Using THREE from npm 
+## Using THREE from npm
 
 You can also import `three` from npm, and pass it into the effect constructor.
 
@@ -138,7 +138,7 @@ import BIRDS from './vanta.birds.min.js'
       THREE: THREE // use a custom THREE when initializing
     })
   }
-  
+
 ```
 
 ## Local dev:

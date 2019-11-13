@@ -2,7 +2,9 @@
 // https://github.com/kgolid/p5ycho/blob/master/topology/sketch.js
 
 import P5Base, {VANTA} from './_p5Base.js'
-import {rn, ri, mobileCheck, color2Rgb} from './helpers.js'
+import {color2Rgb} from './helpers.js'
+
+let p5 = (typeof window == 'object') && window.p5
 
 class Effect extends P5Base {
   static initClass() {
@@ -10,11 +12,11 @@ class Effect extends P5Base {
     this.prototype.defaultOptions = {
       color: 0x89964e,
       backgroundColor: 0x002222,
-      points: 10,
-      maxDistance: 20,
-      spacing: 15,
-      showDots: true
     }
+  }
+  constructor(userOptions) {
+    p5 = userOptions.p5 || p5
+    super(userOptions)
   }
   onInit() {
     const t = this

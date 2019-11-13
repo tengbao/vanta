@@ -177,6 +177,9 @@ var loadEffect = function(_effectName, loadOptions) {
   } else if (effectName === "TRUNK") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.restart)
     gui.addColor(options, 'color').onFinishChange(effect.restart)
+    gui.add(options, 'spacing', 0, 10).step(0.5)
+    gui.add(options, 'chaos', 0, 10).step(0.5)
+    // gui.add(options, 'speed', 0, 3).step(0.1)
   } else if (effectName === "TOPOLOGY") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.restart)
     gui.addColor(options, 'color').onFinishChange(effect.restart)
