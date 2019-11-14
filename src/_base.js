@@ -1,4 +1,4 @@
-import {extend,mobileCheck,q,color2Hex} from './helpers.js'
+import {extend, mobileCheck, q, color2Hex} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
 const win = typeof window == 'object'
