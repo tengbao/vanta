@@ -104,15 +104,16 @@ VANTA.VantaBase = class VantaBase {
       return
     }
 
-    window.addEventListener('resize', this.resize)
+    const ad = window.addEventListener
+    ad('resize', this.resize)
     this.resize()
     this.animationLoop()
 
     // Add event listeners on window, because this element may be below other elements, which would block the element's own mousemove event
-    window.addEventListener('scroll', this.windowMouseMoveWrapper)
-    window.addEventListener('mousemove', this.windowMouseMoveWrapper)
-    window.addEventListener('touchstart', this.windowTouchWrapper)
-    window.addEventListener('touchmove', this.windowTouchWrapper)
+    ad('scroll', this.windowMouseMoveWrapper)
+    ad('mousemove', this.windowMouseMoveWrapper)
+    ad('touchstart', this.windowTouchWrapper)
+    ad('touchmove', this.windowTouchWrapper)
   }
 
   setOptions(userOptions={}){
@@ -150,8 +151,19 @@ VANTA.VantaBase = class VantaBase {
     this.scene = new THREE.Scene()
   }
 
+  getCanvasElement() {
+    if (this.renderer) {
+      return this.renderer.domElement
+    }
+    if (this.p5renderer) {
+      return this.p5renderer.canvas
+    }
+  }
+
   windowMouseMoveWrapper(e){
-    const rect = this.renderer.domElement.getBoundingClientRect()
+    const canvas = this.getCanvasElement()
+    if (!canvas) return false
+    const rect = canvas.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
@@ -162,7 +174,9 @@ VANTA.VantaBase = class VantaBase {
   }
   windowTouchWrapper(e){
     if (e.touches.length === 1) {
-      const rect = this.renderer.domElement.getBoundingClientRect()
+      const canvas = this.getCanvasElement()
+      if (!canvas) return false
+      const rect = canvas.getBoundingClientRect()
       const x = e.touches[0].clientX - rect.left
       const y = e.touches[0].clientY - rect.top
       if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
@@ -209,7 +223,7 @@ VANTA.VantaBase = class VantaBase {
     typeof this.onResize === "function" ? this.onResize() : void 0
   }
 
-  isOnscreen() {
+  isOnScreen() {
     const elHeight = this.el.offsetHeight
     const elRect = this.el.getBoundingClientRect()
     const scrollTop = (window.pageYOffset ||
@@ -243,7 +257,7 @@ VANTA.VantaBase = class VantaBase {
     }
 
     // Only animate if element is within view
-    if (this.isOnscreen() || this.options.forceAnimate) {
+    if (this.isOnScreen() || this.options.forceAnimate) {
       if (typeof this.onUpdate === "function") {
         this.onUpdate()
       }
@@ -290,12 +304,12 @@ VANTA.VantaBase = class VantaBase {
     if (typeof this.onDestroy === "function") {
       this.onDestroy()
     }
-
-    window.removeEventListener('touchstart', this.windowTouchWrapper)
-    window.removeEventListener('touchmove', this.windowTouchWrapper)
-    window.removeEventListener('scroll', this.windowMouseMoveWrapper)
-    window.removeEventListener('mousemove', this.windowMouseMoveWrapper)
-    window.removeEventListener('resize', this.resize)
+    const rm = window.removeEventListener
+    rm('touchstart', this.windowTouchWrapper)
+    rm('touchmove', this.windowTouchWrapper)
+    rm('scroll', this.windowMouseMoveWrapper)
+    rm('mousemove', this.windowMouseMoveWrapper)
+    rm('resize', this.resize)
 
     window.cancelAnimationFrame(this.req)
     if (this.renderer) {

@@ -4,6 +4,7 @@
 
 * Added ability to use a custom `THREE` build
 * Added example using `create-react-app`
+* Fixed an error with p5 effects expecting a threejs renderer
 
 ## 0.5.3
 
