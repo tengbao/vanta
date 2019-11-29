@@ -8,7 +8,8 @@ const defaultOptions = {
   shininess: 30,
   waveHeight: 15,
   waveSpeed: 1,
-  zoom: 1
+  zoom: 1,
+  disableMouseMove: false,
 }
 
 class Waves extends VantaBase {
@@ -177,6 +178,9 @@ class Waves extends VantaBase {
   }
 
   onMouseMove(x,y) {
+    if(this.options.disableMouseMove) {
+      return
+    }
     const c = this.camera;
     if (!c.oy) {
       c.oy = c.position.y;

@@ -101,6 +101,7 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.add(options, 'waveHeight', 0, 40).step(0.5)
     gui.add(options, 'waveSpeed', 0, 2).step(0.05)
     gui.add(options, 'zoom', 0.65, 1.75)
+    gui.add(options, 'disableMouseMove').onFinishChange(effect.restart)
   } else if (effectName === "RINGS") {
     gui.addColor(options, 'color').onFinishChange(effect.restart)
     gui.addColor(options, 'backgroundColor')
