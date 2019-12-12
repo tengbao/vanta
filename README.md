@@ -122,6 +122,33 @@ class MyComponent extends React.Component {
 }
 ```
 
+## Usage with Vue.js
+
+Install vanta.js and three.js using npm.
+```
+npm install --save three tengbao/venta
+```
+
+Go to the component where you want to include vanta.js . Import both libaries using `import` and initialize the effect in the mounted lifecycle hook. Instead of binding three.js to the window, use the custom three.js option. You can replace `NET` with any other effect. 
+
+```js
+<script>
+import NET from "vanta/src/vanta.net";
+import * as THREE from "three";
+
+export default {
+  name: "vanta-example",
+  mounted() {
+    NET({
+      el: "#my-background",
+      THREE: THREE
+    });
+  }
+};
+</script>
+```
+
+
 ## Using THREE from npm
 
 You can also import `three` from npm, and pass it into the effect constructor.
