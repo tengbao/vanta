@@ -115,7 +115,7 @@ class MyComponent extends React.Component {
     if (this.vantaEffect) this.vantaEffect.destroy()
   }
   render() {
-    return <div ref={this.myRef}>
+    return <div ref={this.vantaRef}>
       Foreground content goes here
     </div>
   }
