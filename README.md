@@ -121,6 +121,7 @@ class MyComponent extends React.Component {
   }
 }
 ```
+[View fiddle &rarr;](https://jsfiddle.net/tsrwxzyL/2/)
 
 ## Using THREE from npm
 
