@@ -1,3 +1,5 @@
-node_modules
-inspiration
-temp
+node_modules/
+inspiration/
+temp/
+gallery/
+index.html
