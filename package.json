@@ -23,7 +23,7 @@
     "webgl"
   ],
   "author": "Teng Bao",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "glslify": "^6.1.0",
     "glslify-loader": "^2.0.0",
