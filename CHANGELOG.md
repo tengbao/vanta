@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.6
+
+* Removed gallery code from `master` branch, added to new `gallery` branch
+
 ## 0.5.5
 
 * Added ability to disable mouse/touch controls
