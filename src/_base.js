@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.4'
+VANTA.version = '0.5.5'
 
 export {VANTA}
 
@@ -47,7 +47,12 @@ VANTA.VantaBase = class VantaBase {
     this.resize = this.resize.bind(this)
     this.animationLoop = this.animationLoop.bind(this)
     this.restart = this.restart.bind(this)
-    this.options = extend({}, this.defaultOptions)
+    this.options = extend({
+      mouseControls: true,
+      touchControls: true,
+      minHeight: 200,
+      minWidth: 200,
+    }, this.defaultOptions)
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
       userOptions = {el: userOptions}
     }
@@ -110,10 +115,14 @@ VANTA.VantaBase = class VantaBase {
     this.animationLoop()
 
     // Add event listeners on window, because this element may be below other elements, which would block the element's own mousemove event
-    ad('scroll', this.windowMouseMoveWrapper)
-    ad('mousemove', this.windowMouseMoveWrapper)
-    ad('touchstart', this.windowTouchWrapper)
-    ad('touchmove', this.windowTouchWrapper)
+    if (this.options.mouseControls) {
+      ad('scroll', this.windowMouseMoveWrapper)
+      ad('mousemove', this.windowMouseMoveWrapper)
+    }
+    if (this.options.touchControls) {
+      ad('touchstart', this.windowTouchWrapper)
+      ad('touchmove', this.windowTouchWrapper)
+    }
   }
 
   setOptions(userOptions={}){
@@ -204,8 +213,8 @@ VANTA.VantaBase = class VantaBase {
     } else if (this.options.scale) {
       this.scale = this.options.scale
     }
-    this.width = this.el.offsetWidth || window.innerWidth
-    this.height = this.el.offsetHeight || window.innerHeight
+    this.width = Math.max(this.el.offsetWidth, this.options.minWidth)
+    this.height = Math.max(this.el.offsetHeight, this.options.minHeight)
   }
 
   resize() {

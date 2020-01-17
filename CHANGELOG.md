@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.5
+
+* Fixed an issue with default height/width when the parent container (`el` param) has zero height
+* Added ability to disable mouse/touch controls
+
 ## 0.5.4
 
 * Added ability to use a custom `THREE` build

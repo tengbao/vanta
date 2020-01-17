@@ -1,6 +1,6 @@
 {
   "name": "vanta",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "3D animated backgrounds for your website",
   "main": "dist/vanta.js",
   "scripts": {
