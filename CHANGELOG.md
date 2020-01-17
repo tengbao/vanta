@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.8
+
+* Initial publish on npm
+* Fixed wrong method name in readme
+
 ## 0.5.7
 
 * Removed gallery code from `master` branch, added to new `gallery` branch
