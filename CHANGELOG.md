@@ -2,8 +2,9 @@
 
 ## 0.5.5
 
-* Fixed an issue with default height/width when the parent container (`el` param) has zero height
 * Added ability to disable mouse/touch controls
+* Fixed an issue with default height/width when the parent container (`el` param) has zero height
+* Fixed an issue with text nodes of `el`
 
 ## 0.5.4
 
