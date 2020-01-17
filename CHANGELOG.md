@@ -1,12 +1,17 @@
 # Vanta.js changelog
 
-## 0.5.6
+## 0.5.7
 
 * Removed gallery code from `master` branch, added to new `gallery` branch
+* Fixed an issue that prevented `birds` from being properly compiled in certain projects
+
+## 0.5.6
+
+* Added ability to disable mouse/touch controls
+* Added ability to set custom scale
 
 ## 0.5.5
 
-* Added ability to disable mouse/touch controls
 * Fixed an issue with default height/width when the parent container (`el` param) has zero height
 * Fixed an issue with text nodes of `el`
 

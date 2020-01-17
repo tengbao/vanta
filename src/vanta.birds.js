@@ -14,231 +14,302 @@ let BIRDS = WIDTH * WIDTH
 const BOUNDS = 800
 const BOUNDS_HALF = BOUNDS / 2
 
-// Non-GPGPU geometry
-var Bird = function (options={}) {
-	var scope = this
-	THREE.Geometry.call( this )
-	v(   5,   0,   0 )
-	v( - 5, - 1,   1 )
-	v( - 5,   0,   0 )
-	v( - 5, - 2, - 1 )
-	v(   0,   2, - 6 )
-	v(   0,   2,   6 )
-	v(   2,   0,   0 )
-	v( - 3,   0,   0 )
+let Bird, Boid
+const ATTACH_CLASSES = function(THREE) {
+  // Non-GPGPU geometry
+  Bird = function (options={}) {
+    var scope = this
+    THREE.Geometry.call( this )
+    v(   5,   0,   0 )
+    v( - 5, - 1,   1 )
+    v( - 5,   0,   0 )
+    v( - 5, - 2, - 1 )
+    v(   0,   2, - 6 )
+    v(   0,   2,   6 )
+    v(   2,   0,   0 )
+    v( - 3,   0,   0 )
 
-	f3( 0, 2, 1 )
-	// f3( 0, 3, 2 )
-	f3( 4, 7, 6 )
-	f3( 5, 6, 7 )
-	// this.computeCentroids()
-	this.computeFaceNormals()
-	function v( x, y, z ) {
-    const s = 1.5 * (options.birdSize || 1)
-		scope.vertices.push( new THREE.Vector3( x*s, y*s, z*s ) )
-	}
-	function f3( a, b, c ) {
-		scope.faces.push( new THREE.Face3( a, b, c ) )
-	}
-}
-Bird.prototype = Object.create( THREE.Geometry.prototype )
-
-// Based on http://www.openprocessing.org/visuals/?visualID=6910
-var Boid = function(options) {
-  var vector = new THREE.Vector3(),
-  _acceleration,
-  _width = 500,
-  _height = 500,
-  _depth = 200, _goal,
-  _neighborhoodRadius = 100,
-  _maxSpeed = 2.5,
-  _maxSteerForce = 0.1,
-  _avoidWalls = true;
-
-  var _options = options
-
-  this.position = new THREE.Vector3()
-  this.velocity = new THREE.Vector3()
-  _acceleration = new THREE.Vector3()
-
-  this.setGoal = function ( target ) {
-    _goal = target;
-  }
-
-  // this.setAvoidWalls = function ( value ) {
-  //   _avoidWalls = value;
-  // }
-
-  this.setWorldSize = function ( width, height, depth ) {
-    _width = width;
-    _height = height;vector
-    _depth = depth;
-  }
-
-  this.run = function ( boids ) {
-    if ( _avoidWalls ) {
-      vector.set( - _width, this.position.y, this.position.z )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-
-      vector.set( _width, this.position.y, this.position.z )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-
-      vector.set( this.position.x, - _height, this.position.z )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-
-      vector.set( this.position.x, _height, this.position.z )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-
-      vector.set( this.position.x, this.position.y, - _depth )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-
-      vector.set( this.position.x, this.position.y, _depth )
-      vector = this.avoid( vector )
-      vector.multiplyScalar( 5 )
-      _acceleration.add( vector )
-    }/* else {
-      this.checkBounds();
-    }*/
-
-    if ( Math.random() > 0.5 ) {
-      this.flock( boids )
+    f3( 0, 2, 1 )
+    // f3( 0, 3, 2 )
+    f3( 4, 7, 6 )
+    f3( 5, 6, 7 )
+    // this.computeCentroids()
+    this.computeFaceNormals()
+    function v( x, y, z ) {
+      const s = 1.5 * (options.birdSize || 1)
+      scope.vertices.push( new THREE.Vector3( x*s, y*s, z*s ) )
     }
-    this.move()
-  }
-
-  this.flock = function ( boids ) {
-    if ( _goal ) {
-      _acceleration.add( this.reach( _goal, 0.005 ) )
+    function f3( a, b, c ) {
+      scope.faces.push( new THREE.Face3( a, b, c ) )
     }
-    _acceleration.add( this.alignment( boids ) )
-    _acceleration.add( this.cohesion( boids ) )
-    _acceleration.add( this.separation( boids ) )
   }
+  Bird.prototype = Object.create( THREE.Geometry.prototype )
 
-  this.move = function () {
-    this.velocity.add( _acceleration )
-    var l = this.velocity.length()
-    if ( l > _maxSpeed ) {
-      this.velocity.divideScalar( l / _maxSpeed )
+  // Based on http://www.openprocessing.org/visuals/?visualID=6910
+  Boid = function(options) {
+    var vector = new THREE.Vector3(),
+    _acceleration,
+    _width = 500,
+    _height = 500,
+    _depth = 200, _goal,
+    _neighborhoodRadius = 100,
+    _maxSpeed = 2.5,
+    _maxSteerForce = 0.1,
+    _avoidWalls = true;
+
+    var _options = options
+
+    this.position = new THREE.Vector3()
+    this.velocity = new THREE.Vector3()
+    _acceleration = new THREE.Vector3()
+
+    this.setGoal = function ( target ) {
+      _goal = target;
     }
-    this.position.add( this.velocity )
-    _acceleration.set( 0, 0, 0 )
-  }
 
-  this.checkBounds = function () {
-    if ( this.position.x >   _width ) this.position.x = - _width;
-    if ( this.position.x < - _width ) this.position.x =   _width;
-    if ( this.position.y >   _height ) this.position.y = - _height;
-    if ( this.position.y < - _height ) this.position.y =  _height;
-    if ( this.position.z >  _depth ) this.position.z = - _depth;
-    if ( this.position.z < - _depth ) this.position.z =  _depth;
-  }
+    // this.setAvoidWalls = function ( value ) {
+    //   _avoidWalls = value;
+    // }
 
-  this.avoid = function ( target ) {
-    var steer = new THREE.Vector3()
-    steer.copy( this.position )
-    steer.sub( target )
-    steer.multiplyScalar( 1 / this.position.distanceToSquared( target ) )
-    return steer
-  }
+    this.setWorldSize = function ( width, height, depth ) {
+      _width = width;
+      _height = height;vector
+      _depth = depth;
+    }
 
-  this.repulse = function ( target ) {
-    var distance = this.position.distanceTo( target )
-    if ( distance < 150 ) {
+    this.run = function ( boids ) {
+      if ( _avoidWalls ) {
+        vector.set( - _width, this.position.y, this.position.z )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+
+        vector.set( _width, this.position.y, this.position.z )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+
+        vector.set( this.position.x, - _height, this.position.z )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+
+        vector.set( this.position.x, _height, this.position.z )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+
+        vector.set( this.position.x, this.position.y, - _depth )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+
+        vector.set( this.position.x, this.position.y, _depth )
+        vector = this.avoid( vector )
+        vector.multiplyScalar( 5 )
+        _acceleration.add( vector )
+      }/* else {
+        this.checkBounds();
+      }*/
+
+      if ( Math.random() > 0.5 ) {
+        this.flock( boids )
+      }
+      this.move()
+    }
+
+    this.flock = function ( boids ) {
+      if ( _goal ) {
+        _acceleration.add( this.reach( _goal, 0.005 ) )
+      }
+      _acceleration.add( this.alignment( boids ) )
+      _acceleration.add( this.cohesion( boids ) )
+      _acceleration.add( this.separation( boids ) )
+    }
+
+    this.move = function () {
+      this.velocity.add( _acceleration )
+      var l = this.velocity.length()
+      if ( l > _maxSpeed ) {
+        this.velocity.divideScalar( l / _maxSpeed )
+      }
+      this.position.add( this.velocity )
+      _acceleration.set( 0, 0, 0 )
+    }
+
+    this.checkBounds = function () {
+      if ( this.position.x >   _width ) this.position.x = - _width;
+      if ( this.position.x < - _width ) this.position.x =   _width;
+      if ( this.position.y >   _height ) this.position.y = - _height;
+      if ( this.position.y < - _height ) this.position.y =  _height;
+      if ( this.position.z >  _depth ) this.position.z = - _depth;
+      if ( this.position.z < - _depth ) this.position.z =  _depth;
+    }
+
+    this.avoid = function ( target ) {
       var steer = new THREE.Vector3()
-      steer.subVectors( this.position, target )
-      steer.multiplyScalar( 0.5 / distance )
-      _acceleration.add( steer )
+      steer.copy( this.position )
+      steer.sub( target )
+      steer.multiplyScalar( 1 / this.position.distanceToSquared( target ) )
+      return steer
     }
-  }
 
-  this.reach = function ( target, amount ) {
-    var steer = new THREE.Vector3()
-    steer.subVectors( target, this.position )
-    steer.multiplyScalar( amount )
-    return steer
-  }
-
-  this.alignment = function ( boids ) {
-    var boid, velSum = new THREE.Vector3(), count = 0, distance
-    const radius = _neighborhoodRadius * _options.alignment/20
-    for ( var i = 0, il = boids.length; i < il; i++ ) {
-      if ( Math.random() > 0.6 ) continue
-      boid = boids[ i ]
-      distance = boid.position.distanceTo( this.position )
-      if ( distance > 0 && distance <= radius ) {
-        velSum.add( boid.velocity )
-        count++
+    this.repulse = function ( target ) {
+      var distance = this.position.distanceTo( target )
+      if ( distance < 150 ) {
+        var steer = new THREE.Vector3()
+        steer.subVectors( this.position, target )
+        steer.multiplyScalar( 0.5 / distance )
+        _acceleration.add( steer )
       }
     }
-    if ( count > 0 ) {
-      velSum.divideScalar( count )
-      var l = velSum.length()
-      if ( l > _maxSteerForce ) {
-        velSum.divideScalar( l / _maxSteerForce )
+
+    this.reach = function ( target, amount ) {
+      var steer = new THREE.Vector3()
+      steer.subVectors( target, this.position )
+      steer.multiplyScalar( amount )
+      return steer
+    }
+
+    this.alignment = function ( boids ) {
+      var boid, velSum = new THREE.Vector3(), count = 0, distance
+      const radius = _neighborhoodRadius * _options.alignment/20
+      for ( var i = 0, il = boids.length; i < il; i++ ) {
+        if ( Math.random() > 0.6 ) continue
+        boid = boids[ i ]
+        distance = boid.position.distanceTo( this.position )
+        if ( distance > 0 && distance <= radius ) {
+          velSum.add( boid.velocity )
+          count++
+        }
       }
-    }
-    return velSum
-  }
-
-  this.cohesion = function ( boids ) {
-    var boid, distance,
-    posSum = new THREE.Vector3(),
-    steer = new THREE.Vector3(),
-    count = 0
-    const radius = _neighborhoodRadius * _options.cohesion/20
-
-    for ( var i = 0, il = boids.length; i < il; i ++ ) {
-      if ( Math.random() > 0.6 ) continue
-      boid = boids[ i ]
-      distance = boid.position.distanceTo( this.position )
-
-      if ( distance > 0 && distance <= radius ) {
-        posSum.add( boid.position )
-        count++
+      if ( count > 0 ) {
+        velSum.divideScalar( count )
+        var l = velSum.length()
+        if ( l > _maxSteerForce ) {
+          velSum.divideScalar( l / _maxSteerForce )
+        }
       }
+      return velSum
     }
-    if ( count > 0 ) {
-      posSum.divideScalar( count )
-    }
-    steer.subVectors( posSum, this.position )
-    var l = steer.length()
-    if ( l > _maxSteerForce ) {
-      steer.divideScalar( l / _maxSteerForce )
-    }
-    return steer
-  }
 
-  this.separation = function ( boids ) {
-    var boid, distance,
+    this.cohesion = function ( boids ) {
+      var boid, distance,
       posSum = new THREE.Vector3(),
-      repulse = new THREE.Vector3()
-    const radius = _neighborhoodRadius * _options.separation/20
+      steer = new THREE.Vector3(),
+      count = 0
+      const radius = _neighborhoodRadius * _options.cohesion/20
 
-    for ( var i = 0, il = boids.length; i < il; i ++ ) {
-      if ( Math.random() > 0.6 ) continue
-      boid = boids[ i ]
-      distance = boid.position.distanceTo( this.position )
-      if ( distance > 0 && distance <= radius ) {
-        repulse.subVectors( this.position, boid.position )
-        repulse.normalize()
-        repulse.divideScalar( distance )
-        posSum.add( repulse )
+      for ( var i = 0, il = boids.length; i < il; i ++ ) {
+        if ( Math.random() > 0.6 ) continue
+        boid = boids[ i ]
+        distance = boid.position.distanceTo( this.position )
+
+        if ( distance > 0 && distance <= radius ) {
+          posSum.add( boid.position )
+          count++
+        }
+      }
+      if ( count > 0 ) {
+        posSum.divideScalar( count )
+      }
+      steer.subVectors( posSum, this.position )
+      var l = steer.length()
+      if ( l > _maxSteerForce ) {
+        steer.divideScalar( l / _maxSteerForce )
+      }
+      return steer
+    }
+
+    this.separation = function ( boids ) {
+      var boid, distance,
+        posSum = new THREE.Vector3(),
+        repulse = new THREE.Vector3()
+      const radius = _neighborhoodRadius * _options.separation/20
+
+      for ( var i = 0, il = boids.length; i < il; i ++ ) {
+        if ( Math.random() > 0.6 ) continue
+        boid = boids[ i ]
+        distance = boid.position.distanceTo( this.position )
+        if ( distance > 0 && distance <= radius ) {
+          repulse.subVectors( this.position, boid.position )
+          repulse.normalize()
+          repulse.divideScalar( distance )
+          posSum.add( repulse )
+        }
+      }
+      return posSum
+    }
+  }
+
+  THREE.BirdGeometry = function(options) {
+    if (options.quantity) {
+      WIDTH = Math.pow(2, options.quantity)
+      BIRDS = WIDTH * WIDTH
+    }
+    const triangles = BIRDS * 3
+    const points = triangles * 3
+
+    THREE.BufferGeometry.call(this)
+    const vertices = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
+    const birdColors = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
+    const references = new THREE.BufferAttribute(new Float32Array(points * 2), 2)
+    const birdVertex = new THREE.BufferAttribute(new Float32Array(points), 1)
+    this.addAttribute('position', vertices)
+    this.addAttribute('birdColor', birdColors)
+    this.addAttribute('reference', references)
+    this.addAttribute('birdVertex', birdVertex)
+    // this.addAttribute( 'normal', new Float32Array( points * 3 ), 3 )
+
+    let v = 0
+    const verts_push = function() {
+      for (let i=0; i<arguments.length; i++) {
+        vertices.array[v++] = arguments[i]
       }
     }
-    return posSum
+
+    const wingSpan = options.wingSpan || 20
+    const s = options.birdSize || 1
+
+    for (let f=0; f<BIRDS; f++) {
+      verts_push(0, -0, -20*s, 0, 4*s, -20*s, 0, 0, 30*s) // Body
+      verts_push(0, 0, -15*s, -wingSpan*s, 0, 0, 0, 0, 15*s) // Left Wing
+      verts_push(0, 0, 15*s, wingSpan*s, 0, 0, 0, 0, -15*s) // Right Wing
+    }
+
+    const colorCache = {}
+
+    for (v=0; v<triangles*3; v++) {
+      const i = ~~(v / 3)
+      const x = (i % WIDTH) / WIDTH
+      const y = ~~(i / WIDTH) / WIDTH
+      const order = ~~(v / 9) / BIRDS
+      const key = order.toString()
+      const gradient = options.colorMode.indexOf('Gradient') != -1
+      let c
+      if (!gradient && colorCache[key]) {
+        c = colorCache[key]
+      } else {
+        c = options.effect.getNewCol(order)
+      }
+      if (!gradient && !colorCache[key]) {
+        colorCache[key] = c
+      }
+
+      birdColors.array[(v * 3) + 0] = c.r
+      birdColors.array[(v * 3) + 1] = c.g
+      birdColors.array[(v * 3) + 2] = c.b
+      references.array[v * 2] = x
+      references.array[(v * 2) + 1] = y
+      birdVertex.array[v] = v % 9
+    }
+    return this.scale(0.2, 0.2, 0.2)
   }
+
+  THREE.BirdGeometry.prototype = Object.create(THREE.BufferGeometry.prototype)
 }
+
+
 
 const fragmentShaderPosition = `\
 uniform float time;
@@ -520,72 +591,6 @@ const fillVelocityTexture = function(texture) {
   })()
 }
 
-THREE.BirdGeometry = function(options) {
-  if (options.quantity) {
-    WIDTH = Math.pow(2, options.quantity)
-    BIRDS = WIDTH * WIDTH
-  }
-  const triangles = BIRDS * 3
-  const points = triangles * 3
-
-  THREE.BufferGeometry.call(this)
-  const vertices = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
-  const birdColors = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
-  const references = new THREE.BufferAttribute(new Float32Array(points * 2), 2)
-  const birdVertex = new THREE.BufferAttribute(new Float32Array(points), 1)
-  this.addAttribute('position', vertices)
-  this.addAttribute('birdColor', birdColors)
-  this.addAttribute('reference', references)
-  this.addAttribute('birdVertex', birdVertex)
-  // this.addAttribute( 'normal', new Float32Array( points * 3 ), 3 )
-
-  let v = 0
-  const verts_push = function() {
-    for (let i=0; i<arguments.length; i++) {
-      vertices.array[v++] = arguments[i]
-    }
-  }
-
-  const wingSpan = options.wingSpan || 20
-  const s = options.birdSize || 1
-
-  for (let f=0; f<BIRDS; f++) {
-    verts_push(0, -0, -20*s, 0, 4*s, -20*s, 0, 0, 30*s) // Body
-    verts_push(0, 0, -15*s, -wingSpan*s, 0, 0, 0, 0, 15*s) // Left Wing
-    verts_push(0, 0, 15*s, wingSpan*s, 0, 0, 0, 0, -15*s) // Right Wing
-  }
-
-  const colorCache = {}
-
-  for (v=0; v<triangles*3; v++) {
-    const i = ~~(v / 3)
-    const x = (i % WIDTH) / WIDTH
-    const y = ~~(i / WIDTH) / WIDTH
-    const order = ~~(v / 9) / BIRDS
-    const key = order.toString()
-    const gradient = options.colorMode.indexOf('Gradient') != -1
-    let c
-    if (!gradient && colorCache[key]) {
-      c = colorCache[key]
-    } else {
-      c = options.effect.getNewCol(order)
-    }
-    if (!gradient && !colorCache[key]) {
-      colorCache[key] = c
-    }
-
-    birdColors.array[(v * 3) + 0] = c.r
-    birdColors.array[(v * 3) + 1] = c.g
-    birdColors.array[(v * 3) + 2] = c.b
-    references.array[v * 2] = x
-    references.array[(v * 2) + 1] = y
-    birdVertex.array[v] = v % 9
-  }
-  return this.scale(0.2, 0.2, 0.2)
-}
-
-THREE.BirdGeometry.prototype = Object.create(THREE.BufferGeometry.prototype)
-
 class Birds extends VantaBase {
   static initClass() {
     this.prototype.defaultOptions = {
@@ -606,6 +611,7 @@ class Birds extends VantaBase {
 
   constructor(userOptions) {
     THREE = userOptions.THREE || THREE
+    ATTACH_CLASSES(THREE)
     super(userOptions)
   }
 

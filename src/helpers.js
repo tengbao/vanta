@@ -10,7 +10,10 @@ export function extend(a, b) {
 }
 
 export function mobileCheck(){
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600
+  if (typeof navigator !== 'undefined') {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600
+  }
+  return null
 }
 export const sample = items => items[Math.floor(Math.random()*items.length)]
 

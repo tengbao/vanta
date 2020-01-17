@@ -1,8 +1,8 @@
 {
   "name": "vanta",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "3D animated backgrounds for your website",
-  "main": "dist/vanta.js",
+  "main": "src/_base.js",
   "scripts": {
     "build": "node ./webpack.build.js && lessc src/styles.less gallery/styles.css",
     "watch": "npm run build && chokidar \"src/*.*\" \"webpack.config.js\" -c \"npm run build\"",

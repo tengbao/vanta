@@ -89,7 +89,7 @@
  * // And compute each frame, before rendering to screen:
  * gpuCompute.doRenderTarget( myFilter1, myRenderTarget );
  * gpuCompute.doRenderTarget( myFilter2, outputRenderTarget );
- * 
+ *
  *
  *
  * @param {int} sizeX Computation problem size is always 2d: sizeX * sizeY elements.
@@ -137,7 +137,7 @@ export default function GPUComputationRenderer( sizeX, sizeY, renderer ) {
 		this.variables.push( variable );
 
 		return variable;
-		
+
 	};
 
 	this.setVariableDependencies = function( variable, dependencies ) {
@@ -291,13 +291,14 @@ export default function GPUComputationRenderer( sizeX, sizeY, renderer ) {
 		minFilter = minFilter || THREE.NearestFilter;
 		magFilter = magFilter || THREE.NearestFilter;
 
+		var navigatorUserAgent = (typeof navigator !== 'undefined') ? navigator.userAgent : ''
 		var renderTarget = new THREE.WebGLRenderTarget( sizeXTexture, sizeYTexture, {
 			wrapS: wrapS,
 			wrapT: wrapT,
 			minFilter: minFilter,
 			magFilter: magFilter,
 			format: THREE.RGBAFormat,
-			type: ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) ? THREE.HalfFloatType : THREE.FloatType,
+			type: ( /(iPad|iPhone|iPod)/g.test( navigatorUserAgent ) ) ? THREE.HalfFloatType : THREE.FloatType,
 			stencilBuffer: false
 		} );
 
