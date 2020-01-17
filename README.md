@@ -43,9 +43,13 @@ VANTA.WAVES({
 })
 ```
 
-**Params:**
+## All Parameters:
 
 **el:** The container element. The Vanta canvas will be appended as a child of this element, and will assume the width and height of this element. If you want a fullscreen canvas, make sure this container element is fullscreen. Note: This container *can* have other children. The other children will appear as foreground content, in front of the Vanta canvas.
+
+**mouseControls:** (defaults to *true*) Set to false to disable mouse controls.
+
+**touchControls:** (defaults to *true*) Set to false to disable touch controls.
 
 **Other params:** Each effect has different parameters. Explore them all!
 
