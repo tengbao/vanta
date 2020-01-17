@@ -52,6 +52,8 @@ VANTA.VantaBase = class VantaBase {
       touchControls: true,
       minHeight: 200,
       minWidth: 200,
+      scale: 1,
+      scaleMobile: 1,
     }, this.defaultOptions)
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
       userOptions = {el: userOptions}
@@ -75,22 +77,7 @@ VANTA.VantaBase = class VantaBase {
       }
     }
 
-    // Set foreground elements
-    let i, child
-    for (i = 0; i < this.el.children.length; i++) {
-      child = this.el.children[i]
-      if (getComputedStyle(child).position === 'static') {
-        child.style.position = 'relative'
-      }
-      if (getComputedStyle(child).zIndex === 'auto') {
-        child.style.zIndex = 1
-      }
-    }
-    // Set canvas and container style
-    if (getComputedStyle(this.el).position === 'static') {
-      this.el.style.position = 'relative'
-    }
-
+    this.prepareEl()
     this.initThree()
     this.setSize() // Init needs size
 
@@ -127,6 +114,36 @@ VANTA.VantaBase = class VantaBase {
 
   setOptions(userOptions={}){
     extend(this.options, userOptions)
+  }
+
+  prepareEl() {
+    let i, child
+    // wrapInner for text nodes
+    if (typeof Node !== 'undefined' && Node.TEXT_NODE) {
+      for (i = 0; i < this.el.childNodes.length; i++) {
+        const n = this.el.childNodes[i]
+        if (n.nodeType === Node.TEXT_NODE) {
+          const s = document.createElement('span')
+          s.textContent = n.textContent
+          n.parentElement.insertBefore(s, n)
+          n.remove()
+        }
+      }
+    }
+    // Set foreground elements
+    for (i = 0; i < this.el.children.length; i++) {
+      child = this.el.children[i]
+      if (getComputedStyle(child).position === 'static') {
+        child.style.position = 'relative'
+      }
+      if (getComputedStyle(child).zIndex === 'auto') {
+        child.style.zIndex = 1
+      }
+    }
+    // Set canvas and container style
+    if (getComputedStyle(this.el).position === 'static') {
+      this.el.style.position = 'relative'
+    }
   }
 
   applyCanvasStyles(canvasEl, opts={}){
