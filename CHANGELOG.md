@@ -1,6 +1,6 @@
 # Vanta.js changelog
 
-## 0.5.9
+## 0.5.10
 
 * Update readme for npm
 * Added `showLines` option for `dots` effect
