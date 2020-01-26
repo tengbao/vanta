@@ -52,7 +52,7 @@ float fworley(vec2 p) {
     return sqrt(sqrt(sqrt(
     1.1 * // light
     worley(p*5. + .3 + iTime*.0525) *
-    sqrt(worley(p * 50. / size + 0.3 + itime * -0.15)) *
+    sqrt(worley(p * 50. / size + 0.3 + iTime * -0.15)) *
     sqrt(sqrt(worley(p * -10. + 9.3))))));
 }
 
