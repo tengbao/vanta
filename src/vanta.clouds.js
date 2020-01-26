@@ -18,10 +18,10 @@ Effect.prototype.defaultOptions = {
 }
 
 Effect.prototype.fragmentShader = `\
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
-uniform sampler2D u_tex;
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+uniform float iTime;
+uniform sampler2D iTex;
 
 uniform float speed;
 uniform vec3 skyColor;
@@ -57,7 +57,7 @@ float noise( vec3 x ){
 vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
 float constantTime = 1000.;
 float map5( in vec3 p ){
-    vec3 q = p - speed1*(u_time + constantTime);
+    vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
     f += 0.25000*noise( q ); q = q*2.03;
@@ -67,7 +67,7 @@ float map5( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map4( in vec3 p ){
-    vec3 q = p - speed1*(u_time + constantTime);
+    vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
     f += 0.25000*noise( q ); q = q*2.03;
@@ -76,7 +76,7 @@ float map4( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map3( in vec3 p ){
-    vec3 q = p - speed1*(u_time + constantTime);
+    vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
     f += 0.25000*noise( q ); q = q*2.03;
@@ -84,7 +84,7 @@ float map3( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map2( in vec3 p ){
-    vec3 q = p - speed1*(u_time + constantTime);
+    vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
     f += 0.25000*noise( q );
@@ -145,13 +145,13 @@ vec4 render( in vec3 ro, in vec3 rd, in ivec2 px ){
 }
 
 void main(){
-    vec2 p = (-u_resolution.xy + 2.0*gl_FragCoord.xy)/ u_resolution.y;
+    vec2 p = (-iResolution.xy + 2.0*gl_FragCoord.xy)/ iResolution.y;
 
-    vec2 m = u_mouse.xy/u_resolution.xy;
+    vec2 m = iMouse.xy/iResolution.xy;
     m.y = (1.0 - m.y) * 0.33 + 0.28; // camera height
 
     m.x *= 0.25;
-    m.x += sin(u_time * 0.1 + 3.1415) * 0.25 + 0.25;
+    m.x += sin(iTime * 0.1 + 3.1415) * 0.25 + 0.25;
 
     // camera
     vec3 ro = 4.0*normalize(vec3(sin(3.0*m.x), 0.4*m.y, cos(3.0*m.x))); // origin

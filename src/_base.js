@@ -47,6 +47,8 @@ VANTA.VantaBase = class VantaBase {
     this.resize = this.resize.bind(this)
     this.animationLoop = this.animationLoop.bind(this)
     this.restart = this.restart.bind(this)
+
+    const defaultOptions = (typeof this.getDefaultOptions === 'function') ? this.getDefaultOptions() : this.defaultOptions
     this.options = extend({
       mouseControls: true,
       touchControls: true,
@@ -54,7 +56,8 @@ VANTA.VantaBase = class VantaBase {
       minWidth: 200,
       scale: 1,
       scaleMobile: 1,
-    }, this.defaultOptions)
+    }, defaultOptions)
+
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
       userOptions = {el: userOptions}
     }
@@ -217,8 +220,8 @@ VANTA.VantaBase = class VantaBase {
 
   triggerMouseMove(x, y) {
     if (this.uniforms) {
-      this.uniforms.u_mouse.value.x = x / this.scale // pixel values
-      this.uniforms.u_mouse.value.y = y / this.scale // pixel values
+      this.uniforms.iMouse.value.x = x / this.scale // pixel values
+      this.uniforms.iMouse.value.y = y / this.scale // pixel values
     }
     const xNorm = x / this.width // 0 to 1
     const yNorm = y / this.height // 0 to 1
@@ -271,7 +274,7 @@ VANTA.VantaBase = class VantaBase {
     this.t2 || (this.t2 = 0)
     this.t2 += (this.options.speed || 1)
     if (this.uniforms) {
-      this.uniforms.u_time.value = this.t2 * 0.016667 // u_time is in seconds
+      this.uniforms.iTime.value = this.t2 * 0.016667 // u_time is in seconds
     }
 
     if (this.options.mouseEase) {
