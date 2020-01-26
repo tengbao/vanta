@@ -98,6 +98,8 @@ VANTA.VantaBase = class VantaBase {
 
     const ad = window.addEventListener
     ad('resize', this.resize)
+    window.requestAnimationFrame(this.resize) // Force a resize after the first frame
+
     this.resize()
     this.animationLoop()
 
@@ -291,9 +293,10 @@ VANTA.VantaBase = class VantaBase {
         this.renderer.render(this.scene, this.camera)
         this.renderer.setClearColor(this.options.backgroundColor, this.options.backgroundAlpha)
       }
-      // @stats?.update()
-      // @renderStats?.update(@renderer)
-      if (this.fps && this.fps.update) this.fps.update()
+      // if (this.stats) this.stats.update()
+      // if (this.renderStats) this.renderStats.update(this.renderer)
+      // if (this.fps && this.fps.update) this.fps.update()
+      // if (typeof this.afterRender === "function") this.afterRender()
     }
     return this.req = window.requestAnimationFrame(this.animationLoop)
   }
