@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.11
+
+* Fix resize issue for react
+
 ## 0.5.10
 
 * Update readme for npm
