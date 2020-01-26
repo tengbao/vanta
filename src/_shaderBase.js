@@ -27,7 +27,7 @@ export default class ShaderBase extends VantaBase {
       },
       iDpr: {
         type: "f",
-        value: window.devicePixelRatio
+        value: window.devicePixelRatio || 1
       },
       iMouse: {
         type: "v2",
@@ -58,7 +58,7 @@ export default class ShaderBase extends VantaBase {
     })
     const texPath = this.options.texturePath
     if (texPath) {
-      this.uniforms.uTex = {
+      this.uniforms.iTex = {
         type: "t",
         value: new THREE.TextureLoader().load(texPath)
       }
