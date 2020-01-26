@@ -27,7 +27,7 @@ export default class ShaderBase extends VantaBase {
       },
       iDpr: {
         type: "f",
-        value: window.devicePixelRatio
+        value: window.devicePixelRatio || 1
       },
       iMouse: {
         type: "v2",
