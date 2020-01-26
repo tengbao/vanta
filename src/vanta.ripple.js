@@ -15,9 +15,9 @@ Effect.prototype.defaultOptions = {
 }
 
 Effect.prototype.fragmentShader = `\
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+uniform float iTime;
 
 uniform float blurFactor;
 uniform vec3 color1;
@@ -30,8 +30,8 @@ uniform float rotationFactor;
 float size = 0.002;
 
 void main( void ) {
-    vec2 view = ( gl_FragCoord.xy - u_resolution / 2.0 ) / ( u_resolution.y / 2.0);
-    float time = - u_time + length(view)*8. - 7.0;
+    vec2 view = ( gl_FragCoord.xy - iResolution / 2.0 ) / ( iResolution.y / 2.0);
+    float time = - iTime + length(view)*8. - 7.0;
     vec4 color = vec4(0);
     vec2 center = vec2(0);
     float accumMix = 0.0;
