@@ -31,7 +31,7 @@ export default class ShaderBase extends VantaBase {
       },
       iMouse: {
         type: "v2",
-        value: new THREE.Vector2(0, 0)
+        value: new THREE.Vector2(this.mouseX || 0, this.mouseY || 0)
       }
     }
     super.init()
