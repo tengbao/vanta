@@ -1,7 +1,6 @@
 import VantaBase, {VANTA} from './_base.js'
 import {rn, ri, sample, mobileCheck} from './helpers.js'
 
-
 const win = typeof window == 'object'
 let THREE = win && window.THREE
 
