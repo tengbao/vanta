@@ -197,7 +197,7 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.add(options, 'size', 0.5, 2).step(0.1).onFinishChange(effect.restart)
     // gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
   } else if (effectName === "HALO") {
-    gui.addColor(options, 'backgroundColor').onFinishChange(effect.restart)
+    gui.addColor(options, 'backgroundColor').onFinishChange(effect.updateUniforms)
   }
   // Regenerate code!
   gui.__controllers.forEach(c=>{
@@ -245,7 +245,8 @@ var generateCode = function(effect, effectName) {
     }
 
     // Don't show the property if its value is just the default value
-    var shouldShowProperty = v !== effect.defaultOptions[k]
+    var defaultOptions = (typeof effect.getDefaultOptions === 'function') ? effect.getDefaultOptions() : effect.defaultOptions
+    var shouldShowProperty = v !== defaultOptions[k]
     if (k == 'backgroundAlpha' && v == 1) shouldShowProperty = false
     if (shouldShowProperty) {
       code += "  " + k + ': ' + vString + ',\n'
