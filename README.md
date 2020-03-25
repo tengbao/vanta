@@ -133,7 +133,7 @@ const MyComponent = (props) => {
 
 ## Using THREE from npm
 
-You can also import `three` from npm, and pass it into the effect constructor.
+You can also import `three` from npm, and pass it into the effect function.
 
 ```js
 import React from 'react'
@@ -152,7 +152,7 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
 
 ## Local dev:
 
-Clone the repo, run `npm install` and `npm run dev`, and go to localhost:8080.
+Clone the repo, switch to the `gallery` branch, run `npm install` and `npm run dev`, and go to localhost:8080.
 
 ## Credits
 

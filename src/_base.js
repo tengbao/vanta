@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.11'
+VANTA.version = '0.5.12'
 
 export {VANTA}
 
@@ -237,6 +237,14 @@ VANTA.VantaBase = class VantaBase {
     }
     this.width = Math.max(this.el.offsetWidth, this.options.minWidth)
     this.height = Math.max(this.el.offsetHeight, this.options.minHeight)
+
+    // Init mouseX and mouseY
+    if ((!this.mouseX && !this.mouseY) ||
+      (this.mouseX === this.options.minWidth/2 && this.mouseY === this.options.minHeight/2)) {
+      this.mouseX = this.width/2
+      this.mouseY = this.height/2
+      this.triggerMouseMove(this.mouseX, this.mouseY)
+    }
   }
 
   resize() {
@@ -281,8 +289,8 @@ VANTA.VantaBase = class VantaBase {
       this.mouseEaseX = this.mouseEaseX || this.mouseX || 0
       this.mouseEaseY = this.mouseEaseY || this.mouseY || 0
       if (Math.abs(this.mouseEaseX-this.mouseX) + Math.abs(this.mouseEaseY-this.mouseY) > 0.1) {
-        this.mouseEaseX = this.mouseEaseX + (this.mouseX - this.mouseEaseX) * 0.05
-        this.mouseEaseY = this.mouseEaseY + (this.mouseY - this.mouseEaseY) * 0.05
+        this.mouseEaseX += (this.mouseX - this.mouseEaseX) * 0.05
+        this.mouseEaseY += (this.mouseY - this.mouseEaseY) * 0.05
         this.triggerMouseMove(this.mouseEaseX, this.mouseEaseY)
       }
     }
@@ -298,8 +306,8 @@ VANTA.VantaBase = class VantaBase {
       }
       // if (this.stats) this.stats.update()
       // if (this.renderStats) this.renderStats.update(this.renderer)
-      // if (this.fps && this.fps.update) this.fps.update()
-      // if (typeof this.afterRender === "function") this.afterRender()
+      if (this.fps && this.fps.update) this.fps.update()
+      if (typeof this.afterRender === "function") this.afterRender()
     }
     return this.req = window.requestAnimationFrame(this.animationLoop)
   }

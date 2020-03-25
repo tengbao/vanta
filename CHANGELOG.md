@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.12
+
+* Fix missing THREE for `dots` effect
+
 ## 0.5.11
 
 * Fix resize issue for react
