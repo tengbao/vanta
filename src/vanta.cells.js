@@ -16,9 +16,9 @@ Effect.prototype.defaultOptions = {
 }
 
 Effect.prototype.fragmentShader = `\
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+uniform float iTime;
 
 uniform float blurFactor;
 uniform vec3 color1;
@@ -43,22 +43,22 @@ float worley(vec2 p) {
             d = min(d, length2(p - tp - vec2(noise(tp))));
         }
     }
-    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-    float timeOffset =  0.15 * sin(u_time * 2.0 + 10.0*(uv.x - uv.y));
+    vec2 uv = gl_FragCoord.xy / iResolution.xy;
+    float timeOffset =  0.15 * sin(iTime * 2.0 + 10.0*(uv.x - uv.y));
     return 3.0*exp(-4.0*abs(2.0*d - 1.0 + timeOffset));
 }
 
 float fworley(vec2 p) {
     return sqrt(sqrt(sqrt(
     1.1 * // light
-    worley(p*5. + .3 + u_time*.0525) *
-    sqrt(worley(p * 50. / size + 0.3 + u_time * -0.15)) *
+    worley(p*5. + .3 + iTime*.0525) *
+    sqrt(worley(p * 50. / size + 0.3 + iTime * -0.15)) *
     sqrt(sqrt(worley(p * -10. + 9.3))))));
 }
 
 void main() {
-    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-    float t = fworley(uv * u_resolution.xy / 1500.0);
+    vec2 uv = gl_FragCoord.xy / iResolution.xy;
+    float t = fworley(uv * iResolution.xy / 1500.0);
     t *= exp(-length2(abs(0.7*uv - 1.0)));
 
     float tExp = pow(t, 0.5 - t);

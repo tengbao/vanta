@@ -17,17 +17,21 @@ export default class ShaderBase extends VantaBase {
   init(){
     this.mode = 'shader'
     this.uniforms = {
-      u_time: {
+      iTime: {
         type: "f",
         value: 1.0
       },
-      u_resolution: {
+      iResolution: {
         type: "v2",
         value: new THREE.Vector2(1, 1)
       },
-      u_mouse: {
+      iDpr: {
+        type: "f",
+        value: window.devicePixelRatio || 1
+      },
+      iMouse: {
         type: "v2",
-        value: new THREE.Vector2(0, 0)
+        value: new THREE.Vector2(this.mouseX || 0, this.mouseY || 0)
       }
     }
     super.init()
@@ -41,7 +45,7 @@ export default class ShaderBase extends VantaBase {
   }
   initBasicShader(fragmentShader = this.fragmentShader, vertexShader = this.vertexShader) {
     if (!vertexShader) {
-      vertexShader = "uniform float u_time;\nuniform vec2 u_resolution;\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}"
+      vertexShader = "uniform float uTime;\nuniform vec2 uResolution;\nvoid main() {\n  gl_Position = vec4( position, 1.0 );\n}"
     }
     this.updateUniforms()
     if (typeof this.valuesChanger === "function") {
@@ -54,7 +58,7 @@ export default class ShaderBase extends VantaBase {
     })
     const texPath = this.options.texturePath
     if (texPath) {
-      this.uniforms.u_tex = {
+      this.uniforms.iTex = {
         type: "t",
         value: new THREE.TextureLoader().load(texPath)
       }
@@ -86,7 +90,7 @@ export default class ShaderBase extends VantaBase {
   }
   resize(){
     super.resize()
-    this.uniforms.u_resolution.value.x = this.width / this.scale
-    this.uniforms.u_resolution.value.y = this.height / this.scale
+    this.uniforms.iResolution.value.x = this.width / this.scale
+    this.uniforms.iResolution.value.y = this.height / this.scale
   }
 }

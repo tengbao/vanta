@@ -19,9 +19,9 @@ Fog.prototype.defaultOptions = {
 };
 
 Fog.prototype.fragmentShader = `\
-uniform vec2 u_resolution;
-uniform vec2 u_mouse;
-uniform float u_time;
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+uniform float iTime;
 
 uniform float blurFactor;
 uniform vec3 baseColor;
@@ -73,21 +73,21 @@ float fbm ( in vec2 _st) {
 }
 
 void main() {
-  vec2 st = gl_FragCoord.xy / u_resolution.xy*3.;
-  st.x *= 0.7 * u_resolution.x / u_resolution.y ; // Still keep it more landscape than square
+  vec2 st = gl_FragCoord.xy / iResolution.xy*3.;
+  st.x *= 0.7 * iResolution.x / iResolution.y ; // Still keep it more landscape than square
   st *= zoom;
 
-  // st += st * abs(sin(u_time*0.1)*3.0);
+  // st += st * abs(sin(iTime*0.1)*3.0);
   vec3 color = vec3(0.0);
 
   vec2 q = vec2(0.);
-  q.x = fbm( st + 0.00*u_time);
+  q.x = fbm( st + 0.00*iTime);
   q.y = fbm( st + vec2(1.0));
 
   vec2 dir = vec2(0.15,0.126);
   vec2 r = vec2(0.);
-  r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ dir.x*u_time );
-  r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ dir.y*u_time);
+  r.x = fbm( st + 1.0*q + vec2(1.7,9.2)+ dir.x*iTime );
+  r.y = fbm( st + 1.0*q + vec2(8.3,2.8)+ dir.y*iTime);
 
   float f = fbm(st+r);
 
