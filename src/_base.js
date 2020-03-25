@@ -294,6 +294,9 @@ VANTA.VantaBase = class VantaBase {
       // @stats?.update()
       // @renderStats?.update(@renderer)
       if (this.fps && this.fps.update) this.fps.update()
+      if (typeof this.afterRender === "function") {
+        this.afterRender()
+      }
     }
     return this.req = window.requestAnimationFrame(this.animationLoop)
   }
