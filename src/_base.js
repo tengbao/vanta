@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.11'
+VANTA.version = '0.5.12'
 
 export {VANTA}
 
