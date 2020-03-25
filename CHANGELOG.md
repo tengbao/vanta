@@ -3,6 +3,7 @@
 ## 0.5.12
 
 * Fix missing THREE for `dots` effect
+* Add initial `halo` effect
 
 ## 0.5.11
 
