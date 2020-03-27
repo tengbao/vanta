@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.12'
+VANTA.version = '0.5.13'
 
 export {VANTA}
 
@@ -99,12 +99,15 @@ VANTA.VantaBase = class VantaBase {
       return
     }
 
+    // After init
+    this.initMouse() // Triggers mouse, which needs to be called after init
+    this.resize()
+    this.animationLoop()
+
+    // Event listeners
     const ad = window.addEventListener
     ad('resize', this.resize)
     window.requestAnimationFrame(this.resize) // Force a resize after the first frame
-
-    this.resize()
-    this.animationLoop()
 
     // Add event listeners on window, because this element may be below other elements, which would block the element's own mousemove event
     if (this.options.mouseControls) {
@@ -237,7 +240,8 @@ VANTA.VantaBase = class VantaBase {
     }
     this.width = Math.max(this.el.offsetWidth, this.options.minWidth)
     this.height = Math.max(this.el.offsetHeight, this.options.minHeight)
-
+  }
+  initMouse() {
     // Init mouseX and mouseY
     if ((!this.mouseX && !this.mouseY) ||
       (this.mouseX === this.options.minWidth/2 && this.mouseY === this.options.minHeight/2)) {
