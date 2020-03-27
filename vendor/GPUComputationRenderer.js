@@ -1,5 +1,6 @@
 /**
  * @author yomboprime https://github.com/yomboprime
+ * https://threejs.org/examples/jsm/misc/GPUComputationRenderer.js
  *
  * GPUComputationRenderer, based on SimulationRenderer by zz85
  *
@@ -335,11 +336,21 @@ export default function GPUComputationRenderer( sizeX, sizeY, renderer ) {
 	};
 
 	this.doRenderTarget = function( material, output ) {
-
-		mesh.material = material;
-		renderer.render( scene, camera, output );
-		mesh.material = passThruShader;
-
+		// three.js api change r101 → r102
+		if (parseInt(THREE.REVISION) >= 102) {
+			var currentRenderTarget = renderer.getRenderTarget();
+			mesh.material = material;
+			// renderer.render( scene, camera, output );
+			// mesh.material = passThruShader;
+			renderer.setRenderTarget( output );
+			renderer.render( scene, camera );
+			mesh.material = passThruShader;
+			renderer.setRenderTarget( currentRenderTarget );
+		} else {
+			mesh.material = material;
+			renderer.render( scene, camera, output );
+			mesh.material = passThruShader;
+		}
 	};
 
 	// Shaders
