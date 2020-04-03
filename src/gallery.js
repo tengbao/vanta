@@ -198,6 +198,12 @@ var loadEffect = function(_effectName, loadOptions) {
     // gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
   } else if (effectName === "HALO") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.updateUniforms)
+    gui.addColor(options, 'baseColor').onFinishChange(effect.updateUniforms)
+    // gui.addColor(options, 'color2').onFinishChange(effect.updateUniforms)
+    gui.add(options, 'size', 0.1, 3).step(0.1).onFinishChange(effect.updateUniforms)
+    gui.add(options, 'amplitudeFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
+    // gui.add(options, 'ringFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
+    // gui.add(options, 'rotationFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
   }
   // Regenerate code!
   gui.__controllers.forEach(c=>{
