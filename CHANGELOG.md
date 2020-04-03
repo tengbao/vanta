@@ -1,8 +1,18 @@
 # Vanta.js changelog
 
+## 0.5.14
+
+* Fix readme encoding
+* Add options for `halo`
+
+## 0.5.13
+
+* Fix missing camera issue for some effects
+
 ## 0.5.12
 
 * Fix missing THREE for `dots` effect
+* Add initial `halo` effect
 
 ## 0.5.11
 

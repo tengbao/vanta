@@ -255,10 +255,12 @@ const ATTACH_CLASSES = function(THREE) {
     const birdColors = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
     const references = new THREE.BufferAttribute(new Float32Array(points * 2), 2)
     const birdVertex = new THREE.BufferAttribute(new Float32Array(points), 1)
-    this.addAttribute('position', vertices)
-    this.addAttribute('birdColor', birdColors)
-    this.addAttribute('reference', references)
-    this.addAttribute('birdVertex', birdVertex)
+
+    if (!this.setAttribute) this.setAttribute = this.addAttribute // handle three.js migration r109 → r110
+    this.setAttribute('position', vertices)
+    this.setAttribute('birdColor', birdColors)
+    this.setAttribute('reference', references)
+    this.setAttribute('birdVertex', birdVertex)
     // this.addAttribute( 'normal', new Float32Array( points * 3 ), 3 )
 
     let v = 0
