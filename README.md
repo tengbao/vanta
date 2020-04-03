@@ -9,10 +9,11 @@
 ## What is Vanta? / FAQs
 
 - **Add 3D animated digital art to any webpage with just a few lines of code.**
-- Think of it as wrapper around a digital artwork that allows it to be inserted into an HTML element as a background.
+- How it works: Vanta inserts an animation effect as a background into any HTML element.
+- Effects are powered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
+- No library depedencies other than three.js or p5.js. Works with vanilla JS, React, Angular, Vue, etc.
 - Effects can interact with mouse/touch inputs.
 - Effect parameters (e.g. color) can be easily modified to match your brand.
-- Effects are powered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
 - Total additional filesize is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
 - Vanta includes many pre-defined effects to try out. *More effects will be added soon!*
 
@@ -51,7 +52,7 @@ VANTA.WAVES({
 
 **touchControls:** (defaults to *true*) Set to false to disable touch controls. Only applies to certain effects.
 
-**Other params:** Each effect has different parameters. Explore them all!
+**Effect params:** Each effect has different parameters. Explore them all at www.vantajs.com!
 
 ## Updating options after init:
 
@@ -76,7 +77,7 @@ effect.destroy() // e.g. call this in React's componentWillUnmount
 
 ## Usage with React:
 
-`npm i vanta`, then import a specific effect as follows. Make sure `three.js` or `p5.js` has already been included via <script> tag.
+`npm i vanta`, then import a specific effect as follows. Make sure `three.js` or `p5.js` has already been included via &lt;script> tag.
 
 ```js
 import React from 'react'
