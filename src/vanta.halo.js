@@ -6,13 +6,13 @@ let THREE = win && window.THREE
 class Halo extends ShaderBase {
   getDefaultOptions() {
     return {
-      color1: 0x8c8c,
+      baseColor: 0x001a59,
       color2: 0xf2e735,
       backgroundColor: 0x040820,
       amplitudeFactor: 1.0,
       ringFactor: 1.0,
       rotationFactor: 1.0,
-      size: 1.5,
+      size: 1.0,
       speed: 1.0,
       mouseEase: true,
       // scaleMobile: window.devicePixelRatio,
@@ -73,13 +73,14 @@ uniform vec2 iMouse;
 uniform float iTime;
 
 uniform float xOffset;
-uniform vec3 color1;
+uniform vec3 baseColor;
 uniform vec3 color2;
 uniform vec3 backgroundColor;
 uniform float size;
 uniform float shape;
 uniform float ringFactor;
 uniform float rotationFactor;
+uniform float amplitudeFactor;
 
 uniform sampler2D iBuffer;
 uniform sampler2D iTex;
@@ -288,9 +289,9 @@ void main() {
 
   // Flowery shapes
   // float edge = abs(dist * 0.5);
-  float flowerPeaks = .05;
+  float flowerPeaks = .05 * amplitudeFactor * size;
   float flowerPetals = 7.;
-  float edge = abs((dist + sin(angle * flowerPetals + iTime * 0.5) * sin(iTime * 1.5) * flowerPeaks) * 0.65);
+  float edge = abs((dist + sin(angle * flowerPetals + iTime * 0.5) * sin(iTime * 1.5) * flowerPeaks) * 0.65 / size);
   // float edge = abs((dist + sin(angle * 4. + iTime * 2.) * sin(iTime * 3.) * 0.75) * 1.);
 
   // vec4 rainbow = abs( abs( .95*mod(iTime * 1., 2. * PI) - vec4(0,2,4,0) ) -3. )-1.;
@@ -303,7 +304,7 @@ void main() {
   // rainbowInput += nn;
 
   float brightness = 0.7;
-  vec4 rainbow = sqrt(j2hue(cos(rainbowInput))) + vec4(0,0.1,0.35,0) - 1.0 + brightness;
+  vec4 rainbow = sqrt(j2hue(cos(rainbowInput))) + vec4(baseColor,0) - 1.0 + brightness;
   float factor = smoothstep(1., .9, edge) * pow(edge, 2.);
   vec3 color = rainbow.rgb * smoothstep(1., .9, edge) * pow(edge, 20.);
   vec4 ring = vec4(
