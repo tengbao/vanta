@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.15
+
+* Add offset options for `halo`
+
 ## 0.5.14
 
 * Fix readme encoding

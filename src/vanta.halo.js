@@ -12,6 +12,8 @@ class Halo extends ShaderBase {
       amplitudeFactor: 1.0,
       ringFactor: 1.0,
       rotationFactor: 1.0,
+      xOffset: 0,
+      yOffset: 0,
       size: 1.0,
       speed: 1.0,
       mouseEase: true,
@@ -73,6 +75,7 @@ uniform vec2 iMouse;
 uniform float iTime;
 
 uniform float xOffset;
+uniform float yOffset;
 uniform vec3 baseColor;
 uniform vec3 color2;
 uniform vec3 backgroundColor;
@@ -228,7 +231,8 @@ float p3d(vec3 P){
 void main() {
   vec2 res2 = iResolution.xy * iDpr;
   vec2 pixel = vec2(gl_FragCoord.xy - 0.5 * res2) / res2.y; // center-origin pixel coord
-  // pixel.x += xOffset;
+  pixel.x -= xOffset;
+  pixel.y -= yOffset;
 
   vec2 uv = gl_FragCoord.xy / res2; // 0 to 1
 
@@ -249,7 +253,6 @@ void main() {
 
   vec4 oldImage = texture2D(iBuffer, uv);
   vec3 mixedColor = oldImage.rgb - backgroundColor;
-
 
   // float spinDist = 0.002 + 0.002 * sin(iTime * 0.4);
   float cropDist = 0.01;
