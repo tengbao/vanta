@@ -202,6 +202,8 @@ var loadEffect = function(_effectName, loadOptions) {
     // gui.addColor(options, 'color2').onFinishChange(effect.updateUniforms)
     gui.add(options, 'size', 0.1, 3).step(0.1).onFinishChange(effect.updateUniforms)
     gui.add(options, 'amplitudeFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
+    gui.add(options, 'xOffset',-0.5,0.5).step(0.01).onFinishChange(effect.updateUniforms)
+    gui.add(options, 'yOffset',-0.5,0.5).step(0.01).onFinishChange(effect.updateUniforms)
     // gui.add(options, 'ringFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
     // gui.add(options, 'rotationFactor', 0,3).step(0.1).onFinishChange(effect.updateUniforms)
   }
