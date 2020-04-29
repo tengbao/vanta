@@ -10,8 +10,8 @@
 
 - **Add 3D animated digital art to any webpage with just a few lines of code.**
 - How it works: Vanta inserts an animated effect as a background into any HTML element.
-- Effects are powered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
-- No library depedencies other than three.js or p5.js. Works with vanilla JS, React, Angular, Vue, etc.
+- Works with vanilla JS, React, Angular, Vue, etc.
+- Effects are rendered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
 - Effects can interact with mouse/touch inputs.
 - Effect parameters (e.g. color) can be easily modified to match your brand.
 - Total additional filesize is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
