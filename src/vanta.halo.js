@@ -231,7 +231,7 @@ float p3d(vec3 P){
 void main() {
   vec2 res2 = iResolution.xy * iDpr;
   vec2 pixel = vec2(gl_FragCoord.xy - 0.5 * res2) / res2.y; // center-origin pixel coord
-  pixel.x -= xOffset;
+  pixel.x -= xOffset * res2.x / res2.y;
   pixel.y -= yOffset;
 
   vec2 uv = gl_FragCoord.xy / res2; // 0 to 1
