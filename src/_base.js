@@ -238,7 +238,7 @@ VANTA.VantaBase = class VantaBase {
     }
   }
 
-  triggerMouseMove(x, y) {
+  triggerMouseMove(x=this.mouseX, y=this.mouseY) {
     if (this.uniforms) {
       this.uniforms.iMouse.value.x = x / this.scale // pixel values
       this.uniforms.iMouse.value.y = y / this.scale // pixel values

@@ -3,6 +3,7 @@
 ## 0.5.16
 
 * Add gyroControls support (@SrDonEmilio)
+* Add default params for triggerMouseMove
 
 ## 0.5.15
 
