@@ -44,6 +44,7 @@ VANTA.VantaBase = class VantaBase {
     VANTA.current = this
     this.windowMouseMoveWrapper = this.windowMouseMoveWrapper.bind(this)
     this.windowTouchWrapper = this.windowTouchWrapper.bind(this)
+    this.windowGyroWrapper = this.windowGyroWrapper.bind(this)
     this.resize = this.resize.bind(this)
     this.animationLoop = this.animationLoop.bind(this)
     this.restart = this.restart.bind(this)
@@ -52,6 +53,7 @@ VANTA.VantaBase = class VantaBase {
     this.options = extend({
       mouseControls: true,
       touchControls: true,
+      gyroControls: true,
       minHeight: 200,
       minWidth: 200,
       scale: 1,
@@ -117,6 +119,9 @@ VANTA.VantaBase = class VantaBase {
     if (this.options.touchControls) {
       ad('touchstart', this.windowTouchWrapper)
       ad('touchmove', this.windowTouchWrapper)
+    }
+    if (this.options.gyroControls) {
+      ad('deviceorientation', this.windowGyroWrapper)
     }
   }
 
@@ -218,6 +223,19 @@ VANTA.VantaBase = class VantaBase {
         this.mouseY = y
         if (!this.options.mouseEase) this.triggerMouseMove(x, y)
       }
+    }
+  }
+  //SrDonEmilio
+  windowGyroWrapper(e){
+    const canvas = this.getCanvasElement()
+    if (!canvas) return false
+    const rect = canvas.getBoundingClientRect()
+    const x = Math.round(e.alpha * 2) - rect.left
+    const y = Math.round(e.beta * 2) - rect.top
+    if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
+      this.mouseX = x
+      this.mouseY = y
+      if (!this.options.mouseEase) this.triggerMouseMove(x, y)
     }
   }
 
