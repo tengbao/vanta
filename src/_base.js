@@ -127,11 +127,12 @@ VANTA.VantaBase = class VantaBase {
 
   setOptions(userOptions={}){
     extend(this.options, userOptions)
+    this.triggerMouseMove()
   }
 
   prepareEl() {
     let i, child
-    // wrapInner for text nodes
+    // wrapInner for text nodes, so text nodes can be put into foreground
     if (typeof Node !== 'undefined' && Node.TEXT_NODE) {
       for (i = 0; i < this.el.childNodes.length; i++) {
         const n = this.el.childNodes[i]
@@ -192,17 +193,22 @@ VANTA.VantaBase = class VantaBase {
 
   getCanvasElement() {
     if (this.renderer) {
-      return this.renderer.domElement
+      return this.renderer.domElement // three.js
     }
     if (this.p5renderer) {
-      return this.p5renderer.canvas
+      return this.p5renderer.canvas // p5
     }
   }
 
-  windowMouseMoveWrapper(e){
+  getCanvasRect() {
     const canvas = this.getCanvasElement()
     if (!canvas) return false
-    const rect = canvas.getBoundingClientRect()
+    return canvas.getBoundingClientRect()
+  }
+
+  windowMouseMoveWrapper(e){
+    const rect = this.getCanvasRect()
+    if (!rect) return false
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
     if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
@@ -212,10 +218,9 @@ VANTA.VantaBase = class VantaBase {
     }
   }
   windowTouchWrapper(e){
+    const rect = this.getCanvasRect()
+    if (!rect) return false
     if (e.touches.length === 1) {
-      const canvas = this.getCanvasElement()
-      if (!canvas) return false
-      const rect = canvas.getBoundingClientRect()
       const x = e.touches[0].clientX - rect.left
       const y = e.touches[0].clientY - rect.top
       if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
@@ -226,9 +231,8 @@ VANTA.VantaBase = class VantaBase {
     }
   }
   windowGyroWrapper(e){
-    const canvas = this.getCanvasElement()
-    if (!canvas) return false
-    const rect = canvas.getBoundingClientRect()
+    const rect = this.getCanvasRect()
+    if (!rect) return false
     const x = Math.round(e.alpha * 2) - rect.left
     const y = Math.round(e.beta * 2) - rect.top
     if (x>=0 && y>=0 && x<=rect.width && y<=rect.height) {
@@ -238,7 +242,16 @@ VANTA.VantaBase = class VantaBase {
     }
   }
 
-  triggerMouseMove(x=this.mouseX, y=this.mouseY) {
+  triggerMouseMove(x, y) {
+    if (x === undefined && y === undefined) { // trigger at current position
+      if (this.options.mouseEase) {
+        x = this.mouseEaseX
+        y = this.mouseEaseY
+      } else {
+        x = this.mouseX
+        y = this.mouseY
+      }
+    }
     if (this.uniforms) {
       this.uniforms.iMouse.value.x = x / this.scale // pixel values
       this.uniforms.iMouse.value.y = y / this.scale // pixel values
@@ -303,7 +316,7 @@ VANTA.VantaBase = class VantaBase {
     this.t2 || (this.t2 = 0)
     this.t2 += (this.options.speed || 1)
     if (this.uniforms) {
-      this.uniforms.iTime.value = this.t2 * 0.016667 // u_time is in seconds
+      this.uniforms.iTime.value = this.t2 * 0.016667 // iTime is in seconds
     }
 
     if (this.options.mouseEase) {
