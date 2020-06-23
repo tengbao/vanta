@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.15'
+VANTA.version = '0.5.16'
 
 export {VANTA}
 
@@ -53,7 +53,11 @@ VANTA.VantaBase = class VantaBase {
     this.options = extend({
       mouseControls: true,
       touchControls: true,
+<<<<<<< HEAD
       gyroControls: true,
+=======
+      gyroControls: false,
+>>>>>>> master
       minHeight: 200,
       minWidth: 200,
       scale: 1,
@@ -225,7 +229,10 @@ VANTA.VantaBase = class VantaBase {
       }
     }
   }
+<<<<<<< HEAD
   //SrDonEmilio
+=======
+>>>>>>> master
   windowGyroWrapper(e){
     const canvas = this.getCanvasElement()
     if (!canvas) return false
@@ -371,6 +378,7 @@ VANTA.VantaBase = class VantaBase {
     rm('touchmove', this.windowTouchWrapper)
     rm('scroll', this.windowMouseMoveWrapper)
     rm('mousemove', this.windowMouseMoveWrapper)
+    rm('deviceorientation', this.windowGyroWrapper)
     rm('resize', this.resize)
 
     window.cancelAnimationFrame(this.req)

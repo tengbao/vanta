@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.16
+
+* Add gyroControls support (@SrDonEmilio)
+
 ## 0.5.15
 
 * Add offset options for `halo`
