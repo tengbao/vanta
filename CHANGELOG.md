@@ -1,9 +1,13 @@
 # Vanta.js changelog
 
+## 0.5.17
+
+* Call `triggerMouseMove` on `setOptions`
+
 ## 0.5.16
 
-* Add gyroControls support (@SrDonEmilio)
-* Add default params for triggerMouseMove
+* Add `gyroControls` option (@SrDonEmilio)
+* Add default params for `triggerMouseMove`
 
 ## 0.5.15
 
