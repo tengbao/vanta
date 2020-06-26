@@ -2,6 +2,7 @@
 
 ## 0.5.17
 
+* Fix custom THREE in `birds`
 * Call `triggerMouseMove` on `setOptions`
 
 ## 0.5.16
