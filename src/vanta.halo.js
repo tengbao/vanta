@@ -44,7 +44,7 @@ class Halo extends ShaderBase {
     const renderer = this.renderer
     renderer.setRenderTarget( this.bufferTarget )
     // renderer.clear()
-    renderer.render( this.scene, this.camera, this.bufferTarget )
+    renderer.render( this.scene, this.camera )
     renderer.setRenderTarget( null )
     renderer.clear()
 
