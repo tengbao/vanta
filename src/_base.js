@@ -53,11 +53,7 @@ VANTA.VantaBase = class VantaBase {
     this.options = extend({
       mouseControls: true,
       touchControls: true,
-<<<<<<< HEAD
-      gyroControls: true,
-=======
       gyroControls: false,
->>>>>>> master
       minHeight: 200,
       minWidth: 200,
       scale: 1,
@@ -234,10 +230,6 @@ VANTA.VantaBase = class VantaBase {
       }
     }
   }
-<<<<<<< HEAD
-  //SrDonEmilio
-=======
->>>>>>> master
   windowGyroWrapper(e){
     const rect = this.getCanvasRect()
     if (!rect) return false
