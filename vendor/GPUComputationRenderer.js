@@ -98,7 +98,13 @@
  * @param {WebGLRenderer} renderer The renderer
   */
 
-export default function GPUComputationRenderer( sizeX, sizeY, renderer ) {
+const win = typeof window == 'object'
+let THREE = win && window.THREE
+
+export default function GPUComputationRenderer( sizeX, sizeY, renderer, userTHREE ) {
+	if (userTHREE) {
+		THREE = userTHREE // allow using a custom build of THREE - tengb11
+	}
 
 	this.variables = [];
 

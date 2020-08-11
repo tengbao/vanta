@@ -618,7 +618,7 @@ class Birds extends VantaBase {
   }
 
   initComputeRenderer() {
-    this.gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, this.renderer)
+    this.gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, this.renderer, THREE)
     const dtPosition = this.gpuCompute.createTexture()
     const dtVelocity = this.gpuCompute.createTexture()
     fillPositionTexture(dtPosition)
