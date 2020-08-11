@@ -54,9 +54,9 @@ float noise( vec3 x ){
                    mix( iqhash(n+170.0), iqhash(n+171.0),f.x),f.y),f.z);
 }
 
-vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
-float constantTime = 1000.;
+const float constantTime = 1000.;
 float map5( in vec3 p ){
+    vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
     vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
@@ -67,6 +67,7 @@ float map5( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map4( in vec3 p ){
+    vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
     vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
@@ -76,6 +77,7 @@ float map4( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map3( in vec3 p ){
+    vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
     vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
@@ -84,6 +86,7 @@ float map3( in vec3 p ){
     return clamp( 1.5 - p.y - 2.0 + 1.75*f, 0.0, 1.0 );
 }
 float map2( in vec3 p ){
+    vec3 speed1 = vec3(0.5,0.01,1.0) * 0.5 * speed;
     vec3 q = p - speed1*(iTime + constantTime);
     float f;
     f  = 0.50000*noise( q ); q = q*2.02;
