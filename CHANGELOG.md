@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.18
+
+* Upgrade three.js to r119
+* Upgrade effects to work with newest three.js
+
 ## 0.5.17
 
 * Fix custom THREE in `birds`
