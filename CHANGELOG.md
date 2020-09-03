@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.19
+
+* Fix `globe` color updating problem via `setOptions`
+* Update fiddle to use newest three.js
+
 ## 0.5.18
 
 * Upgrade three.js to r119

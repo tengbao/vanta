@@ -29,7 +29,7 @@
 </script>
 ```
 
-[View fiddle &rarr;](https://jsfiddle.net/g78s9ahd/2/)
+[View fiddle &rarr;](https://jsfiddle.net/vuwqs6kf/2/)
 
 ## More options:
 
