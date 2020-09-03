@@ -85,8 +85,8 @@ class Effect extends VantaBase {
     this.blending =  colorB > bgB ? 'additive' : 'subtractive'
 
     const geometry = new THREE.BufferGeometry();
-    geometry.addAttribute('position', new THREE.BufferAttribute(this.linePositions, 3).setDynamic(true))
-    geometry.addAttribute('color', new THREE.BufferAttribute(this.lineColors, 3).setDynamic(true))
+    geometry.setAttribute('position', new THREE.BufferAttribute(this.linePositions, 3).setUsage(true))
+    geometry.setAttribute('color', new THREE.BufferAttribute(this.lineColors, 3).setUsage(true))
     geometry.computeBoundingSphere()
     geometry.setDrawRange( 0, 0 )
     const material = new THREE.LineBasicMaterial({
@@ -245,6 +245,7 @@ class Effect extends VantaBase {
 
     const bgColor = new THREE.Color(this.options.backgroundColor)
     const color = new THREE.Color(this.options.color)
+    const color2 = new THREE.Color(this.options.color2)
     const diffColor = color.clone().sub(bgColor)
 
     if (this.rayCaster) {
@@ -345,6 +346,11 @@ class Effect extends VantaBase {
     this.linesMesh.geometry.attributes.position.needsUpdate = true
     this.linesMesh.geometry.attributes.color.needsUpdate = true
     // @pointCloud.geometry.attributes.position.needsUpdate = true
+
+    // Update other colors
+    this.sphere.material.color.set(color)
+    this.linesMesh2.material.color.set(color2)
+    this.linesMesh3.material.color.set(color2)
 
     return this.t * 0.001
   }
