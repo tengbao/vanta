@@ -8,7 +8,7 @@
 
 ## What is Vanta? / FAQs
 
-- **Add 3D animated digital art to any webpage with just a few lines of code.**
+- **Add 3D animated digital art to any website and webpage with just a few lines of code.**
 - How it works: Vanta inserts an animated effect as a background into any HTML element.
 - Works with vanilla JS, React, Angular, Vue, etc.
 - Effects are rendered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
