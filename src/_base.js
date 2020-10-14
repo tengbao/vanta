@@ -8,7 +8,7 @@ const VANTA = (win && window.VANTA) || {}
 VANTA.register = (name, Effect) => {
   return VANTA[name] = (opts) => new Effect(opts)
 }
-VANTA.version = '0.5.19'
+VANTA.version = '0.5.20'
 
 export {VANTA}
 
@@ -393,6 +393,10 @@ VANTA.VantaBase = class VantaBase {
       }
       this.renderer = null
       this.scene = null
+    }
+
+    if (VANTA.current === this) {
+      VANTA.current = null
     }
   }
 }

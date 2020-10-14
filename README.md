@@ -19,11 +19,11 @@
 
 ## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
-## Basic usage:
+## Basic usage with <script> tags:
 
 ```html
-<script src="three.min.js"></script>
-<script src="vanta.waves.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.19/dist/vanta.birds.min.js"></script>
 <script>
   VANTA.WAVES('#my-background')
 </script>
@@ -64,10 +64,13 @@ const effect = VANTA.WAVES({
   color: 0x000000
 })
 
-// Later, when you want to update an animation in progress
+// Later, when you want to update an animation in progress with new options
 effect.setOptions({
   color: 0xff88cc
 })
+
+// Later, if the container changes size and you want to force Vanta to redraw at the new canvas size
+effect.resize()
 ```
 
 ## Cleanup:
@@ -134,6 +137,34 @@ const MyComponent = (props) => {
 }
 ```
 
+## Usage with Vue 2 (SFC):
+
+```vue
+<template>
+  <div ref='vantaRef'>
+    Foreground content here
+  </div>
+</template>
+
+<script>
+import BIRDS from 'vanta/src/vanta.birds'
+// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
+
+export default {
+  mounted() {
+    this.vantaEffect = BIRDS({
+      el: this.$refs.vantaRef
+    })
+  },
+  beforeDestroy() {
+    if (this.vantaEffect) {
+      this.vantaEffect.destroy()
+    }
+  }
+}
+</script>
+```
+
 ## Using THREE from npm
 
 You can also import `three` from npm, and pass it into the effect function.
@@ -150,7 +181,7 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
       THREE: THREE // use a custom THREE when initializing
     })
   }
-
+...
 ```
 
 ## Local dev:
