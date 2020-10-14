@@ -24,13 +24,15 @@
 
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
-  <script src="./gallery/jquery.js"></script>
-  <script src="./vendor/three.r119.min.js"></script>
-  <script src="./vendor/p5.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
   <!-- <script src="./gallery/orbit-controls.js"></script> -->
   <!-- <script src="./gallery/GlslCanvas.js"></script> -->
   <!-- <script src="./gallery/ThreeCSG.js"></script> -->
-  <script src="./gallery/dat.gui.min.js"></script>
   <script src="./gallery/rison.js"></script>
 
   <script src="./dist/vanta.fog.min.js"></script>
@@ -112,15 +114,15 @@
       <h4 class="strong"> 2. Grab the code </h4>
       <ul class="features small">
         <li>
-          Change <strong> #your-element-selector </strong> to your element and download files from <a href="https://github.com/tengbao/vanta/tree/master/dist"> GitHub</a>
+          Change <strong> #your-element-selector </strong> to your element and include files from <a href="https://cdn.jsdelivr.net/npm/vanta@latest/dist/">CDN</a>
         </li>
       </ul>
 
-      <div id='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/three.r119.min.js">three.r119.min.js</a>"&gt;&lt;/script&gt;</div>
-      <div id='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/vendor/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
+      <div id='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js">three.r119.min.js</a>"&gt;&lt;/script&gt;</div>
+      <div id='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
 
       <div disabled="true" class="usage">[[INCLUDE]]
-&lt;script src="<a target="_blank" href="https://github.com/tengbao/vanta/blob/master/dist/vanta.[[EFFECTNAME]].min.js">vanta.[[EFFECTNAME]].min.js</a>"&gt;&lt;/script&gt;
+&lt;script src="<a target="_blank" href="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.[[EFFECTNAME]].min.js">vanta.[[EFFECTNAME]].min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
 [[CODE]]
 &lt;/script&gt;</div>
