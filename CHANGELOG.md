@@ -1,5 +1,11 @@
 # Vanta.js changelog
 
+## 0.5.20
+
+* Add Vue.js example in readme
+* Add `resize` example in readme
+* Remove `current` reference on destroy
+
 ## 0.5.19
 
 * Fix `globe` color updating problem via `setOptions`
