@@ -64,10 +64,13 @@ const effect = VANTA.WAVES({
   color: 0x000000
 })
 
-// Later, when you want to update an animation in progress
+// Later, when you want to update an animation in progress with new options
 effect.setOptions({
   color: 0xff88cc
 })
+
+// Later, if the container changes size and you want to force Vanta to redraw at the new canvas size
+effect.resize()
 ```
 
 ## Cleanup:
