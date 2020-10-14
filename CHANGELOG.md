@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.21
+
+* Fix readme on npmjs.com
+* Fix `fog` on retina screens (@MaSchVam)
+
 ## 0.5.20
 
 * Add Vue.js example in readme

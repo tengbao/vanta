@@ -19,11 +19,11 @@
 
 ## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
-## Basic usage with <script> tags:
+## Basic usage with script tags:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.19/dist/vanta.birds.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.20/dist/vanta.birds.min.js"></script>
 <script>
   VANTA.WAVES('#my-background')
 </script>
