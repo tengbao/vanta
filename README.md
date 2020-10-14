@@ -134,6 +134,34 @@ const MyComponent = (props) => {
 }
 ```
 
+## Usage with Vue 2 (SFC):
+
+```vue
+<template>
+  <div ref='vantaRef'>
+    Foreground content here
+  </div>
+</template>
+
+<script>
+import BIRDS from 'vanta/src/vanta.birds'
+// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
+
+export default {
+  mounted() {
+    this.vantaEffect = BIRDS({
+      el: this.$refs.vantaRef
+    })
+  },
+  beforeDestroy() {
+    if (this.vantaEffect) {
+      this.vantaEffect.destroy()
+    }
+  }
+}
+</script>
+```
+
 ## Using THREE from npm
 
 You can also import `three` from npm, and pass it into the effect function.
@@ -150,7 +178,7 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
       THREE: THREE // use a custom THREE when initializing
     })
   }
-
+...
 ```
 
 ## Local dev:
