@@ -112,20 +112,45 @@
       <div class="gui-cont"> </div>
       <br>
       <h4 class="strong"> 2. Grab the code </h4>
-      <ul class="features small">
+      <ul class="features small all-instructions">
         <li>
           Change <strong> #your-element-selector </strong> to your element and include files from <a href="https://cdn.jsdelivr.net/npm/vanta@latest/dist/">CDN</a>
         </li>
+        <li>
+          Or view <a href="#" class="strk-toggle">instructions for Strikingly.com</a>
+        </li>
+      </ul>
+      <ul class="features small strk-instructions" style="display: none">
+        <li>
+          If you have a Strikingly.com site, paste the following code into Strikingly Editor -> Settings -> Custom Code -> Footer Code.
+        </li>
+        <li>
+          Or view <a href="#" class="strk-toggle">general instructions</a>
+        </li>
       </ul>
 
-      <div id='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js">three.r119.min.js</a>"&gt;&lt;/script&gt;</div>
-      <div id='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
+      <div class="usage-for-all">
+        <div class='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js">three.r119.min.js</a>"&gt;&lt;/script&gt;</div>
+        <div class='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js">p5.min.js</a>"&gt;&lt;/script&gt;</div>
 
-      <div disabled="true" class="usage">[[INCLUDE]]
+        <div disabled="true" class="usage">[[INCLUDE]]
 &lt;script src="<a target="_blank" href="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.[[EFFECTNAME]].min.js">vanta.[[EFFECTNAME]].min.js</a>"&gt;&lt;/script&gt;
 &lt;script&gt;
 [[CODE]]
 &lt;/script&gt;</div>
+      </div>
+      <div class="usage-for-strk" style='display:none'>
+        <div class='include-three' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js">https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js</a>"&gt;&lt;/script&gt;</div>
+        <div class='include-p5' style='display:none'>&lt;script src="<a target="_blank" href="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js">https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js</a>"&gt;&lt;/script&gt;</div>
+
+        <div disabled="true" class="usage">[[INCLUDE]]
+&lt;script src="<a target="_blank" href="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.[[EFFECTNAME]].min.js">https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.[[EFFECTNAME]].min.js</a>"&gt;&lt;/script&gt;
+&lt;script&gt;
+[[CODE_STRK]]
+&lt;/script&gt;</div>
+      </div>
+
+
     </div>
     <!-- <div class="arrow">
       <span class="ent-down-open-big"> </span>

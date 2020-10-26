@@ -165,9 +165,9 @@ export default {
 </script>
 ```
 
-## Using THREE from npm
+## Using THREE or p5 from npm
 
-You can also import `three` from npm, and pass it into the effect function.
+For effects that use three.js, you can import `three` from npm, and pass it into the effect function.
 
 ```js
 import React from 'react'
@@ -183,6 +183,24 @@ import BIRDS from 'vanta/dist/vanta.birds.min'
   }
 ...
 ```
+
+For effects that use p5.js, you can import `p5` from npm, and pass it into the effect function.
+
+```js
+import React from 'react'
+import p5 from 'p5'
+import TRUNK from 'vanta/dist/vanta.trunk.min'
+
+...
+  componentDidMount() {
+    this.vantaEffect = TRUNK({
+      el: this.vantaRef.current,
+      p5: p5 // use a custom p5 when initializing
+    })
+  }
+...
+```
+
 
 ## Local dev:
 

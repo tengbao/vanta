@@ -50,7 +50,7 @@ class Rings extends VantaBase {
 
     if (radius < 1) { radius = 1 }
     const extrudeSettings = {
-      amount: 0.4,
+      depth: 0.4,
       bevelEnabled: false,
       steps: 1,
       curveSegments: ~~((64 * ang) / 6.14)
