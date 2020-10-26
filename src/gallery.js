@@ -233,7 +233,16 @@ var updateBackgroundColor = function(color) {
 }
 
 var generateCode = function(effect, effectName) {
-  var clone, code, k, original, ref, v, vString
+  var clone, code, codeStrk, includeCode
+  var k, original, ref, v, vString
+
+  codeStrk = `var setVanta = ()=>{
+if (window.VANTA) window.[[CODE]]
+}
+_strk.push(function() {
+  setVanta()
+  window.edit_page.Event.subscribe( "Page.beforeNewOneFadeIn", setVanta )
+})`
   code = `VANTA.${effectName}({\n`
   code += '  el: "<strong>#your-element-selector</strong>",\n'
   ref = effect.options
@@ -262,15 +271,32 @@ var generateCode = function(effect, effectName) {
   }
   code = code.replace(/,\n$/, '\n') // remove last comma
   code += "})"
+
+  codeStrk = codeStrk.replace('[[CODE]]', code).replace('#your-element-selector', '.s-page-1 .s-section-1 .s-section')
+
+
   $('.usage.applied').remove()
-  original = $('.usage-cont .usage').first().hide()
+
+  // Code for all
+  original = $('.usage-for-all .usage').first().hide()
   clone = original.clone().addClass('applied').insertAfter(original)
   clone.html(clone.html().replace('[[CODE]]', code))
-  let includeCode = document.getElementById('include-three').innerHTML
-  if (effect.mode == 'p5') includeCode = document.getElementById('include-p5').innerHTML
+  includeCode = $('.usage-for-all .include-three')[0].innerHTML
+  if (effect.mode == 'p5') includeCode = $('.usage-for-all .include-p5')[0].innerHTML
   clone.html(clone.html().replace('[[INCLUDE]]', includeCode))
   clone.html(clone.html().replace(/\[\[EFFECTNAME\]\]/g, effectName.toLowerCase()))
-  return clone.show()
+  clone.show()
+
+  // Code for strk
+  original = $('.usage-for-strk .usage').first().hide()
+  clone = original.clone().addClass('applied').insertAfter(original)
+  clone.html(clone.html().replace('[[CODE_STRK]]', codeStrk))
+  includeCode = $('.usage-for-strk .include-three')[0].innerHTML
+  if (effect.mode == 'p5') includeCode = $('.usage-for-strk .include-p5')[0].innerHTML
+  clone.html(clone.html().replace('[[INCLUDE]]', includeCode))
+  clone.html(clone.html().replace(/\[\[EFFECTNAME\]\]/g, effectName.toLowerCase()))
+  clone.show()
+
 }
 
 var updateHash = function() {
@@ -361,6 +387,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
   $('.restart').click(function() {
     effect.restart()
   })
+
+  // Toggle strk/all
+  $('.strk-toggle').click(function(e){
+    e.preventDefault()
+    var visible = $('.usage-for-strk').is(':visible')
+    if (!visible) {
+      $('.usage-for-strk, .strk-instructions').show()
+      $('.usage-for-all, .all-instructions').hide()
+    } else {
+      $('.usage-for-strk, .strk-instructions').hide()
+      $('.usage-for-all, .all-instructions').show()
+    }
+  })
+
+
   // Mobile optimization
   if ($(window).width() > 727) {
     setTimeout(openCloseUsage, 600)
