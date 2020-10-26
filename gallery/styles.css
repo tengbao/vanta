@@ -768,6 +768,8 @@ canvas {
   background: white;
   border-bottom: none;
   transition: all 0.1s;
+  height: 25px;
+  line-height: 25px;
 }
 .dg li:first-child {
   border-radius: 5px 5px 0 0;
@@ -781,13 +783,18 @@ canvas {
   font-size: 90%;
   text-align: right;
 }
+.dg .c select {
+  margin-top: 3px;
+}
 .dg .c .slider {
+  margin-top: 3px;
   background: #ddd;
 }
 .dg .c .slider:hover {
   background: #ccc;
 }
 .dg .c input[type=text] {
+  margin-top: 1px;
   text-shadow: none !important;
 }
 .dg .cr.boolean:hover,
