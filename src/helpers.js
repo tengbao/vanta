@@ -2,13 +2,6 @@ Number.prototype.clamp = function(min, max) { return Math.min(Math.max(this, min
 
 // # module.exports = helpers
 
-export function extend(a, b) {
-  for (let key in b){
-    if (b.hasOwnProperty(key)) { a[key] = b[key] }
-  }
-  return a;
-}
-
 export function mobileCheck(){
   if (typeof navigator !== 'undefined') {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 600
@@ -50,4 +43,22 @@ export const color2Rgb = (color, alpha=1) => {
 
 export const getBrightness = (threeColor) => {
   return (0.299 * threeColor.r) + (0.587 * threeColor.g) + (0.114 * threeColor.b);
+}
+
+export function clearThree(obj) {
+  // https://stackoverflow.com/questions/30359830/how-do-i-clear-three-js-scene/48722282
+  while (obj.children && obj.children.length > 0) {
+    clearThree(obj.children[0])
+    obj.remove(obj.children[0])
+  }
+  if (obj.geometry) obj.geometry.dispose()
+  if (obj.material) { // in case of map, bumpMap, normalMap, envMap ...
+    Object.keys(obj.material).forEach(prop => {
+      if (!obj.material[prop]) return
+      if (obj.material[prop] !== null && typeof obj.material[prop].dispose === 'function') {
+        obj.material[prop].dispose()
+      }
+    })
+    obj.material.dispose()
+  }
 }

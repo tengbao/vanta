@@ -1,4 +1,4 @@
-import {extend, mobileCheck, q, color2Hex} from './helpers.js'
+import {mobileCheck, q, color2Hex, clearThree} from './helpers.js'
 // const DEBUGMODE = window.location.toString().indexOf('VANTADEBUG') !== -1
 
 const win = typeof window == 'object'
@@ -24,7 +24,7 @@ export {VANTA}
 //   }
 // }
 // if (DEBUGMODE) {
-//   extend(ORBITCONTROLS, {
+//   Object.assign(ORBITCONTROLS, {
 //     enableZoom: true,
 //     zoomSpeed: 4,
 //     minDistance: 100,
@@ -50,7 +50,7 @@ VANTA.VantaBase = class VantaBase {
     this.restart = this.restart.bind(this)
 
     const defaultOptions = (typeof this.getDefaultOptions === 'function') ? this.getDefaultOptions() : this.defaultOptions
-    this.options = extend({
+    this.options = Object.assign({
       mouseControls: true,
       touchControls: true,
       gyroControls: false,
@@ -63,7 +63,7 @@ VANTA.VantaBase = class VantaBase {
     if (userOptions instanceof HTMLElement || typeof userOptions === 'string') {
       userOptions = {el: userOptions}
     }
-    extend(this.options, userOptions)
+    Object.assign(this.options, userOptions)
 
     if (this.options.THREE) {
       THREE = this.options.THREE // Optionally use a custom build of three.js
@@ -126,7 +126,7 @@ VANTA.VantaBase = class VantaBase {
   }
 
   setOptions(userOptions={}){
-    extend(this.options, userOptions)
+    Object.assign(this.options, userOptions)
     this.triggerMouseMove()
   }
 
@@ -161,14 +161,14 @@ VANTA.VantaBase = class VantaBase {
   }
 
   applyCanvasStyles(canvasEl, opts={}){
-    extend(canvasEl.style, {
+    Object.assign(canvasEl.style, {
       position: 'absolute',
       zIndex: 0,
       top: 0,
       left: 0,
       background: ''
     })
-    extend(canvasEl.style, opts)
+    Object.assign(canvasEl.style, opts)
     canvasEl.classList.add('vanta-canvas')
   }
 
@@ -349,7 +349,7 @@ VANTA.VantaBase = class VantaBase {
   // setupControls() {
   //   if (DEBUGMODE && THREE.OrbitControls) {
   //     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
-  //     extend(this.controls, ORBITCONTROLS)
+  //     Object.assign(this.controls, ORBITCONTROLS)
   //     return this.scene.add(new THREE.AxisHelper(100))
   //   }
   // }
@@ -385,8 +385,12 @@ VANTA.VantaBase = class VantaBase {
     rm('mousemove', this.windowMouseMoveWrapper)
     rm('deviceorientation', this.windowGyroWrapper)
     rm('resize', this.resize)
-
     window.cancelAnimationFrame(this.req)
+
+    const scene = this.scene
+    if (scene && scene.children) {
+      clearThree(scene)
+    }
     if (this.renderer) {
       if (this.renderer.domElement) {
         this.el.removeChild(this.renderer.domElement)

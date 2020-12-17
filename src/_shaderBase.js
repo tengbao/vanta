@@ -1,5 +1,4 @@
 import VantaBase from './_base.js'
-import {extend} from './helpers.js'
 export {VANTA} from './_base.js'
 
 const win = typeof window == 'object'
@@ -86,7 +85,7 @@ export default class ShaderBase extends VantaBase {
         }
       }
     }
-    return extend(this.uniforms, newUniforms)
+    return Object.assign(this.uniforms, newUniforms)
   }
   resize(){
     super.resize()
