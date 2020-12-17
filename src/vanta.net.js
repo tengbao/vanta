@@ -155,18 +155,20 @@ class Effect extends VantaBase {
 
   onDestroy() {
     if (this.scene) this.scene.remove(this.linesMesh)
-    this.linesMesh = this.lineColors = this.linePositions = null
+    this.spot = this.points = this.linesMesh = this.lineColors = this.linePositions = null
+  }
+
+  setOptions(userOptions) { // allow setOptions to change point colors
+    super.setOptions(userOptions)
+    if (userOptions.color) {
+      this.points.forEach(p => {
+        p.material.color = new THREE.Color(userOptions.color)
+      })
+    }
   }
 
   onUpdate() {
     let diff, t
-    if (this.helper != null) {
-      this.helper.update()
-    }
-    if (this.controls != null) {
-      this.controls.update()
-    }
-
     const c = this.camera
     if (Math.abs(c.tx - c.position.x) > 0.01) {
       diff = c.tx - c.position.x
