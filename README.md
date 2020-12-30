@@ -14,8 +14,8 @@
 - Effects are rendered by [three.js](https://github.com/mrdoob/three.js/) (using WebGL) or [p5.js](https://github.com/processing/p5.js).
 - Effects can interact with mouse/touch inputs.
 - Effect parameters (e.g. color) can be easily modified to match your brand.
-- Total additional filesize is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
-- Vanta includes many pre-defined effects to try out. *More effects will be added soon!*
+- Total additional file size is ~120kb minified and gzipped (mostly three.js), which is smaller than comparable background images/videos.
+- Vanta includes many predefined effects to try out. *More effects will be added soon!*
 
 ## [View demo gallery & customize effects at www.vantajs.com &rarr;](https://www.vantajs.com)
 
