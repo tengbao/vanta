@@ -1,5 +1,9 @@
 # Vanta.js changelog
 
+## 0.5.22
+
+* Fix README typo that referenced the wrong effect (@dbudwin)
+
 ## 0.5.21
 
 * Fix readme on npmjs.com
