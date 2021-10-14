@@ -27,7 +27,6 @@ class Waves extends VantaBase {
       color: this.options.color,
       shininess: this.options.shininess,
       flatShading: true,
-      vertexColors: THREE.FaceColors, // Allow coloring individual faces
       side: THREE.DoubleSide
     };
     return new THREE.MeshPhongMaterial(options);
@@ -37,27 +36,30 @@ class Waves extends VantaBase {
     let i, j;
     const CELLSIZE = 18;
     const material = this.getMaterial();
-    const geometry = new THREE.Geometry();
+    const geometry = new THREE.BufferGeometry();
 
     // Add vertices
     this.gg = [];
+    const points = [];
     for (i=0; i<=this.ww; i++){
       this.gg[i] = [];
       for (j=0; j<=this.hh; j++){
-        const id = geometry.vertices.length;
+        const id = points.length;
         const newVertex = new THREE.Vector3(
           (i - (this.ww * 0.5)) * CELLSIZE,
           rn(0, this.waveNoise) - 10,
           ((this.hh * 0.5) - j) * CELLSIZE
         );
-        geometry.vertices.push(newVertex);
+        points.push(newVertex);
         this.gg[i][j] = id;
       }
     }
+    geometry.setFromPoints(points);
 
     // Add faces
     // a b
     // c d <-- Looking from the bottom right point
+    const indices = [];
     for (i=1; i<=this.ww; i++){
       for (j=1; j<=this.hh; j++){
         let face1, face2
@@ -66,15 +68,16 @@ class Waves extends VantaBase {
         const c = this.gg[i-1][j]
         const a = this.gg[i-1][j-1]
         if (ri(0,1)) {
-          face1 = new THREE.Face3( a, b, c )
-          face2 = new THREE.Face3( b, c, d )
+          face1 = [a, b, c]
+          face2 = [b, c, d]
         } else {
-          face1 = new THREE.Face3( a, b, d )
-          face2 = new THREE.Face3( a, c, d )
+          face1 = [a, b, d]
+          face2 = [a, c, d]
         }
-        geometry.faces.push( face1, face2 )
+        indices.push(...face1, ...face2)
       }
     }
+    geometry.setIndex(indices);
 
     this.plane = new THREE.Mesh(geometry, material);
     this.scene.add(this.plane);
@@ -144,25 +147,31 @@ class Waves extends VantaBase {
     // c.updateMatrix();
 
     // WAVES
-    for (let i = 0; i < this.plane.geometry.vertices.length; i++) {
-      const v = this.plane.geometry.vertices[i];
+    this.oy = this.oy || {};
+    for (let i = 0; i < this.plane.geometry.attributes.position.array.length; i += 3) {
+      const v = {
+        x: this.plane.geometry.attributes.position.array[i],
+        y: this.plane.geometry.attributes.position.array[i + 1],
+        z: this.plane.geometry.attributes.position.array[i + 2],
+        oy: this.oy[i]
+      };
       if (!v.oy) { // INIT
-        v.oy = v.y;
+        this.oy[i] = v.y;
       } else {
         const s = this.options.waveSpeed;
         const crossChop = Math.sqrt(s) * Math.cos(-v.x - (v.z*0.7)); // + s * (i % 229) / 229 * 5
         const delta = Math.sin((((s*this.t*0.02) - (s*v.x*0.025)) + (s*v.z*0.015) + crossChop));
         const trochoidDelta = Math.pow(delta + 1, 2) / 4;
         v.y = v.oy + (trochoidDelta * this.options.waveHeight);
+        this.plane.geometry.attributes.position.array[i + 1] = v.y;
       }
     }
 
       // @wireframe.geometry.vertices[i].y = v.y
 
-    this.plane.geometry.dynamic = true;
-    this.plane.geometry.computeFaceNormals();
-    this.plane.geometry.verticesNeedUpdate = true;
-    this.plane.geometry.normalsNeedUpdate = true;
+    this.plane.geometry.attributes.position.setUsage(THREE.DynamicDrawUsage);
+    this.plane.geometry.computeVertexNormals();
+    this.plane.geometry.attributes.position.needsUpdate = true;
 
     // @scene.remove( @wireframe )
     // geo = new THREE.EdgesGeometry(@plane.geometry)
