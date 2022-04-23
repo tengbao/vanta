@@ -19,6 +19,7 @@ for (let i = 0; i < srcFiles.length; i++) {
 }
 
 module.exports = {
+  mode: 'production',
   entry: entries,
   // watch: true,
   output: {
@@ -38,5 +39,14 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
-  ]
+  ],
+  devServer: {
+    // contentBase: './dist',
+    // publicPath: '',
+    static: {
+      directory: path.join(__dirname, ''),
+    },
+    compress: true,
+    // port: 9000
+  }
 }
