@@ -46,24 +46,23 @@ class Effect extends VantaBase {
   // }
 
   genPoint(x, y, z) {
-    let sphere;
-    if (!this.points) { this.points = []; }
-
+    let sphere
+    if (!this.points) { this.points = [] }
     if (this.options.showDots) {
-      const geometry = new THREE.SphereGeometry( 0.25, 12, 12 ); // radius, width, height
+      const geometry = new THREE.SphereGeometry( 0.25, 12, 12 ) // radius, width, height
       const material = new THREE.MeshLambertMaterial({
-        color: this.options.color});
-      sphere = new THREE.Mesh( geometry, material );
+        color: this.options.color})
+      sphere = new THREE.Mesh( geometry, material )
     } else {
-      sphere = new THREE.Object3D();
+      sphere = new THREE.Object3D()
     }
-    this.cont.add( sphere );
-    sphere.ox = x;
-    sphere.oy = y;
-    sphere.oz = z;
-    sphere.position.set(x,y,z);
-    sphere.r = rn(-2,2); // rotation rate
-    return this.points.push(sphere);
+    this.cont.add( sphere )
+    sphere.ox = x
+    sphere.oy = y
+    sphere.oz = z
+    sphere.position.set(x,y,z)
+    sphere.r = rn(-2,2) // rotation rate
+    return this.points.push(sphere)
   }
 
   onInit() {
@@ -87,8 +86,8 @@ class Effect extends VantaBase {
     this.blending =  colorB > bgB ? 'additive' : 'subtractive'
 
     const geometry = new THREE.BufferGeometry()
-    geometry.addAttribute('position', new THREE.BufferAttribute(this.linePositions, 3).setDynamic(true))
-    geometry.addAttribute('color', new THREE.BufferAttribute(this.lineColors, 3).setDynamic(true))
+    geometry.setAttribute('position', new THREE.BufferAttribute(this.linePositions, 3).setUsage(THREE.DynamicDrawUsage))
+    geometry.setAttribute('color', new THREE.BufferAttribute(this.lineColors, 3).setUsage(THREE.DynamicDrawUsage))
     geometry.computeBoundingSphere()
     geometry.setDrawRange( 0, 0 )
     const material = new THREE.LineBasicMaterial({
@@ -154,15 +153,22 @@ class Effect extends VantaBase {
     return this.scene.add(this.spot)
   }
 
+  onDestroy() {
+    if (this.scene) this.scene.remove(this.linesMesh)
+    this.spot = this.points = this.linesMesh = this.lineColors = this.linePositions = null
+  }
+
+  setOptions(userOptions) { // allow setOptions to change point colors
+    super.setOptions(userOptions)
+    if (userOptions.color) {
+      this.points.forEach(p => {
+        p.material.color = new THREE.Color(userOptions.color)
+      })
+    }
+  }
+
   onUpdate() {
     let diff, t
-    if (this.helper != null) {
-      this.helper.update()
-    }
-    if (this.controls != null) {
-      this.controls.update()
-    }
-
     const c = this.camera
     if (Math.abs(c.tx - c.position.x) > 0.01) {
       diff = c.tx - c.position.x
@@ -290,7 +296,7 @@ class Effect extends VantaBase {
   }
 
   onRestart() {
-    this.scene.remove( this.linesMesh )
+    if (this.scene) this.scene.remove(this.linesMesh)
     this.points = []
   }
 }
