@@ -1,5 +1,10 @@
 # Vanta.js changelog
 
+## 0.5.22
+
+* Fix hash function in `clouds`
+* Update dependencies
+
 ## 0.5.21
 
 * Fix readme on npmjs.com

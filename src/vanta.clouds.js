@@ -37,9 +37,11 @@ uniform vec3 backgroundColor;
 
 
 // Volumetric clouds. It performs level of detail (LOD) for faster rendering
-float iqhash( float n ){
-    return fract(sin(n)*3758.5453);
-    // return fract(n * (n-1.203) * (n-2.3) / 43758.5453);
+float hash(float p) {
+  p = fract(p * 0.011);
+  p *= (p + 7.5);
+  p *= (p + p);
+  return fract(p);
 }
 
 float noise( vec3 x ){
@@ -48,10 +50,10 @@ float noise( vec3 x ){
     vec3 f = fract(x);
     f       = f*f*(3.0-2.0*f);
     float n = p.x + p.y*57.0 + 113.0*p.z;
-    return mix(mix(mix( iqhash(n+0.0  ), iqhash(n+1.0  ),f.x),
-                   mix( iqhash(n+57.0 ), iqhash(n+58.0 ),f.x),f.y),
-               mix(mix( iqhash(n+113.0), iqhash(n+114.0),f.x),
-                   mix( iqhash(n+170.0), iqhash(n+171.0),f.x),f.y),f.z);
+    return mix(mix(mix( hash(n+0.0  ), hash(n+1.0  ),f.x),
+                   mix( hash(n+57.0 ), hash(n+58.0 ),f.x),f.y),
+               mix(mix( hash(n+113.0), hash(n+114.0),f.x),
+                   mix( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
 }
 
 const float constantTime = 1000.;
