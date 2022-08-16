@@ -369,7 +369,7 @@ VANTA.VantaBase = class VantaBase {
 
   init() {
     if (typeof this.onInit === "function") {
-      this.onInit()
+      this.onInit(this.options)
     }
     // this.setupControls()
   }

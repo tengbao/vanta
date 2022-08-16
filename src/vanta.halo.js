@@ -24,7 +24,8 @@ class Halo extends ShaderBase {
     }
   }
 
-  onInit() {
+  onInit(userOptions = {}) {
+    THREE = userOptions.THREE || THREE
     const pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat }
     const ww = this.width * window.devicePixelRatio / this.scale
     const hh = this.height * window.devicePixelRatio / this.scale
