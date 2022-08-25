@@ -195,6 +195,11 @@ var loadEffect = function(_effectName, loadOptions) {
     gui.addColor(options, 'color').onFinishChange(effect.restart)
     gui.addColor(options, 'color2').onFinishChange(effect.restart)
     gui.add(options, 'size', 0.5, 2).step(0.1).onFinishChange(effect.restart)
+    gui.add(options, 'sphereRotation', -0.01, 0.01).step(0.001).onFinishChange(effect.restart)
+    gui.add(options, 'meshRotation', -0.01, 0.01).step(0.001).onFinishChange(effect.restart)
+    gui.add(options, 'xRayRotation', -0.01, 0.01).step(0.001).onFinishChange(effect.restart)
+    gui.add(options, 'yRayRotation', -0.01, 0.01).step(0.001).onFinishChange(effect.restart)
+    gui.add(options, 'zRayRotation', -0.01, 0.01).step(0.001).onFinishChange(effect.restart)
     // gui.add(options, 'spacing', 5, 100).step(1).onFinishChange(effect.restart)
   } else if (effectName === "HALO") {
     gui.addColor(options, 'backgroundColor').onFinishChange(effect.updateUniforms)

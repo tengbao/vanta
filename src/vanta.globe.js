@@ -14,7 +14,12 @@ class Effect extends VantaBase {
       points: 10,
       maxDistance: 20,
       spacing: 15,
-      showDots: true
+      showDots: true,
+      sphereRotation: 0.002,
+      meshRotation: -0.004,
+      xRayRotation: 0.002,
+      yRayRotation: 0.0008,
+      zRayRotation: 0.0005,
     }
   }
 
@@ -22,30 +27,6 @@ class Effect extends VantaBase {
     THREE = userOptions.THREE || THREE
     super(userOptions)
   }
-
-  // onInit() {
-  //   this.geometry = new THREE.BoxGeometry( 10, 10, 10 );
-  //   this.material = new THREE.MeshLambertMaterial({
-  //     color: this.options.color,
-  //     emissive: this.options.color,
-  //     emissiveIntensity: 0.75
-  //   });
-  //   this.cube = new THREE.Mesh( this.geometry, this.material );
-  //   this.scene.add(this.cube);
-
-  //   const c = this.camera = new THREE.PerspectiveCamera( 75, this.width/this.height, 0.1, 1000 );
-  //   c.position.z = 30;
-  //   c.lookAt(0,0,0);
-  //   this.scene.add(c);
-
-  //   const light = new THREE.HemisphereLight( 0xffffff, this.options.backgroundColor , 1 );
-  //   this.scene.add(light);
-  // }
-
-  // onUpdate() {
-  //   this.cube.rotation.x += 0.01;
-  //   this.cube.rotation.y += 0.01;
-  // }
 
   genPoint(x, y, z) {
     let sphere
@@ -255,13 +236,13 @@ class Effect extends VantaBase {
     }
 
     if (this.linesMesh2) {
-      this.linesMesh2.rotation.z += 0.002
-      this.linesMesh2.rotation.x += 0.0008
-      this.linesMesh2.rotation.y += 0.0005
+      this.linesMesh2.rotation.x += this.options.xRayRotation
+      this.linesMesh2.rotation.y += this.options.yRayRotation
+      this.linesMesh2.rotation.z += this.options.zRayRotation
     }
     if (this.sphere) {
-      this.sphere.rotation.y += 0.002
-      this.linesMesh3.rotation.y -= 0.004
+      this.sphere.rotation.y += this.options.sphereRotation
+      this.linesMesh3.rotation.y += this.options.meshRotation
     }
 
     // # TEMPORARY RAY DRAWING
