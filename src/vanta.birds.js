@@ -82,10 +82,6 @@ const getNewBirdGeometry = (options) => {
   return scope.scale(0.2, 0.2, 0.2)
 }
 
-
-
-let Bird, boid
-
 const getNewBirdGeometryBasic = (options={}) => {
   const scope = new THREE.BufferGeometry()
   const points = []
