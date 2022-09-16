@@ -4,6 +4,12 @@ const win = typeof window == 'object'
 let THREE = win && window.THREE
 
 class Halo extends ShaderBase {
+
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
+  }
+
   getDefaultOptions() {
     return {
       baseColor: 0x001a59,
