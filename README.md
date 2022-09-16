@@ -22,14 +22,14 @@
 ## Basic usage with script tags:
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.21/dist/vanta.waves.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.waves.min.js"></script>
 <script>
   VANTA.WAVES('#my-background')
 </script>
 ```
 
-[View fiddle &rarr;](https://jsfiddle.net/vuwqs6kf/2/)
+[View fiddle &rarr;](https://jsfiddle.net/usdzfbLt/1/)
 
 ## More options:
 
