@@ -311,13 +311,21 @@ VANTA.VantaBase = class VantaBase {
   animationLoop() {
     // Step time
     this.t || (this.t = 0)
-    this.t += 1
     // Uniform time
     this.t2 || (this.t2 = 0)
     this.t2 += (this.options.speed || 1)
     if (this.uniforms) {
       this.uniforms.iTime.value = this.t2 * 0.016667 // iTime is in seconds
     }
+
+    // Normalize animation speed to 60fps
+    const now = performance.now()
+    if (this.prevNow) {
+      const elapsedTime = (now-this.prevNow) / (1000/60)
+      this.t += Math.max(0.2, Math.min(elapsedTime, 5))
+    }
+    this.prevNow = now
+
 
     if (this.options.mouseEase) {
       this.mouseEaseX = this.mouseEaseX || this.mouseX || 0
