@@ -141,7 +141,7 @@ class MyComponent extends React.Component {
   }
 }
 ```
-[View fiddle &rarr;](https://jsfiddle.net/8atusfed/1/)
+[View fiddle &rarr;](https://jsfiddle.net/4fzxhv1w/2/)
 
 
 
