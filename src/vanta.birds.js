@@ -14,39 +14,109 @@ let BIRDS = WIDTH * WIDTH
 const BOUNDS = 800
 const BOUNDS_HALF = BOUNDS / 2
 
-let Bird, Boid
-const ATTACH_CLASSES = function(THREE) {
-  // Non-GPGPU geometry
-  Bird = function (options={}) {
-    var scope = this
-    THREE.Geometry.call( this )
-    v(   5,   0,   0 )
-    v( - 5, - 1,   1 )
-    v( - 5,   0,   0 )
-    v( - 5, - 2, - 1 )
-    v(   0,   2, - 6 )
-    v(   0,   2,   6 )
-    v(   2,   0,   0 )
-    v( - 3,   0,   0 )
 
-    f3( 0, 2, 1 )
-    // f3( 0, 3, 2 )
-    f3( 4, 7, 6 )
-    f3( 5, 6, 7 )
-    // this.computeCentroids()
-    this.computeFaceNormals()
-    function v( x, y, z ) {
-      const s = 1.5 * (options.birdSize || 1)
-      scope.vertices.push( new THREE.Vector3( x*s, y*s, z*s ) )
-    }
-    function f3( a, b, c ) {
-      scope.faces.push( new THREE.Face3( a, b, c ) )
+const getNewBirdGeometry = (options) => {
+  const scope = new THREE.BufferGeometry()
+
+  if (options.quantity) {
+    WIDTH = Math.pow(2, options.quantity)
+    BIRDS = WIDTH * WIDTH
+  }
+  const triangles = BIRDS * 3
+  const points = triangles * 3
+
+  const vertices = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
+  const birdColors = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
+  const references = new THREE.BufferAttribute(new Float32Array(points * 2), 2)
+  const birdVertex = new THREE.BufferAttribute(new Float32Array(points), 1)
+
+  if (!scope.setAttribute) scope.setAttribute = scope.addAttribute // handle three.js migration r109 → r110
+  scope.setAttribute('position', vertices)
+  scope.setAttribute('birdColor', birdColors)
+  scope.setAttribute('reference', references)
+  scope.setAttribute('birdVertex', birdVertex)
+  // scope.addAttribute( 'normal', new Float32Array( points * 3 ), 3 )
+
+  let v = 0
+  const verts_push = function() {
+    for (let i=0; i<arguments.length; i++) {
+      vertices.array[v++] = arguments[i]
     }
   }
-  Bird.prototype = Object.create( THREE.Geometry.prototype )
 
-  // Based on http://www.openprocessing.org/visuals/?visualID=6910
-  Boid = function(options) {
+  const wingSpan = options.wingSpan || 20
+  const s = options.birdSize || 1
+
+  for (let f=0; f<BIRDS; f++) {
+    verts_push(0, -0, -20*s, 0, 4*s, -20*s, 0, 0, 30*s) // Body
+    verts_push(0, 0, -15*s, -wingSpan*s, 0, 0, 0, 0, 15*s) // Left Wing
+    verts_push(0, 0, 15*s, wingSpan*s, 0, 0, 0, 0, -15*s) // Right Wing
+  }
+
+  const colorCache = {}
+
+  for (v=0; v<triangles*3; v++) {
+    const i = ~~(v / 3)
+    const x = (i % WIDTH) / WIDTH
+    const y = ~~(i / WIDTH) / WIDTH
+    const order = ~~(v / 9) / BIRDS
+    const key = order.toString()
+    const gradient = options.colorMode.indexOf('Gradient') != -1
+    let c
+    if (!gradient && colorCache[key]) {
+      c = colorCache[key]
+    } else {
+      c = options.effect.getNewCol(order)
+    }
+    if (!gradient && !colorCache[key]) {
+      colorCache[key] = c
+    }
+
+    birdColors.array[(v * 3) + 0] = c.r
+    birdColors.array[(v * 3) + 1] = c.g
+    birdColors.array[(v * 3) + 2] = c.b
+    references.array[v * 2] = x
+    references.array[(v * 2) + 1] = y
+    birdVertex.array[v] = v % 9
+  }
+  return scope.scale(0.2, 0.2, 0.2)
+}
+
+
+
+let Bird, boid
+
+const getNewBirdGeometryBasic = (options={}) => {
+  const scope = new THREE.BufferGeometry()
+  const points = []
+  function v( x, y, z ) {
+    const s = 1.5 * (options.birdSize || 1)
+    points.push( new THREE.Vector3( x*s, y*s, z*s ) )
+  }
+  v(   5,   0,   0 )
+  v( - 5, - 1,   1 )
+  v( - 5,   0,   0 )
+  v( - 5, - 2, - 1 )
+  v(   0,   2, - 6 )
+  v(   0,   2,   6 )
+  v(   2,   0,   0 )
+  v( - 3,   0,   0 )
+  scope.setFromPoints(points)
+
+  const indices = []
+  indices.push( 0, 2, 1 )
+  // f3( 0, 3, 2 )
+  indices.push( 4, 7, 6 )
+  indices.push( 5, 6, 7 )
+  scope.setIndex(indices)
+
+  // this.computeCentroids()
+  return scope
+}
+
+// Based on http://www.openprocessing.org/visuals/?visualID=6910
+class Boid {
+  constructor (options) {
     var vector = new THREE.Vector3(),
     _acceleration,
     _width = 500,
@@ -241,74 +311,6 @@ const ATTACH_CLASSES = function(THREE) {
       return posSum
     }
   }
-
-  THREE.BirdGeometry = function(options) {
-    if (options.quantity) {
-      WIDTH = Math.pow(2, options.quantity)
-      BIRDS = WIDTH * WIDTH
-    }
-    const triangles = BIRDS * 3
-    const points = triangles * 3
-
-    THREE.BufferGeometry.call(this)
-    const vertices = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
-    const birdColors = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
-    const references = new THREE.BufferAttribute(new Float32Array(points * 2), 2)
-    const birdVertex = new THREE.BufferAttribute(new Float32Array(points), 1)
-
-    if (!this.setAttribute) this.setAttribute = this.addAttribute // handle three.js migration r109 → r110
-    this.setAttribute('position', vertices)
-    this.setAttribute('birdColor', birdColors)
-    this.setAttribute('reference', references)
-    this.setAttribute('birdVertex', birdVertex)
-    // this.addAttribute( 'normal', new Float32Array( points * 3 ), 3 )
-
-    let v = 0
-    const verts_push = function() {
-      for (let i=0; i<arguments.length; i++) {
-        vertices.array[v++] = arguments[i]
-      }
-    }
-
-    const wingSpan = options.wingSpan || 20
-    const s = options.birdSize || 1
-
-    for (let f=0; f<BIRDS; f++) {
-      verts_push(0, -0, -20*s, 0, 4*s, -20*s, 0, 0, 30*s) // Body
-      verts_push(0, 0, -15*s, -wingSpan*s, 0, 0, 0, 0, 15*s) // Left Wing
-      verts_push(0, 0, 15*s, wingSpan*s, 0, 0, 0, 0, -15*s) // Right Wing
-    }
-
-    const colorCache = {}
-
-    for (v=0; v<triangles*3; v++) {
-      const i = ~~(v / 3)
-      const x = (i % WIDTH) / WIDTH
-      const y = ~~(i / WIDTH) / WIDTH
-      const order = ~~(v / 9) / BIRDS
-      const key = order.toString()
-      const gradient = options.colorMode.indexOf('Gradient') != -1
-      let c
-      if (!gradient && colorCache[key]) {
-        c = colorCache[key]
-      } else {
-        c = options.effect.getNewCol(order)
-      }
-      if (!gradient && !colorCache[key]) {
-        colorCache[key] = c
-      }
-
-      birdColors.array[(v * 3) + 0] = c.r
-      birdColors.array[(v * 3) + 1] = c.g
-      birdColors.array[(v * 3) + 2] = c.b
-      references.array[v * 2] = x
-      references.array[(v * 2) + 1] = y
-      birdVertex.array[v] = v % 9
-    }
-    return this.scale(0.2, 0.2, 0.2)
-  }
-
-  THREE.BirdGeometry.prototype = Object.create(THREE.BufferGeometry.prototype)
 }
 
 
@@ -613,7 +615,6 @@ class Birds extends VantaBase {
 
   constructor(userOptions) {
     THREE = userOptions.THREE || THREE
-    ATTACH_CLASSES(THREE)
     super(userOptions)
   }
 
@@ -659,7 +660,7 @@ class Birds extends VantaBase {
 
   initGpgpuBirds() {
     const optionsWithEffect = Object.assign({}, this.options, {effect:this})
-    const geometry = new THREE.BirdGeometry(optionsWithEffect)
+    const geometry = getNewBirdGeometry(optionsWithEffect)
     // For Vertex and Fragment
     this.birdUniforms = {
       color: { value: new THREE.Color(0xff2200) },
@@ -748,20 +749,28 @@ class Birds extends VantaBase {
 
         const gradient = options.colorMode.indexOf('Gradient') != -1
 
-        const newBirdGeo = new Bird(options)
-        for (var j=0; j < newBirdGeo.faces.length; j++) {
-          if (gradient) {
-            for (var k=0; k<3; k++) {
+        const newBirdGeo = getNewBirdGeometryBasic(options)
+        const numV = newBirdGeo.attributes.position.length
+        const birdColors = new THREE.BufferAttribute(new Float32Array(numV), 3)
+        if (gradient) {
+          for (var j=0; j<newBirdGeo.index.array.length; j+=3) {
+            for (var k=0; k<=2; k++) {
+              const index = newBirdGeo.index.array[j+k]
               const newColor = this.getNewCol()
-              newBirdGeo.faces[j].vertexColors[k] = newColor
+              birdColors.array[index*3] = newColor.r
+              birdColors.array[index*3+1] = newColor.g
+              birdColors.array[index*3+2] = newColor.b
             }
-          } else {
-            const newColor = this.getNewCol(i/numBirds)
-            newBirdGeo.faces[j].vertexColors[0] = newColor
-            newBirdGeo.faces[j].vertexColors[1] = newColor
-            newBirdGeo.faces[j].vertexColors[2] = newColor
+          }
+        } else {
+          const newColor = this.getNewCol(i/numBirds)
+          for (var j=0; j<birdColors.array.length; j+=3) {
+            birdColors.array[j] = newColor.r
+            birdColors.array[j+1] = newColor.g
+            birdColors.array[j+2] = newColor.b
           }
         }
+        newBirdGeo.setAttribute('color', birdColors)
 
         bird = birds[i] = new THREE.Mesh(
           newBirdGeo,
@@ -822,18 +831,23 @@ class Birds extends VantaBase {
       const boids = this.boids
       let boid, bird, color
       for ( var i = 0, il = birds.length; i < il; i++ ) {
-        boid = boids[ i ]
+        boid = boids[i]
         boid.run( boids )
-        bird = birds[ i ]
+        bird = birds[i]
         // color = bird.material.color
         // color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000
         bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x )
         bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() )
         // Flapping
         bird.phase = (bird.phase + (Math.max(0, bird.rotation.z)+0.1)) % 62.83
-        bird.geometry.vertices[5].y = bird.geometry.vertices[4].y =
+
+        const tip1 = 5*3 + 1
+        const tip2 = 4*3 + 1
+        bird.geometry.attributes.position.array[tip1] = bird.geometry.attributes.position.array[tip2] =
           Math.sin( bird.phase ) * 5 * this.options.birdSize
-        bird.geometry.verticesNeedUpdate = true
+        bird.geometry.attributes.position.needsUpdate = true
+        bird.geometry.computeVertexNormals()
+
         bird.position.x = boids[i].position.x
         bird.position.y = boids[i].position.y
         bird.position.z = boids[i].position.z

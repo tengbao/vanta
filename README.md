@@ -109,7 +109,7 @@ class MyComponent extends React.Component {
   }
 }
 ```
-[View fiddle &rarr;](https://jsfiddle.net/tsrwxzyL/2/)
+[View fiddle &rarr;](https://jsfiddle.net/8atusfed/1/)
 
 ## Usage with React Hooks (requires React 16.8):
 

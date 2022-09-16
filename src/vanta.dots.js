@@ -27,18 +27,23 @@ class Effect extends VantaBase {
     camera.lookAt(0,0,0)
     this.scene.add(camera)
 
-    var starsGeometry = this.starsGeometry = new THREE.Geometry()
+    var starsGeometry = this.starsGeometry = new THREE.BufferGeometry()
     var i,j,k,l,star,starsMaterial,starField
     var space = this.options.spacing
+    const points = []
+
     for (i = k = -30; k <= 30; i = ++k) {
       for (j = l = -30; l <= 30; j = ++l) {
         star = new THREE.Vector3()
         star.x = i * space + space/2
         star.y = rn(0, 5) - 150
         star.z = j * space + space/2
-        starsGeometry.vertices.push(star)
+        points.push(star)
       }
     }
+    starsGeometry.setFromPoints(points)
+
+
     starsMaterial = new THREE.PointsMaterial({
       color: this.options.color,
       size: this.options.size
@@ -48,7 +53,8 @@ class Effect extends VantaBase {
 
     if (this.options.showLines) {
       var material = new THREE.LineBasicMaterial( { color: this.options.color2 } );
-      var linesGeo = new THREE.Geometry()
+      var linesGeo = new THREE.BufferGeometry()
+      const points = []
       for (i = 0; i < 200; i ++) {
         var f1 = rn(40,60)
         var f2 = f1 + rn(12,20)
@@ -58,9 +64,10 @@ class Effect extends VantaBase {
         var theta = rn(0, Math.PI * 2)
         var y = Math.sin(theta) * r
         var x = Math.cos(theta) * r
-        linesGeo.vertices.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
-        linesGeo.vertices.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
+        points.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
+        points.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
       }
+      linesGeo.setFromPoints(points)
       this.linesMesh = new THREE.LineSegments( linesGeo, material )
       this.scene.add(this.linesMesh)
     }
@@ -85,11 +92,19 @@ class Effect extends VantaBase {
   onUpdate() {
     const starsGeometry = this.starsGeometry
     const starField = this.starField
-    for (var j = 0; j < starsGeometry.vertices.length; j++) {
-      var i = starsGeometry.vertices[j]
-      i.y += 0.1 * Math.sin(i.z * 0.02 + i.x * 0.015 + this.t * 0.02)
+    for (var j = 0; j < starsGeometry.attributes.position.array.length; j+=3) {
+      const x = starsGeometry.attributes.position.array[j]
+      const y = starsGeometry.attributes.position.array[j+1]
+      const z = starsGeometry.attributes.position.array[j+2]
+      // var i = starsGeometry.vertices[j]
+      const newY = y + 0.1 * Math.sin(z*0.02 + x*0.015 + this.t*0.02)
+      starsGeometry.attributes.position.array[j+1] = newY
     }
-    starsGeometry.verticesNeedUpdate = true
+
+    starsGeometry.attributes.position.setUsage(THREE.DynamicDrawUsage)
+    starsGeometry.computeVertexNormals()
+    starsGeometry.attributes.position.needsUpdate = true
+
     const c = this.camera
     const rate = 0.003
     c.position.x += (c.tx - c.position.x) * rate
