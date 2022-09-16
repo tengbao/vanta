@@ -80,7 +80,37 @@ const effect = VANTA.WAVES('#my-background')
 effect.destroy() // e.g. call this in React's componentWillUnmount
 ```
 
-## Usage with React:
+
+## Usage with React Hooks:
+
+```js
+import React, { useState, useEffect, useRef } from 'react'
+import BIRDS from 'vanta/dist/vanta.birds.min'
+// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
+
+const MyComponent = (props) => {
+  const [vantaEffect, setVantaEffect] = useState(null)
+  const myRef = useRef(null)
+  useEffect(() => {
+    if (!vantaEffect) {
+      setVantaEffect(BIRDS({
+        el: myRef.current
+      }))
+    }
+    return () => {
+      if (vantaEffect) vantaEffect.destroy()
+    }
+  }, [vantaEffect])
+  return <div ref={myRef}>
+    Foreground content goes here
+  </div>
+}
+```
+[View fiddle &rarr;](https://jsfiddle.net/1mcr7x50/2/)
+
+
+
+## Usage with React Classes:
 
 `npm i vanta`, then import a specific effect as follows. Make sure `three.js` or `p5.js` has already been included via &lt;script> tag.
 
@@ -111,31 +141,7 @@ class MyComponent extends React.Component {
 ```
 [View fiddle &rarr;](https://jsfiddle.net/8atusfed/1/)
 
-## Usage with React Hooks (requires React 16.8):
 
-```js
-import React, { useState, useEffect, useRef } from 'react'
-import BIRDS from 'vanta/dist/vanta.birds.min'
-// Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
-
-const MyComponent = (props) => {
-  const [vantaEffect, setVantaEffect] = useState(0)
-  const myRef = useRef(null)
-  useEffect(() => {
-    if (!vantaEffect) {
-      setVantaEffect(BIRDS({
-        el: myRef.current
-      }))
-    }
-    return () => {
-      if (vantaEffect) vantaEffect.destroy()
-    }
-  }, [vantaEffect])
-  return <div ref={myRef}>
-    Foreground content goes here
-  </div>
-}
-```
 
 ## Usage with Vue 2 (SFC):
 
