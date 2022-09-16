@@ -22,7 +22,8 @@ const getNewBirdGeometry = (options) => {
     WIDTH = Math.pow(2, options.quantity)
     BIRDS = WIDTH * WIDTH
   }
-  const triangles = BIRDS * 3
+  const trianglesPerBird = 3
+  const triangles = BIRDS * trianglesPerBird
   const points = triangles * 3
 
   const vertices = new THREE.BufferAttribute(new Float32Array(points * 3), 3)
@@ -56,9 +57,10 @@ const getNewBirdGeometry = (options) => {
   const colorCache = {}
 
   for (v=0; v<triangles*3; v++) {
-    const i = ~~(v / 3)
-    const x = (i % WIDTH) / WIDTH
-    const y = ~~(i / WIDTH) / WIDTH
+    const triangleIndex = ~~( v / 3 )
+    const birdIndex = ~~( triangleIndex / trianglesPerBird )
+    const x = ( birdIndex % WIDTH ) / WIDTH
+    const y = ~~( birdIndex / WIDTH ) / WIDTH
     const order = ~~(v / 9) / BIRDS
     const key = order.toString()
     const gradient = options.colorMode.indexOf('Gradient') != -1
@@ -616,6 +618,10 @@ class Birds extends VantaBase {
 
   initComputeRenderer() {
     this.gpuCompute = new GPUComputationRenderer(WIDTH, WIDTH, this.renderer, THREE)
+    if ( this.renderer.capabilities.isWebGL2 === false ) {
+      gpuCompute.setDataType( THREE.HalfFloatType )
+    }
+
     const dtPosition = this.gpuCompute.createTexture()
     const dtVelocity = this.gpuCompute.createTexture()
     fillPositionTexture(dtPosition)
