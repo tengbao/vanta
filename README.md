@@ -83,6 +83,8 @@ effect.destroy() // e.g. call this in React's componentWillUnmount
 
 ## Usage with React Hooks:
 
+`npm i vanta`, then import a specific effect as follows. Make sure `three.js` or `p5.js` has already been included via &lt;script> tag.
+
 ```js
 import React, { useState, useEffect, useRef } from 'react'
 import BIRDS from 'vanta/dist/vanta.birds.min'
@@ -153,7 +155,7 @@ class MyComponent extends React.Component {
 </template>
 
 <script>
-import BIRDS from 'vanta/src/vanta.birds'
+import BIRDS from 'vanta/dist/vanta.birds.min'
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
 export default {

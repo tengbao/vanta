@@ -1,11 +1,16 @@
 # Vanta.js changelog
 
+## 0.5.24
+
+* Update readme examples
+
 ## 0.5.23
 
-* Update `birds, waves, dots, globe` to work with GeometryBuffer & latest THREE.js (@OmnesPotens, @DustinBrett)
+* Update `waves, dots, globe` to work with GeometryBuffer & latest three.js (@OmnesPotens, @DustinBrett)
+* Update `birds` to work with three.js r134
 * Fix animation speed bug
-* Fix custom THREE in `halo`
-* Bump THREE.js in examples to r134
+* Fix custom three in `halo`
+* Bump three.js in examples to r134
 
 ## 0.5.22
 
