@@ -160,7 +160,7 @@ class Effect extends VantaBase {
     this.scene.add(this.cont2)
 
     const material2 = new THREE.LineBasicMaterial({ color: this.options.color2 })
-    const linesGeo = new THREE.Geometry()
+    const linePoints = []
     for (let i = 0; i < 80; i ++) {
       const f1 = rn(18,24)
       const f2 = f1 + rn(1,6)
@@ -170,9 +170,10 @@ class Effect extends VantaBase {
       const theta = rn(0, Math.PI * 2)
       const y = Math.sin(theta) * r
       const x = Math.cos(theta) * r
-      linesGeo.vertices.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
-      linesGeo.vertices.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
+      linePoints.push(new THREE.Vector3( x*f1, y*f1, z*f1) )
+      linePoints.push(new THREE.Vector3( x*f2, y*f2, z*f2) )
     }
+    const linesGeo = new THREE.BufferGeometry().setFromPoints( linePoints )
     this.linesMesh2 = new THREE.LineSegments( linesGeo, material2 )
     this.linesMesh2.position.set(0, 0, 0)
     this.cont2.add(this.linesMesh2)
@@ -182,9 +183,9 @@ class Effect extends VantaBase {
       color: this.options.color2,
       linewidth: 2,
     } )
-    const linesGeo3 = new THREE.Geometry()
-    linesGeo3.vertices.push(new THREE.Vector3( 0, 30, 0))
-    linesGeo3.vertices.push(new THREE.Vector3( 0, -30, 0))
+    const linePoints3 = []
+    linePoints3.push(new THREE.Vector3( 0, 30, 0))
+    linePoints3.push(new THREE.Vector3( 0, -30, 0))
     const num = 4
     for (let i = 0; i < num; i ++) {
       let x = 0.15 * Math.cos(i/num*Math.PI*2),
@@ -192,10 +193,11 @@ class Effect extends VantaBase {
       let heights = [17.9,12,8,5,3,2,1.5,1.1,0.8,0.6,0.45,0.3,0.2,0.1,0.05,0.03,0.02,0.01]
       for (let j = 0; j<heights.length; j++) {
         let h = heights[j], r = 6*(j+1)
-        linesGeo3.vertices.push(new THREE.Vector3(x*r, h, z*r))
-        linesGeo3.vertices.push(new THREE.Vector3(x*r, -h, z*r))
+        linePoints3.push(new THREE.Vector3(x*r, h, z*r))
+        linePoints3.push(new THREE.Vector3(x*r, -h, z*r))
       }
     }
+    const linesGeo3 = new THREE.BufferGeometry().setFromPoints( linePoints3 )
     this.linesMesh3 = new THREE.LineSegments( linesGeo3, material3 )
     this.linesMesh3.position.set(0, 0, 0)
     this.cont2.add(this.linesMesh3)
