@@ -116,38 +116,38 @@ class Waves extends VantaBase {
   onUpdate() {
     // Update options
     let diff;
-    this.plane.material.color.set(this.options.color);
-    this.plane.material.shininess = this.options.shininess;
-    this.camera.ox = this.cameraPosition.x / this.options.zoom;
-    this.camera.oy = this.cameraPosition.y / this.options.zoom;
-    this.camera.oz = this.cameraPosition.z / this.options.zoom;
+    this.plane.material.color.set(this.options.color)
+    this.plane.material.shininess = this.options.shininess
+    this.camera.ox = this.cameraPosition.x / this.options.zoom
+    this.camera.oy = this.cameraPosition.y / this.options.zoom
+    this.camera.oz = this.cameraPosition.z / this.options.zoom
 
     if (this.controls != null) {
-      this.controls.update();
+      this.controls.update()
     }
 
-    const c = this.camera;
+    const c = this.camera
     if (Math.abs(c.tx - c.position.x) > 0.01) {
-      diff = c.tx - c.position.x;
-      c.position.x += diff * 0.02;
+      diff = c.tx - c.position.x
+      c.position.x += diff * 0.02
     }
     if (Math.abs(c.ty - c.position.y) > 0.01) {
-      diff = c.ty - c.position.y;
-      c.position.y += diff * 0.02;
+      diff = c.ty - c.position.y
+      c.position.y += diff * 0.02
     }
     if (Math.abs(c.tz - c.position.z) > 0.01) {
-      diff = c.tz - c.position.z;
-      c.position.z += diff * 0.02;
+      diff = c.tz - c.position.z
+      c.position.z += diff * 0.02
     }
 
-    c.lookAt( this.cameraTarget );
+    c.lookAt( this.cameraTarget )
 
     // Fix flickering problems
     // c.near = Math.max((c.position.y * 0.5) - 20, 1);
     // c.updateMatrix();
 
     // WAVES
-    this.oy = this.oy || {};
+    this.oy = this.oy || {}
     for (let i = 0; i < this.plane.geometry.attributes.position.array.length; i += 3) {
       const v = {
         x: this.plane.geometry.attributes.position.array[i],
@@ -156,22 +156,22 @@ class Waves extends VantaBase {
         oy: this.oy[i]
       };
       if (!v.oy) { // INIT
-        this.oy[i] = v.y;
+        this.oy[i] = v.y
       } else {
-        const s = this.options.waveSpeed;
-        const crossChop = Math.sqrt(s) * Math.cos(-v.x - (v.z*0.7)); // + s * (i % 229) / 229 * 5
-        const delta = Math.sin((((s*this.t*0.02) - (s*v.x*0.025)) + (s*v.z*0.015) + crossChop));
-        const trochoidDelta = Math.pow(delta + 1, 2) / 4;
-        v.y = v.oy + (trochoidDelta * this.options.waveHeight);
-        this.plane.geometry.attributes.position.array[i + 1] = v.y;
+        const s = this.options.waveSpeed
+        const crossChop = Math.sqrt(s) * Math.cos(-v.x - (v.z*0.7)) // + s * (i % 229) / 229 * 5
+        const delta = Math.sin((((s*this.t*0.02) - (s*v.x*0.025)) + (s*v.z*0.015) + crossChop))
+        const trochoidDelta = Math.pow(delta + 1, 2) / 4
+        v.y = v.oy + (trochoidDelta * this.options.waveHeight)
+        this.plane.geometry.attributes.position.array[i + 1] = v.y
       }
     }
 
       // @wireframe.geometry.vertices[i].y = v.y
 
-    this.plane.geometry.attributes.position.setUsage(THREE.DynamicDrawUsage);
-    this.plane.geometry.computeVertexNormals();
-    this.plane.geometry.attributes.position.needsUpdate = true;
+    this.plane.geometry.attributes.position.setUsage(THREE.DynamicDrawUsage)
+    this.plane.geometry.computeVertexNormals()
+    this.plane.geometry.attributes.position.needsUpdate = true
 
     // @scene.remove( @wireframe )
     // geo = new THREE.EdgesGeometry(@plane.geometry)
@@ -180,8 +180,8 @@ class Waves extends VantaBase {
     // @scene.add( @wireframe )
 
     if (this.wireframe) {
-      this.wireframe.geometry.fromGeometry(this.plane.geometry);
-      this.wireframe.geometry.computeFaceNormals();
+      this.wireframe.geometry.fromGeometry(this.plane.geometry)
+      this.wireframe.geometry.computeFaceNormals()
     }
   }
 
