@@ -313,16 +313,18 @@ VANTA.VantaBase = class VantaBase {
     this.t || (this.t = 0)
     // Uniform time
     this.t2 || (this.t2 = 0)
-    this.t2 += (this.options.speed || 1)
-    if (this.uniforms) {
-      this.uniforms.iTime.value = this.t2 * 0.016667 // iTime is in seconds
-    }
 
     // Normalize animation speed to 60fps
     const now = performance.now()
     if (this.prevNow) {
-      const elapsedTime = (now-this.prevNow) / (1000/60)
-      this.t += Math.max(0.2, Math.min(elapsedTime, 5))
+      let elapsedTime = (now-this.prevNow) / (1000/60)
+      elapsedTime = Math.max(0.2, Math.min(elapsedTime, 5))
+      this.t += elapsedTime
+
+      this.t2 += (this.options.speed || 1) * elapsedTime
+      if (this.uniforms) {
+        this.uniforms.iTime.value = this.t2 * 0.016667 // iTime is in seconds
+      }
     }
     this.prevNow = now
 
