@@ -3,6 +3,7 @@
 ## 0.5.24
 
 * Update readme examples
+* Remove gallery images from main branch
 
 ## 0.5.23
 
