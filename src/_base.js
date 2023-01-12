@@ -166,8 +166,11 @@ VANTA.VantaBase = class VantaBase {
       zIndex: 0,
       top: 0,
       left: 0,
-      background: ''
+      background: '',
     })
+    if (this.options.pixelated) {
+      canvasEl.style.imageRendering = 'pixelated'
+    }
     Object.assign(canvasEl.style, opts)
     canvasEl.classList.add('vanta-canvas')
   }
