@@ -65,6 +65,16 @@ class Effect extends VantaBase {
     return this.points.push(sphere)
   }
 
+  setOptions(userOptions) {
+    super.setOptions(userOptions)
+    if(userOptions.color) {
+      for (let i = 0; i < this.points.length; i++) {
+        var point = this.points[i];
+        point.material.color = new THREE.Color(userOptions.color);
+      }
+    }
+  }
+
   onInit() {
     this.cont = new THREE.Group()
     this.cont.position.set(0,0,0)
