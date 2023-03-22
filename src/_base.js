@@ -196,13 +196,13 @@ VANTA.VantaBase = class VantaBase {
   }
   
   play() {
-    this.isPlay = true;
+    this.isPlaying = true;
 
     this.animationLoop();
   }
 
   pause() {
-    this.isPlay = false;
+    this.isPlaying = false;
   }
 
   getCanvasElement() {
