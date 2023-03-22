@@ -323,6 +323,10 @@ VANTA.VantaBase = class VantaBase {
   }
 
   animationLoop() {
+    if (!this.isPlaying){
+      return;
+    };
+  
     // Step time
     this.t || (this.t = 0)
     // Uniform time
