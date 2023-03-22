@@ -48,6 +48,7 @@ VANTA.VantaBase = class VantaBase {
     this.resize = this.resize.bind(this)
     this.animationLoop = this.animationLoop.bind(this)
     this.restart = this.restart.bind(this)
+    this.isPlaying = true;
 
     const defaultOptions = (typeof this.getDefaultOptions === 'function') ? this.getDefaultOptions() : this.defaultOptions
     this.options = Object.assign({
@@ -192,6 +193,16 @@ VANTA.VantaBase = class VantaBase {
     }
 
     this.scene = new THREE.Scene()
+  }
+  
+  play() {
+    this.isPlay = true;
+
+    this.animationLoop();
+  }
+
+  pause() {
+    this.isPlay = false;
   }
 
   getCanvasElement() {
