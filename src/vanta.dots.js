@@ -16,6 +16,11 @@ class Effect extends VantaBase {
     };
   }
 
+  constructor(userOptions) {
+    THREE = userOptions.THREE || THREE
+    super(userOptions)
+  }
+
   onInit() {
     var camera = this.camera = new THREE.PerspectiveCamera(50, this.width / this.height, 0.1, 5000)
     camera.position.x = 0
