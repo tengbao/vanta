@@ -17,7 +17,7 @@ class Waves extends VantaBase {
     this.prototype.hh = 80;
     this.prototype.waveNoise = 4; // Choppiness of water
   }
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     THREE = userOptions.THREE || THREE
     super(userOptions)
   }
