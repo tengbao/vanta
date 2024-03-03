@@ -26,7 +26,7 @@ class Rings extends VantaBase {
       0x53707B // dark slate
     ];
   }
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     THREE = userOptions.THREE || THREE
     super(userOptions)
   }

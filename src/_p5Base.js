@@ -4,7 +4,7 @@ export {VANTA} from './_base.js'
 let p5 = (typeof window == 'object') && window.p5
 
 export default class P5Base extends VantaBase {
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     p5 = userOptions.p5 || p5
     super(userOptions)
     this.mode = 'p5'
