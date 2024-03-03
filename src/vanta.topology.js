@@ -14,7 +14,7 @@ class Effect extends P5Base {
       backgroundColor: 0x002222,
     }
   }
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     p5 = userOptions.p5 || p5
     super(userOptions)
   }

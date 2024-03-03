@@ -17,7 +17,7 @@ class Effect extends P5Base {
       // speed: 1,
     }
   }
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     p5 = userOptions.p5 || p5
     super(userOptions)
   }

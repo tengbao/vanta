@@ -5,7 +5,7 @@ let THREE = win && window.THREE
 
 class Halo extends ShaderBase {
 
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     THREE = userOptions.THREE || THREE
     super(userOptions)
   }

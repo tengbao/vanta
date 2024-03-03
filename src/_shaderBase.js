@@ -5,7 +5,7 @@ const win = typeof window == 'object'
 let THREE = win && window.THREE
 
 export default class ShaderBase extends VantaBase {
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     THREE = userOptions.THREE || THREE
     THREE.Color.prototype.toVector = function(){
       return new THREE.Vector3(this.r, this.g, this.b)

@@ -611,7 +611,7 @@ class Birds extends VantaBase {
     }
   }
 
-  constructor(userOptions) {
+  constructor(userOptions = {}) {
     THREE = userOptions.THREE || THREE
     super(userOptions)
   }
